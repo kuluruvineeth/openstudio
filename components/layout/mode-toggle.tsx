@@ -26,12 +26,11 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {/* 
-        //TODO: need to handle sparkles component for light mode, then will
-        //TODO: enable this option
+        {/* //TODO: need to handle sparkles component for light mode, then will
+        //TODO: enable this option */}
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
-        </DropdownMenuItem> */}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
         </DropdownMenuItem>
