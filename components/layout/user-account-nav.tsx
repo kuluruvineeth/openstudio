@@ -15,6 +15,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { logout } from "@/actions/logout";
 import { signOut } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { User } from "next-auth";
 
 export type NormalizedUser = {
   name: string;
@@ -23,7 +24,7 @@ export type NormalizedUser = {
 };
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: NormalizedUser;
+  user: User;
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
@@ -38,8 +39,8 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
       <DropdownMenuTrigger>
         <UserAvatar
           user={{
-            username: user.name,
-            imageUrl: user.imageUrl,
+            username: user.name!,
+            imageUrl: user.image!,
           }}
           className="h-8 w-8"
         />
