@@ -5,7 +5,7 @@ import { Icons } from "@/components/shared/icons";
 
 interface UserAvatarProps extends AvatarProps {
   user: {
-    imageUrl: string;
+    imageUrl?: string;
     username: string;
   };
 }

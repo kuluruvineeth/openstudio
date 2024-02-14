@@ -12,11 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/shared/user-avatar";
+import { logout } from "@/actions/logout";
+import { signOut } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export type NormalizedUser = {
   name: string;
-  email: string;
-  imageUrl: string;
+  email?: string;
+  imageUrl?: string;
 };
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -25,6 +28,10 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
   const router = useRouter();
+
+  const onClick = () => {
+    signOut();
+  };
 
   return (
     <DropdownMenu>
@@ -62,19 +69,13 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </Link>
         </DropdownMenuItem> */}
         <DropdownMenuItem asChild>
-          <Link
-            href="/dashboard/billing"
-            className="flex items-center space-x-2.5"
-          >
+          <Link href="" className="flex items-center space-x-2.5">
             <CreditCard className="h-4 w-4" />
             <p className="text-sm">Billing</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link
-            href="/dashboard/settings"
-            className="flex items-center space-x-2.5"
-          >
+          <Link href="" className="flex items-center space-x-2.5">
             <Settings className="h-4 w-4" />
             <p className="text-sm">Settings</p>
           </Link>
@@ -84,6 +85,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           className="cursor-pointer"
           onSelect={(event) => {
             event.preventDefault();
+            onClick();
           }}
         >
           <div className="flex items-center space-x-2.5">

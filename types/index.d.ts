@@ -2,18 +2,6 @@ import type { Icon } from "lucide-react";
 
 import { Icons } from "@/components/shared/icons";
 
-export type SiteConfig = {
-  name: string;
-  description: string;
-  url: string;
-  ogImage: string;
-  mailSupport: string;
-  links: {
-    twitter: string;
-    github: string;
-  };
-};
-
 export type NavItem = {
   title: string;
   href: string;
@@ -21,10 +9,6 @@ export type NavItem = {
 };
 
 export type MainNavItem = NavItem;
-
-export type MarketingConfig = {
-  mainNav: MainNavItem[];
-};
 
 export type SidebarNavItem = {
   title: string;
@@ -41,3 +25,47 @@ export type SidebarNavItem = {
       items: NavLink[];
     }
 );
+
+export type SiteConfig = {
+  name: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  mailSupport: string;
+  links: {
+    twitter: string;
+    github: string;
+  };
+};
+
+export type DocsConfig = {
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
+
+export type MarketingConfig = {
+  mainNav: MainNavItem[];
+};
+
+export type DashboardConfig = {
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
+
+export type PropertyConfig = {
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
+
+export type SubscriptionPlan = {
+  title: string;
+  description: string;
+  benefits: string[];
+  limitations: string[];
+  prices: {
+    monthly: number;
+  };
+  stripeIds: {
+    monthly: string | null;
+  };
+};

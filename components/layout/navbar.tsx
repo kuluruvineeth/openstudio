@@ -10,9 +10,10 @@ import { MainNav } from "./main-nav";
 
 import { useSigninModal } from "@/hooks/use-signin-model";
 import { NormalizedUser, UserAccountNav } from "./user-account-nav";
+import { User } from "next-auth";
 
 interface NavBarProps {
-  user: NormalizedUser | null;
+  user: User | null | undefined;
   items?: MainNavItem[];
   children?: React.ReactNode;
   rightElements?: React.ReactNode;
@@ -48,7 +49,9 @@ export function NavBar({
               className="px-3"
               variant="default"
               size="sm"
-              onClick={signInModal.onOpen}
+              onClick={() => {
+                signInModal.onOpen();
+              }}
             >
               Sign In
             </Button>
