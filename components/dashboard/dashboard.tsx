@@ -30,6 +30,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WorkspaceSwitcher } from "@/app/(dashboard)/dashboard/_components/workspace-switcher";
+import FileUploadPage from "@/app/(dashboard)/dashboard/fileupload/page";
+import { UploadDropZone } from "../fileupload/UploadDropZone";
+import UploadPipeline from "../fileupload/upload-pipeline";
 
 // import { Mail } from "../data";
 // import { useMail } from "../use-mail";
@@ -262,7 +265,9 @@ export function Dashboard({
             <Separator />
 
             <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              <form></form>
+              {/* <FileUploadPage /> */}
+              {/* <UploadDropZone /> */}
+              <UploadPipeline/>
             </div>
 
             {/* <CardsStats /> */}

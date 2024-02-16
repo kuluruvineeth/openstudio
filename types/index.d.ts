@@ -69,3 +69,8 @@ export type SubscriptionPlan = {
     monthly: string | null;
   };
 };
+
+export type UploadInfo = {
+  isBulkProcess: boolean;
+  successIds: string[];
+};
