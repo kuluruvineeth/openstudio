@@ -33,6 +33,11 @@ import { WorkspaceSwitcher } from "@/app/(dashboard)/dashboard/_components/works
 import FileUploadPage from "@/app/(dashboard)/dashboard/fileupload/page";
 import { UploadDropZone } from "../fileupload/UploadDropZone";
 import UploadPipeline from "../fileupload/upload-pipeline";
+import Home from "../fileupload/test";
+import ReactPlayer from "react-player";
+import VideoPlayer from "../video/video-player";
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import "@vidstack/react/player/styles/base.css";
 
 // import { Mail } from "../data";
 // import { useMail } from "../use-mail";
@@ -267,7 +272,8 @@ export function Dashboard({
             <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               {/* <FileUploadPage /> */}
               {/* <UploadDropZone /> */}
-              <UploadPipeline/>
+              {/* <UploadPipeline /> */}
+              <Home />
             </div>
 
             {/* <CardsStats /> */}

@@ -5,6 +5,8 @@ import {
   CreateMultipartUploadCommand,
   UploadPartCommand,
   CompleteMultipartUploadCommand,
+  ListObjectsCommand,
+  HeadObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -84,6 +86,27 @@ export const finishMultipartUpload = async ({
           return 0;
         }),
       },
+    })
+  );
+
+  return response;
+};
+
+export const listBucketFiles = async () => {
+  const response = await client.send(
+    new ListObjectsCommand({
+      Bucket: UPLOAD_BUCKET,
+    })
+  );
+
+  return response?.Contents || [];
+};
+
+export const getS3ObjectMetadata = async ({ filename }: any) => {
+  const response = await client.send(
+    new HeadObjectCommand({
+      Bucket: UPLOAD_BUCKET,
+      Key: filename,
     })
   );
 

@@ -170,7 +170,7 @@ export function Dropzone({ className, updateUploadInfos }: DropzoneProps) {
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
-      "application/octet-stream": [".pdf"],
+      "video/*": [".mkv", ".mp4"],
     },
     maxFiles: state.isBulkProcessing ? 10 : 1,
     multiple: state.isBulkProcessing,
@@ -195,7 +195,10 @@ export function Dropzone({ className, updateUploadInfos }: DropzoneProps) {
         },
       }}
       transition={{ duration: 0.3 }}
-      className={cn(className, "flex flex-col items-center justify-center")}
+      className={cn(
+        className,
+        "flex flex-col items-center justify-center w-full"
+      )}
     >
       <div className="flex items-center gap-2 mb-4">
         <Switch
@@ -224,7 +227,7 @@ export function Dropzone({ className, updateUploadInfos }: DropzoneProps) {
         </HelpPopover>
       </div>
       <div
-        className="border border-dashed	rounded-xl border-slate-300 bg-slate-50 px-24 py-16 2xl:px-32 2xl:py-20 text-slate-600 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
+        className="border w-full border-dashed	rounded-xl border-slate-300 bg-slate-50 px-24 py-16 2xl:px-32 2xl:py-20 text-slate-600 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
         {...getRootProps()}
       >
         <input {...getInputProps({ name: "file" })} />
@@ -237,15 +240,16 @@ export function Dropzone({ className, updateUploadInfos }: DropzoneProps) {
           />
           <div className="text-center">
             <p>
-              Drag & drop or <span className="font-semibold">browse files</span>
+              Drag & drop or{" "}
+              <span className="font-semibold">browse video files</span>
             </p>
             <em className="text-xs text-slate-500">
               {state.isBulkProcessing ? (
-                <>PDF files only (max 10), </>
+                <>Video files only (max 10), </>
               ) : (
-                <>One PDF file only, </>
+                <>One Video file only, </>
               )}
-              up to 5MB
+              up to 256GB
             </em>
           </div>
         </div>
@@ -284,35 +288,9 @@ export function Dropzone({ className, updateUploadInfos }: DropzoneProps) {
       {state.files.length > 0 && (
         <section className="mt-2 w-full">
           {state.files.map((file, index) => (
-            // <div
-            //   title={file.name}
-            //   key={file.name}
-            //   className="flex items-center gap-1 text-slate-600 text-xs mb-0.5 w-[402px] 2xl:w-[466px]"
-            // >
-            //   <Icons.file className="flex-none" width={12} height={12} />
-            //   <span className="font-medium truncate overflow-hidden grow">
-            //     {file.name}
-            //   </span>
-            //   <span className="flex-none flex items-center gap-0.5">
-            //     ({formatBytes(file.size)})
-            //     <Icons.close
-            //       onClick={() => {
-            //         dispatch({
-            //           type: "set_files",
-            //           closeAction: true,
-            //           files: state.files.filter((_, i) => i !== index),
-            //           rejectedFiles: [],
-            //         });
-            //       }}
-            //       width={12}
-            //       height={12}
-            //       className="cursor-pointer hover:text-red-500"
-            //     />
-            //   </span>
-            // </div>
             <div
               key={index}
-              className="flex h-16 w-96 max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2"
+              className="flex h-16 w-full max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2"
             >
               <div className="flex items-center gap-2 text-gray-500 dark:text-white">
                 <Icons.file size="30" className="shrink-0" />

@@ -66,7 +66,7 @@ export class Uploader {
       const {
         data: { uploadId, fileKey },
       } = await api.request({
-        url: "/multipart_uploads",
+        url: "/multipart-uploads",
         method: "POST",
         data: {
           filename: this.file.name,
@@ -151,7 +151,7 @@ export class Uploader {
   async sendCompleteRequest() {
     if (this.uploadId && this.fileKey) {
       const response = await api.request({
-        url: `/multipart_uploads/${this.uploadId}/completions`,
+        url: `/multipart-uploads/${this.uploadId}/completions`,
         method: "POST",
         data: {
           fileKey: this.fileKey,
@@ -223,7 +223,7 @@ export class Uploader {
         const {
           data: { signedUrl },
         } = await api.request({
-          url: `/multipart_uploads/${this.uploadId}/part_url`,
+          url: `/multipart-uploads/${this.uploadId}/part-url`,
           method: "POST",
           data: {
             fileKey: this.fileKey,

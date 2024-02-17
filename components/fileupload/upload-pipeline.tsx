@@ -13,7 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function UploadPipeline() {
   const [uploadInfos, setUploadInfos] = useState<UploadInfo>({
     isBulkProcess: false,
-    successIds: [],
+    fileUplods: [],
   });
 
   //   const { status } = useStepStore();
@@ -51,7 +51,7 @@ export default function UploadPipeline() {
                 className="text-green-500 w-32 h-32 my-6"
               /> */}
               <p className="text-slate-500 mb-6">
-                Your file{uploadInfos.successIds.length > 1 && "s"} have been
+                Your file{uploadInfos.fileUplods.length > 1 && "s"} have been
                 uploaded successfully
                 {uploadInfos.isBulkProcess && " and will be processed shortly"}
               </p>
@@ -79,7 +79,7 @@ export default function UploadPipeline() {
                   </Button>
                   <Link
                     className={cn(buttonVariants(), "w-40")}
-                    href={`/text-recognition/${uploadInfos.successIds[0]}`}
+                    href={`/text-recognition/${uploadInfos.fileUplods[0]}`}
                     replace
                   >
                     Continue

@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createMultipartUpload } from "@/lib/s3";
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   //   if (req.method !== 'POST') {
   //     res.status(405).json({ message: 'Method Not Allowed' });
   //     return;
   //   }
 
   try {
-    const formData = await req.formData();
-    const file = formData.get("file");
+    console.log(req);
+    const file = await req.json();
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -21,7 +21,7 @@ export default async function POST(req: NextRequest) {
     // const key = `${user.id}/${fileId}`;
 
     const { uploadId, fileKey } = await createMultipartUpload({
-      filename: (file as File).name,
+      filename: file.filename,
     });
 
     return NextResponse.json({ uploadId, fileKey }, { status: 200 });

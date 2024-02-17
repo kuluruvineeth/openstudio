@@ -12,11 +12,11 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <Suspense fallback="...">
+      {/* <Suspense fallback="...">
         <NavBar user={null} items={marketingConfig.mainNav} scroll={true} />
-      </Suspense>
+      </Suspense> */}
       <main className="flex-1">{children}</main>
-      <SiteFooter />
+      {/* <SiteFooter /> */}
     </div>
   );
 }
