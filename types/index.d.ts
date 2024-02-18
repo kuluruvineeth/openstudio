@@ -1,4 +1,5 @@
 import type { Icon } from "lucide-react";
+import { Uploader } from "@/lib/uploader";
 
 import { Icons } from "@/components/shared/icons";
 
@@ -68,4 +69,14 @@ export type SubscriptionPlan = {
   stripeIds: {
     monthly: string | null;
   };
+};
+
+interface FileUpload {
+  uploader: Uploader;
+  progress: number;
+}
+
+export type UploadInfo = {
+  isBulkProcess: boolean;
+  fileUplods: FileUpload[];
 };

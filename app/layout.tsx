@@ -6,6 +6,7 @@ import { SonnerToaster } from "@/components/ui/sonner";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { ModalProvider } from "@/components/modal-provider";
+import { ConfettiProvider } from "@/components/providers/confetti-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {children}
+            <ConfettiProvider />
             <ModalProvider />
             <SonnerToaster />
           </ThemeProvider>

@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    container_name: openstudio-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: openstudio
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - openstudio_network
+volumes:
+  db_data:
+    name: openstudio-data
+networks:
+  openstudio_network:
+    name: openstudio_network
