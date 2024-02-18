@@ -31,7 +31,12 @@ import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WorkspaceSwitcher } from "@/app/(dashboard)/dashboard/_components/workspace-switcher";
 import { Nav } from "./nav";
-import Home from "../fileupload/test";
+import { VideoGallery } from "@/components/fileupload/video-gallery";
+import axios from "axios";
+import { clearTranscriptionItems } from "@/lib/transciption-helper";
+import TranscriptionItem from "./transcription-item";
+import TranscriptionEditor from "./transcription-editor";
+import ResultVideo from "./result-video";
 
 // import { Mail } from "../data";
 // import { useMail } from "../use-mail";
@@ -50,17 +55,54 @@ interface DashboardProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  videos: any;
 }
 
-export function Dashboard({
+const API_BASE_URL = "/api/";
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+export function VideosDashboard({
   accounts,
   mails,
   defaultLayout = [20, 40, 40],
   defaultCollapsed = false,
   navCollapsedSize,
+  videos,
 }: DashboardProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   // const [mail] = useMail();
+
+  const [isTranscribing, setIsTranscribing] = React.useState(false);
+  const [isFetchingInfo, setIsFetchingInfo] = React.useState(false);
+  const [awsTranscriptionItems, setAwsTranscriptionItems] = React.useState<
+    any[]
+  >([]);
+
+  React.useEffect(() => {
+    getTranscription();
+  }, []);
+
+  function getTranscription() {
+    setIsFetchingInfo(true);
+    axios.get("/api/transcribe?filename=" + "os.mp4").then((response) => {
+      setIsFetchingInfo(false);
+      const status = response.data?.status;
+      const transcription = response.data?.transcription;
+      if (status === "IN_PROGRESS") {
+        setIsTranscribing(true);
+        setTimeout(getTranscription, 3000);
+      } else {
+        setIsTranscribing(false);
+
+        setAwsTranscriptionItems(
+          clearTranscriptionItems(transcription.results.items)
+        );
+      }
+    });
+  }
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -117,11 +159,11 @@ export function Dashboard({
                 title: "Video Gallery",
                 label: "9",
                 icon: Layers,
-                variant: "ghost",
+                variant: "default",
                 link: "/dashboard/video-gallery",
               },
               {
-                title: "Video Caption",
+                title: "Video Captions",
                 label: "9",
                 icon: Layers,
                 variant: "ghost",
@@ -277,13 +319,35 @@ export function Dashboard({
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <ScrollArea className="h-screen">
             <div className="flex h-[52px] items-center px-4 py-2">
-              <h1 className="text-xl font-bold">Dashboard</h1>
+              <h1 className="text-xl font-bold">Video Captions</h1>
             </div>
             <Separator />
 
             <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <form></form>
-              <Home />
+              Captions
+              {isTranscribing && <div>Transcribing your video...</div>}
+              {isFetchingInfo && <div>Fetching information...</div>}
+            </div>
+            {/* <TranscriptionEditor
+              awsTranscriptionItems={awsTranscriptionItems}
+              setAwsTranscriptionItems={setAwsTranscriptionItems}
+            /> */}
+            <div className="grid sm:grid-cols-2 gap-8 sm:gap-16">
+              <div className="">
+                <h2 className="text-2xl mb-4 text-white/60">Transcription</h2>
+                <TranscriptionEditor
+                  awsTranscriptionItems={awsTranscriptionItems}
+                  setAwsTranscriptionItems={setAwsTranscriptionItems}
+                />
+              </div>
+              <div>
+                <h2 className="text-2xl mb-4 text-white/60">Result</h2>
+                <ResultVideo
+                  filename={"os.mp4"}
+                  transcriptionItems={awsTranscriptionItems}
+                />
+              </div>
             </div>
 
             {/* <CardsStats /> */}

@@ -1,5 +1,7 @@
+import { fetchVideos } from "@/actions/get-videos";
 import { Dashboard } from "@/components/dashboard/dashboard";
 import Home from "@/components/fileupload/test";
+import { VideosDashboard } from "@/components/videos/components/videos-dashboard";
 import { cookies } from "next/headers";
 
 // import { Dashboard } from "@/components/new-dashboard/components/dashboard-1";
@@ -17,13 +19,16 @@ export default async function DashboardPage() {
   const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
   const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
 
+  const videos = await fetchVideos();
+
   return (
     <>
       <div className="flex flex-col">
-        <Dashboard
+        <VideosDashboard
           defaultLayout={defaultLayout}
           defaultCollapsed={defaultCollapsed}
           navCollapsedSize={4}
+          videos={videos}
         />
       </div>
     </>

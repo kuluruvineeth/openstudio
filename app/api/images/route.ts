@@ -15,17 +15,13 @@ export async function GET(
   req: NextRequest,
   res: NextResponse<UploadedImage[]>
 ) {
-  const images = (await listBucketFiles())
-    .filter(
-      (s3File) =>
-        //   (mime.lookup(s3File?.Key || "") as string).match(/image\//)
-        mime.lookup(s3File?.Key || "") as string
-    )
-    .map((s3File) => ({
-      title: s3File.Key || "some image",
-      source: `https://${process.env.cloudfront_url}/${s3File.Key}`,
-      size: s3File.Size || 0,
-    }));
+  // const images = (await listBucketFiles())
+  //   .filter((s3File) => mime.lookup(s3File?.Key || "") as string)
+  //   .map((s3File) => ({
+  //     title: s3File.Key || "some image",
+  //     source: `https://${process.env.cloudfront_url}/${s3File.Key}`,
+  //     size: s3File.Size || 0,
+  //   }));
 
-  return NextResponse.json({ images }, { status: 200 });
+  return NextResponse.json({}, { status: 200 });
 }
