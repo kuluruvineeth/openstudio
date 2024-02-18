@@ -12,6 +12,8 @@ import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { HelpPopover } from "../ui/help-popover";
 import { Button } from "../ui/button";
+import useUploadStore from "@/hooks/use-upload-store";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 const API_BASE_URL = "/api/";
 
@@ -86,68 +88,41 @@ function reducer(state: State, action: Action): State {
 }
 
 export default function Home() {
-  const [uploads, setUploads] = useState<FileUpload[]>([]);
-  const [images, setImages] = useState<UploadedImage[]>([]);
-  const [uploadButtonClicked, setUploadButtonClicked] = useState(false);
-  const [allUploadsCompleted, setAllUploadsCompleted] = useState(false);
-  const [completed, setCompleted] = useState(0);
-  const [isOverallLoading, setIsOverallLoading] = useState(false);
-  const [state, dispatch] = useReducer(reducer, {
-    files: [],
-    rejectedFiles: [],
-    isBulkProcessing: false,
-    isLoading: false,
-    hasUploadFailed: false,
-  });
-  const updateProgress = (filename: any, percentage: any) => {
-    dispatch({
-      type: "set_files",
-      closeAction: false,
-      files: state.files.map((fileUpload) =>
-        fileUpload.uploader.file.name === filename
-          ? { ...fileUpload, progress: percentage }
-          : fileUpload
-      ),
-      rejectedFiles: [],
-    });
-    console.log(state.files);
-    setUploads((state) =>
-      state.map((fileUpload) =>
-        fileUpload.uploader.file.name === filename
-          ? { ...fileUpload, progress: percentage }
-          : fileUpload
-      )
-    );
-  };
+  const {
+    files,
+    rejectedFiles,
+    isBulkProcessing,
+    isLoading,
+    hasUploadFailed,
+    uploads,
+    images,
+    completed,
+    allUploadsCompleted,
+    isOverallLoading,
+    updateProgress,
+    setFiles,
+    setBulkProcessing,
+    setLoading,
+    setUploadFailed,
+    setUploads,
+    setImages,
+    updateCompleted,
+    setIsOverallLoading,
+    setIsAllUploadCompleted,
+  } = useUploadStore();
+  const confetti = useConfettiStore();
 
   useEffect(() => {
+    console.log("completed", completed);
     if (completed > 0 && completed === uploads.length) {
       setIsOverallLoading(false);
-      setAllUploadsCompleted(true); // All uploads are completed
+      setIsAllUploadCompleted(true);
+      confetti.onOpen();
     }
-  }, [completed, uploads]);
+  }, [completed, setIsAllUploadCompleted, setIsOverallLoading, uploads]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      dispatch({
-        type: "set_files",
-        closeAction: false,
-        files: acceptedFiles.map((file: any) => ({
-          uploader: new Uploader({ file })
-            .onProgress(({ percentage }: any) => {
-              updateProgress(file.name, percentage);
-            })
-            .onComplete((newImage: any) => {
-              setCompleted((prevValue) => prevValue + 1);
-              setImages((state) => [newImage, ...state]);
-            })
-            .onError((error: any) => {
-              console.error("upload error", error);
-            }),
-          progress: 0,
-        })),
-        rejectedFiles,
-      });
       setUploads(
         acceptedFiles.map((file: any) => ({
           uploader: new Uploader({ file })
@@ -155,8 +130,8 @@ export default function Home() {
               updateProgress(file.name, percentage);
             })
             .onComplete((newImage: any) => {
-              setCompleted((prevValue) => prevValue + 1);
-              setImages((state) => [newImage, ...state]);
+              updateCompleted();
+              setImages([newImage]);
             })
             .onError((error: any) => {
               console.error("upload error", error);
@@ -165,14 +140,13 @@ export default function Home() {
         }))
       );
       console.log(uploads);
-      console.log(state.files);
     },
     []
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "video/*": [] },
-    maxFiles: state.isBulkProcessing ? 10 : 1,
-    multiple: state.isBulkProcessing,
+    maxFiles: isBulkProcessing ? 10 : 1,
+    multiple: isBulkProcessing,
     maxSize: 256 * 1024 * 1024 * 1024, // 256GB
     onDrop,
   });
@@ -184,7 +158,7 @@ export default function Home() {
         method: "GET",
       });
 
-      setImages(response.data);
+      setImages(response.data.images);
     };
 
     fetchImages();
@@ -195,25 +169,8 @@ export default function Home() {
       return;
     }
     setIsOverallLoading(true);
-    setUploadButtonClicked(true);
-    // dispatch({
-    //   type: "set_loading",
-    //   isLoading: true,
-    // });
-    uploads.forEach((upload) => upload.uploader.start());
-  };
 
-  const uploadClicked2 = () => {
-    if (!state.files.length) {
-      return;
-    }
-
-    setUploadButtonClicked(true);
-    dispatch({
-      type: "set_loading",
-      isLoading: true,
-    });
-    state.files.forEach((upload) => upload.uploader.start());
+    uploads.forEach((upload: any) => upload.uploader.start());
   };
 
   return (
@@ -239,8 +196,8 @@ export default function Home() {
         <div className="flex items-center gap-2 mb-4">
           <Switch
             id="bulk-processing"
-            onCheckedChange={() => dispatch({ type: "toggle_bulk_processing" })}
-            checked={state.isBulkProcessing}
+            onCheckedChange={setBulkProcessing}
+            checked={isBulkProcessing}
           />
           <Label htmlFor="bulk-processing">Bulk Processing</Label>
           <HelpPopover contentClassName="max-h-[500px]">
@@ -281,7 +238,7 @@ export default function Home() {
                 <span className="font-semibold">browse video files</span>
               </p>
               <em className="text-xs text-slate-500">
-                {state.isBulkProcessing ? (
+                {isBulkProcessing ? (
                   <>Video files only (max 10), </>
                 ) : (
                   <>One Video file only, </>
@@ -291,14 +248,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {state.rejectedFiles.length > 0 && (
+        {rejectedFiles.length > 0 && (
           <section className="mt-2 w-full flex items-center gap-1">
             <h4 className="font-medium text-red-500 text-sm">Rejected files</h4>
             <HelpPopover
               iconClassName="w-3.5 text-red-500 hover:text-red-700"
               contentClassName="w-full"
             >
-              {state.rejectedFiles.map(({ file, errors }) => (
+              {rejectedFiles.map(({ file, errors }: any) => (
                 <div key={file.name}>
                   <div className="flex items-center gap-1 text-slate-600 text-xs w-[402px] 2xl:w-[466px]">
                     <Icons.file className="flex-none" width={12} height={12} />
@@ -310,7 +267,7 @@ export default function Home() {
                     </span>
                   </div>
                   <span className="flex-none flex items-center mb-2 text-red-500">
-                    {errors.map((e) => (
+                    {errors.map((e: any) => (
                       <span key={e.code} className="text-xs">
                         {(e.code === "file-invalid-type" && (
                           <>Invalid file type. Only PDF files are allowed.</>
@@ -324,75 +281,60 @@ export default function Home() {
             </HelpPopover>
           </section>
         )}
-        {state.files.length > 0 && (
+        {uploads.length > 0 && (
           <section className="mt-2 w-full flex flex-col gap-2">
-            {uploads.map(({ uploader: { file }, progress }, index) => (
-              <div
-                key={index}
-                className="flex h-16 w-full max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2"
-              >
-                <div className="flex items-center gap-2 text-gray-500 dark:text-white">
-                  <Icons.file size="30" className="shrink-0" />
-                  <div className="min-w-0 text-sm">
-                    <div className="truncate">{file.name}</div>
-                    <div className="text-xs text-gray-400 dark:text-gray-400">
-                      {formatFileSize(file.size)}
+            {uploads.map(
+              ({ uploader: { file }, progress }: any, index: any) => (
+                <div
+                  key={index}
+                  className="flex h-16 w-full max-w-[100vw] flex-col justify-center rounded border border-gray-300 px-4 py-2"
+                >
+                  <div className="flex items-center gap-2 text-gray-500 dark:text-white">
+                    <Icons.file size="30" className="shrink-0" />
+                    <div className="min-w-0 text-sm">
+                      <div className="truncate">{file.name}</div>
+                      <div className="text-xs text-gray-400 dark:text-gray-400">
+                        {formatFileSize(file.size)}
+                      </div>
+                    </div>
+                    <div className="grow" />
+                    <div className="flex w-12 items-center justify-end text-xs">
+                      {!isOverallLoading && !allUploadsCompleted && (
+                        <button
+                          className="rounded-md p-1 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          onClick={() => {
+                            setUploads(
+                              uploads.filter((_: any, i: number) => i !== index)
+                            );
+                          }}
+                        >
+                          <Icons.trash className="shrink-0" />
+                        </button>
+                      )}
+
+                      {isOverallLoading && <div>{Math.round(progress)}%</div>}
+                      {progress === 100 && (
+                        <Icons.checkCircle className="shrink-0 text-green-600 dark:text-gray-400" />
+                      )}
                     </div>
                   </div>
-                  <div className="grow" />
-                  <div className="flex w-12 items-center justify-end text-xs">
-                    {!uploadButtonClicked && (
-                      <button
-                        className="rounded-md p-1 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        onClick={() => {
-                          setUploads((prevUploads: any) =>
-                            prevUploads.filter(
-                              (_: any, i: number) => i !== index
-                            )
-                          );
-                          dispatch({
-                            type: "set_files",
-                            closeAction: true,
-                            files: state.files.filter((_, i) => i !== index),
-                            rejectedFiles: [],
-                          });
-                        }}
-                      >
-                        <Icons.trash className="shrink-0" />
-                      </button>
-                    )}
 
-                    {isOverallLoading && <div>{Math.round(progress)}%</div>}
-                    {progress === 100 && (
-                      <Icons.checkCircle className="shrink-0 text-green-600 dark:text-gray-400" />
-                    )}
-                  </div>
+                  {isOverallLoading && (
+                    <div className="relative h-0">
+                      <div className="absolute top-1 h-1 w-full text-clip rounded-full bg-gray-200 dark:bg-gray-700">
+                        <div
+                          className="h-full bg-green-700 w-full transition-all duration-300 ease-in-out dark:bg-white"
+                          style={{
+                            width: `${progress}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
+              )
+            )}
 
-                {isOverallLoading && (
-                  <div className="relative h-0">
-                    <div className="absolute top-1 h-1 w-full text-clip rounded-full bg-gray-200 dark:bg-gray-700">
-                      <div
-                        className="h-full bg-green-700 w-full transition-all duration-300 ease-in-out dark:bg-white"
-                        style={{
-                          width: `${progress}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-            {/* <Button
-              disabled={state.isLoading}
-              className="mt-3 w-full"
-              onClick={() => uploadClicked()}
-            >
-              {state.isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Upload
-            </Button> */}
             <Button
               disabled={isOverallLoading}
               className={`mt-3 w-full ${
@@ -403,7 +345,7 @@ export default function Home() {
                   // Navigate to the gallery
                   // You can use react-router-dom or any other method for navigation
                   // For demonstration purpose, I'm just setting window.location to gallery page
-                  window.location.href = "/gallery";
+                  window.location.href = "/dashboard/video-gallery";
                 } else {
                   // Start the upload process
                   uploadClicked();
@@ -420,7 +362,7 @@ export default function Home() {
               )}
             </Button>
 
-            {state.hasUploadFailed && (
+            {hasUploadFailed && (
               <p className="mt-2 text-red-500 text-xs">
                 The upload failed. Please try again.
               </p>

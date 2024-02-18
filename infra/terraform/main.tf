@@ -162,6 +162,8 @@ data "aws_iam_policy_document" "cloudfront_s3" {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.uploads.iam_arn]
     }
+    # use only for dev/test
+    
   }
 }
 
@@ -169,6 +171,9 @@ resource "aws_s3_bucket_policy" "uploads" {
   bucket = aws_s3_bucket.uploads.id
   policy = data.aws_iam_policy_document.cloudfront_s3.json
 }
+
+
+
 
 output "cloudfront_url" {
   value = aws_cloudfront_distribution.uploads.domain_name

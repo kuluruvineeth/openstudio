@@ -1,9 +1,7 @@
-import ReactPlayer from "react-player"; // Import ReactPlayer
-import prettyBytes from "pretty-bytes";
+"use client";
 import VideoPlayer from "../video/video-player";
 
 export const VideoGallery = ({ videos }: any) => {
-  console.log(videos);
   return (
     <ul
       role="list"

@@ -31,13 +31,12 @@ import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WorkspaceSwitcher } from "@/app/(dashboard)/dashboard/_components/workspace-switcher";
 import FileUploadPage from "@/app/(dashboard)/dashboard/fileupload/page";
-import { UploadDropZone } from "../fileupload/UploadDropZone";
-import UploadPipeline from "../fileupload/upload-pipeline";
 import Home from "../fileupload/test";
 import ReactPlayer from "react-player";
 import VideoPlayer from "../video/video-player";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import "@vidstack/react/player/styles/base.css";
+import { Nav } from "./nav";
 
 // import { Mail } from "../data";
 // import { useMail } from "../use-mail";
@@ -85,16 +84,16 @@ export function Dashboard({
           collapsible={true}
           minSize={15}
           maxSize={20}
-          //   onCollapse={(collapsed) => {
-          //     setIsCollapsed(collapsed);
-          //     document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-          //       collapsed
-          //     )}`;
-          //   }}
-          //   className={cn(
-          //     isCollapsed &&
-          //       "min-w-[50px] transition-all duration-300 ease-in-out"
-          //   )}
+          onCollapse={() => {
+            // setIsCollapsed(collapsed);
+            // document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+            //   collapsed
+            // )}`;
+          }}
+          className={cn(
+            isCollapsed &&
+              "min-w-[50px] transition-all duration-300 ease-in-out"
+          )}
         >
           <div
             className={cn(
@@ -105,7 +104,7 @@ export function Dashboard({
             <WorkspaceSwitcher isCollapsed={isCollapsed} />
           </div>
           <Separator />
-          {/* <Nav
+          <Nav
             isCollapsed={isCollapsed}
             links={[
               {
@@ -116,18 +115,18 @@ export function Dashboard({
                 link: "/dashboard/",
               },
               {
-                title: "Transactions",
+                title: "Video Gallery",
                 label: "9",
                 icon: Layers,
                 variant: "ghost",
-                link: "/dashboard/transactions",
+                link: "/dashboard/video-gallery",
               },
               {
-                title: "Accounts",
+                title: "Video Upload",
                 label: "3",
                 icon: CreditCard,
                 variant: "ghost",
-                link: "/dashboard/accounts",
+                link: "/dashboard/video-upload",
               },
               {
                 title: "Investments",
@@ -151,7 +150,7 @@ export function Dashboard({
                 link: "/dashboard/recurring",
               },
             ]}
-          /> */}
+          />
           <Separator />
           {/* <Nav
             isCollapsed={isCollapsed}

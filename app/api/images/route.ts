@@ -23,7 +23,7 @@ export async function GET(
     )
     .map((s3File) => ({
       title: s3File.Key || "some image",
-      source: `https://dyp4dcgszy8lu.cloudfront.net/${s3File.Key}`,
+      source: `https://${process.env.cloudfront_url}/${s3File.Key}`,
       size: s3File.Size || 0,
     }));
 
