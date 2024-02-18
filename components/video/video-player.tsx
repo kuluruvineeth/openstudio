@@ -1,24 +1,50 @@
 "use client";
-import React, { useRef, useEffect } from "react";
-import Plyr from "plyr";
+import React, { useRef, useEffect, useState, ReactElement } from "react";
+import dynamic from "next/dynamic";
+import "plyr/dist/plyr.css";
 
 const VideoPlayer = ({ src }: any) => {
+  const [importedComponent, setImportedComponent] = useState<any | null>(null);
   const playerRef = useRef(null);
 
   useEffect(() => {
-    const player = new Plyr(playerRef.current!, {
-      controls: ["play", "progress", "fullscreen"],
-    });
+    const importComponent = async () => {
+      const myModule = await import("plyr");
+      const Plyr = myModule.default;
+      const player = new Plyr(playerRef.current!, {
+        controls: [
+          "play-large", // The large play button in the center
+          "restart", // Restart playback
+          "rewind", // Rewind by the seek time (default 10 seconds)
+          "play", // Play/pause playback
+          "fast-forward", // Fast forward by the seek time (default 10 seconds)
+          "progress", // The progress bar and scrubber for playback and buffering
+          "current-time", // The current time of playback
+          "duration", // The full duration of the media
+          "mute", // Toggle mute
+          "volume", // Volume control
+          "captions", // Toggle captions
+          "settings", // Settings menu
+          "pip", // Picture-in-picture (currently Safari only)
+          "airplay", // Airplay (currently Safari only)
+          "download", // Show a download button with a link to either the current source or a custom URL you specify in your options
+          "fullscreen", // Toggle fullscreen
+        ],
+      });
+      setImportedComponent(player);
+    };
+
+    importComponent();
 
     return () => {
-      if (player) {
-        player.destroy();
+      if (importedComponent) {
+        importedComponent.destroy();
       }
     };
   }, []);
 
   return (
-    <video width={"400px"} height={"400px"} controls ref={playerRef}>
+    <video width={"1000px"} height={"400px"} controls ref={playerRef}>
       <source src={src} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
@@ -26,3 +52,7 @@ const VideoPlayer = ({ src }: any) => {
 };
 
 export default VideoPlayer;
+
+// export default dynamic(() => Promise.resolve(VideoPlayer), {
+//   ssr: false,
+// });
