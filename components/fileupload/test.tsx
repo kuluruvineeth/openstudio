@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { Icons } from "../shared/icons";
 import { useDropzone, FileRejection } from "react-dropzone";
