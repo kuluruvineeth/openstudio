@@ -31,7 +31,8 @@ import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WorkspaceSwitcher } from "@/app/(dashboard)/dashboard/_components/workspace-switcher";
 import { Nav } from "./nav";
-import Home from "../fileupload/test";
+import { VideoGallery } from "@/components/fileupload/video-gallery";
+import axios from "axios";
 
 // import { Mail } from "../data";
 // import { useMail } from "../use-mail";
@@ -50,14 +51,22 @@ interface DashboardProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  videos: any;
 }
 
-export function Dashboard({
+const API_BASE_URL = "/api/";
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+export function VideosDashboard({
   accounts,
   mails,
   defaultLayout = [20, 40, 40],
   defaultCollapsed = false,
   navCollapsedSize,
+  videos,
 }: DashboardProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   // const [mail] = useMail();
@@ -117,7 +126,7 @@ export function Dashboard({
                 title: "Video Gallery",
                 label: "9",
                 icon: Layers,
-                variant: "ghost",
+                variant: "default",
                 link: "/dashboard/video-gallery",
               },
               {
@@ -277,13 +286,13 @@ export function Dashboard({
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <ScrollArea className="h-screen">
             <div className="flex h-[52px] items-center px-4 py-2">
-              <h1 className="text-xl font-bold">Dashboard</h1>
+              <h1 className="text-xl font-bold">Videos Gallery</h1>
             </div>
             <Separator />
 
             <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <form></form>
-              <Home />
+              <VideoGallery videos={videos} />
             </div>
 
             {/* <CardsStats /> */}

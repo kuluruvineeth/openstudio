@@ -15,78 +15,13 @@ import { HelpPopover } from "../ui/help-popover";
 import { Button } from "../ui/button";
 import useUploadStore from "@/hooks/use-upload-store";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
+import { useRouter } from "next/navigation";
 
 const API_BASE_URL = "/api/";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
 });
-
-interface FileUpload {
-  uploader: Uploader;
-  progress: number;
-}
-
-interface State {
-  files: FileUpload[];
-  rejectedFiles: FileRejection[];
-  isBulkProcessing: boolean;
-  isLoading: boolean;
-  hasUploadFailed: boolean;
-}
-
-type Action =
-  | {
-      type: "set_files";
-      closeAction: boolean;
-      files: FileUpload[];
-      rejectedFiles: FileRejection[];
-    }
-  | { type: "toggle_bulk_processing" }
-  | { type: "set_loading"; isLoading: boolean }
-  | { type: "set_upload_failed"; hasUploadFailed: boolean };
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "set_files":
-      if (action.closeAction) {
-        return {
-          ...state,
-          files: action.files,
-          rejectedFiles: state.rejectedFiles,
-        };
-      }
-      return {
-        ...state,
-        files: action.files.length ? action.files : state.files,
-        rejectedFiles: action.rejectedFiles,
-      };
-    case "toggle_bulk_processing":
-      if (state.isBulkProcessing && state.files.length > 1) {
-        return {
-          ...state,
-          isBulkProcessing: !state.isBulkProcessing,
-          files: state.files.slice(0, 1),
-        };
-      }
-      return { ...state, isBulkProcessing: !state.isBulkProcessing };
-    case "set_loading":
-      return {
-        ...state,
-        isLoading: action.isLoading,
-        hasUploadFailed: false,
-        rejectedFiles: [],
-      };
-    case "set_upload_failed":
-      return {
-        ...state,
-        hasUploadFailed: action.hasUploadFailed,
-        isLoading: false,
-      };
-    default:
-      return state;
-  }
-}
 
 export default function Home() {
   const {
@@ -110,8 +45,10 @@ export default function Home() {
     updateCompleted,
     setIsOverallLoading,
     setIsAllUploadCompleted,
+    reset,
   } = useUploadStore();
   const confetti = useConfettiStore();
+  const router = useRouter();
 
   useEffect(() => {
     console.log("completed", completed);
@@ -120,7 +57,7 @@ export default function Home() {
       setIsAllUploadCompleted(true);
       confetti.onOpen();
     }
-  }, [completed, setIsAllUploadCompleted, setIsOverallLoading, uploads]);
+  }, [completed, uploads]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
@@ -132,7 +69,7 @@ export default function Home() {
             })
             .onComplete((newImage: any) => {
               updateCompleted();
-              setImages([newImage]);
+              setImages([...images, newImage]);
             })
             .onError((error: any) => {
               console.error("upload error", error);
@@ -152,19 +89,6 @@ export default function Home() {
     onDrop,
   });
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      const response = await api.request({
-        url: `/images`,
-        method: "GET",
-      });
-
-      setImages(response.data.images);
-    };
-
-    fetchImages();
-  }, []);
-
   const uploadClicked = () => {
     if (!uploads.length) {
       return;
@@ -175,8 +99,7 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl sm:p-6 lg:p-8">
-      <VideoGallery videos={images} />
+    <div className="mx-auto min-w-screen sm:p-6 lg:p-8">
       <motion.div
         key="dropzone"
         layout="position"
@@ -343,10 +266,8 @@ export default function Home() {
               }`}
               onClick={() => {
                 if (allUploadsCompleted) {
-                  // Navigate to the gallery
-                  // You can use react-router-dom or any other method for navigation
-                  // For demonstration purpose, I'm just setting window.location to gallery page
-                  window.location.href = "/dashboard/video-gallery";
+                  reset();
+                  router.push("/dashboard/video-gallery");
                 } else {
                   // Start the upload process
                   uploadClicked();

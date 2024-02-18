@@ -37,80 +37,10 @@ type UploadStoreActions = {
   updateCompleted(): void;
   setIsOverallLoading(isOverallLoading: boolean): void;
   setIsAllUploadCompleted(isAllCompleted: boolean): void;
+  reset(): void;
 };
 
 type UploadStoreActionsKeys = keyof UploadStoreActions;
-
-// const useUploadStore = create<UploadStoreState & UploadStoreActions>((set) => ({
-//   files: [],
-//   rejectedFiles: [],
-//   isBulkProcessing: false,
-//   isLoading: false,
-//   hasUploadFailed: false,
-//   uploads: [],
-//   images: [],
-//   completed: 0,
-//   allUploadsCompleted: false,
-//   isOverallLoading: false,
-//   updateProgress: (filename: string, percentage: number) =>
-//     set((state) => ({
-//       uploads: state.uploads.map((upload) =>
-//         upload.uploader.file.name === filename
-//           ? { ...upload, progress: percentage }
-//           : upload
-//       ),
-//     })),
-//   setFiles: (
-//     files: FileUpload[],
-//     rejectedFiles: FileRejection[],
-//     closeAction: boolean
-//   ) =>
-//     set((state) => ({
-//       files: closeAction ? files : files.length ? files : state.files,
-//       rejectedFiles: rejectedFiles,
-//     })),
-//   setBulkProcessing: () =>
-//     set((state) => ({
-//       isBulkProcessing: !state.isBulkProcessing,
-//     })),
-//   setLoading: (isLoading: boolean) =>
-//     set((state) => ({
-//       isLoading: isLoading,
-//       hasUploadFailed: false,
-//       rejectedFiles: [],
-//     })),
-//   setUploadFailed: (hasUploadFailed: boolean) =>
-//     set((state) => ({
-//       hasUploadFailed: hasUploadFailed,
-//       isLoading: false,
-//     })),
-//   setUploads: (uploads: FileUpload[]) =>
-//     set((state) => ({
-//       uploads: uploads,
-//     })),
-//   setImages: (images: UploadedImage[]) =>
-//     set((state) => ({
-//       images: images,
-//     })),
-//   setCompleted: (completed: number) =>
-//     set((state) => ({
-//       completed: completed,
-//       allUploadsCompleted:
-//         state.completed > 0 && completed === state.uploads.length,
-//       isOverallLoading:
-//         state.completed > 0 && completed === state.uploads.length
-//           ? false
-//           : state.isOverallLoading,
-//     })),
-//   setIsOverallLoading: (isOverallLoading: boolean) =>
-//     set((state) => ({
-//       isOverallLoading: isOverallLoading,
-//     })),
-//   setIsAllUploadCompleted: (isAllCompleted: boolean) =>
-//     set((state) => ({
-//       allUploadsCompleted: isAllCompleted,
-//     })),
-// }));
 
 const useUploadStore = create<UploadStoreState & UploadStoreActions>((set) => ({
   files: [],
@@ -177,6 +107,19 @@ const useUploadStore = create<UploadStoreState & UploadStoreActions>((set) => ({
     set((state) => ({
       allUploadsCompleted: isAllCompleted,
     })),
+  reset: () =>
+    set({
+      files: [],
+      rejectedFiles: [],
+      isBulkProcessing: false,
+      isLoading: false,
+      hasUploadFailed: false,
+      uploads: [],
+      images: [],
+      completed: 0,
+      allUploadsCompleted: false,
+      isOverallLoading: false,
+    }),
 }));
 
 export default useUploadStore;
