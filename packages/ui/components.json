@@ -11,7 +11,7 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@repo/ui/components",
-    "utils": "@repo/ui/lib/utils"
+    "components": "@openstudio/ui/components",
+    "utils": "@openstudio/ui/lib/utils"
   }
 }

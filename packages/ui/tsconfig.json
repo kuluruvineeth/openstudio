@@ -1,9 +1,9 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
+  "extends": "@openstudio/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@repo/ui/*": ["./src/*"]
+      "@openstudio/ui/*": ["./src/*"]
     }
   },
   "include": ["src"],

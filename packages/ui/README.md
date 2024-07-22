@@ -1,1 +1,1 @@
-# `@repo/ui`
+# `@openstudio/ui`
