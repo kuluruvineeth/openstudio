@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@openstudio/ui/*": ["./src/*"]
+      "@openstudio/ui/*": ["./src/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],
