@@ -64,7 +64,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession();
 
   // If authenticated and trying to access /login, redirect to home page
-  if (session && nextUrl.pathname.includes("/login")) {
+  if (session?.user && nextUrl.pathname === "/login") {
     return NextResponse.redirect(`${url.origin}/`);
   }
 
