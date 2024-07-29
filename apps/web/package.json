@@ -14,6 +14,7 @@
     "@supabase/supabase-js": "^2.44.4",
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
+    "next-intl": "^3.17.2",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18"
