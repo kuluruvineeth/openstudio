@@ -1,12 +1,17 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
+
+const locales = ["en", "te", "ka"];
+
+const handleI18nRouting = createIntlMiddleware({
+  localeDetection: false,
+  locales,
+  defaultLocale: "en",
+});
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  const response = handleI18nRouting(request);
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,11 +27,6 @@ export async function middleware(request: NextRequest) {
             value,
             ...options,
           });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
           response.cookies.set({
             name,
             value,
@@ -38,11 +38,6 @@ export async function middleware(request: NextRequest) {
             name,
             value: "",
             ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
           });
           response.cookies.set({
             name,
@@ -58,14 +53,33 @@ export async function middleware(request: NextRequest) {
 
   const url = new URL("/", request.url);
   const nextUrl = request.nextUrl;
+  const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
+
+  // Remove the locale from the pathname
+  const pathnameWithoutLocale = pathnameLocale
+    ? nextUrl.pathname.slice(pathnameLocale.length + 1)
+    : nextUrl.pathname;
+
+  // Create a new URL without the locale in the pathname
+  const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
+  console.log(session);
+  console.log(newUrl.pathname);
+
   // If authenticated and trying to access /login, redirect to home page
-  if (session?.user && nextUrl.pathname === "/login") {
+  if (session?.user && newUrl.pathname === `/login`) {
     return NextResponse.redirect(`${url.origin}/`);
+  }
+
+  //Not authenticated
+  if (!session && newUrl.pathname === "/dashboard") {
+    const url = new URL(`/${pathnameLocale}/login`, request.url);
+
+    return NextResponse.redirect(url);
   }
 
   return response;
