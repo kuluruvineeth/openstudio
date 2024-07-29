@@ -47,7 +47,7 @@ export function Modal(props: ModalProps) {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center p-4 text-center dark:text-gray-100">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -59,7 +59,7 @@ export function Modal(props: ModalProps) {
             >
               <Dialog.Panel
                 className={clsx(
-                  "w-full transform rounded-2xl bg-white text-left align-middle shadow-xl transition-all",
+                  "w-full transform rounded-2xl bg-white dark:bg-black border-[0.5px] dark:border-gray-600 text-left align-middle shadow-xl transition-all",
                   {
                     "p-6": props.padding === "sm",
                     "p-10": !props.padding,
@@ -77,7 +77,10 @@ export function Modal(props: ModalProps) {
                 )}
               >
                 {props.title && (
-                  <Dialog.Title as="h3" className="font-cal text-xl leading-6">
+                  <Dialog.Title
+                    as="h3"
+                    className="font-cal text-xl leading-6 dark:text-gray-200"
+                  >
                     {props.title}
                   </Dialog.Title>
                 )}

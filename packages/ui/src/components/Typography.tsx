@@ -34,7 +34,10 @@ const SectionDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("mt-1 text-sm leading-6 text-gray-700", className)}
+    className={cn(
+      "mt-1 text-sm leading-6 text-gray-700 dark:text-gray-200",
+      className,
+    )}
     {...props}
   />
 ));
