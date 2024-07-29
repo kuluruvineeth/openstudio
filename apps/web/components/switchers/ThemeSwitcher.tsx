@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@openstudio/ui/components/ui/dropdown-menu";
 
-export function ModeToggle() {
+export function ThemeSwitcher() {
   const { setTheme } = useTheme();
 
   return (
