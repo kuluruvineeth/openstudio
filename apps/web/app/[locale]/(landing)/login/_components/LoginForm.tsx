@@ -8,8 +8,10 @@ import { SectionDescription } from "@openstudio/ui/components/Typography";
 import { EarlyAccessModal } from "@/app/[locale]/(landing)/login/_components/EarlyAccessModal";
 import { Provider } from "@supabase/supabase-js";
 import { supabaseBrowserClient } from "@/supabase/supabaseClient";
+import { useTranslations } from "next-intl";
 
 export function LoginForm() {
+  const t = useTranslations("LOGIN");
   const [loading, setLoading] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -52,27 +54,24 @@ export function LoginForm() {
               height={24}
               unoptimized
             />
-            <span className="ml-2">Sign in with Google</span>
+            <span className="ml-2">{t("LOGIN_FORM.SIGN_WITH_GOOGLE")}</span>
           </span>
         </Button>
-        <Modal title="Sign in" isOpen={isModalOpen} hideModal={closeModal}>
+        <Modal title={t("TITLE")} isOpen={isModalOpen} hideModal={closeModal}>
           <div className="mt-2">
             <SectionDescription>
-              By continuing you agree to allow Open Studio sends your comments
-              to OpenAI for processing. OpenAI does not use the submitted data
-              to train or improve their AI models.
+              {t("LOGIN_FORM.BY_CONTINUING")}
             </SectionDescription>
             <div className="mt-8">
               <SectionDescription>
-                Open Studio{"'"}s use and transfer of information received from
-                Google APIs to any other app will adhere to{" "}
+                {t("LOGIN_FORM.USAGE_CONSENT")}
                 <a
                   href="https://developers.google.com/terms/api-services-user-data-policy"
                   className="underline underline-offset-4 hover:text-gray-900"
                 >
-                  Google API Services User Data
+                  {t("GOOGLE_PRIVACY")}
                 </a>{" "}
-                Policy, including the Limited Use requirements.
+                {t("GOOGLE_TERMS")}
               </SectionDescription>
             </div>
             <div className="mt-8">
@@ -83,7 +82,7 @@ export function LoginForm() {
                   socialAuth("google");
                 }}
               >
-                I agree
+                {t("LOGIN_FORM.AGREE")}
               </Button>
             </div>
           </div>
