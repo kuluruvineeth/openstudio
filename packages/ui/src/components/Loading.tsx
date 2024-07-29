@@ -20,7 +20,7 @@ export const Loading: React.FC<LoadingProps> = (props) => {
       <div className="flex items-center justify-center">
         <div
           className={clsx(
-            "animate-spin rounded-full border-b-2 border-blue-500",
+            "animate-spin rounded-full border-b-2 border-red-500",
             {
               "h-5 w-5": size === "xs",
               "h-8 w-8": size === "sm",
