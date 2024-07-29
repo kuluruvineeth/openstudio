@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { LoginForm } from "@/app/(landing)/login/_components/LoginForm";
-
+import { LoginForm } from "@/app/[locale]/(landing)/login/_components/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log in | Open Studio",
@@ -17,7 +16,6 @@ export default async function LoginPage({
 }: {
   searchParams?: Record<string, string>;
 }) {
-
   return (
     <Suspense>
       <div className="flex h-screen flex-col justify-center text-gray-900">
