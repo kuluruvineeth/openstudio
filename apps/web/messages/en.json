@@ -1,5 +1,27 @@
 {
   "Index": {
     "title": "Hello world!"
+  },
+  "LOGIN": {
+    "TITLE": "Sign In",
+    "DESCRIPTION": "Your AI personal assistant for youtube studio.",
+    "CONTINUE": "By clicking continue, you agree to our",
+    "TERMS": "Terms of Service",
+    "PRIVACY": "Privacy Policy",
+    "AND": "and",
+    "CAUTION": "Open Studio's use and transfer of information received from Google APIs to any other app will adhere to",
+    "GOOGLE_PRIVACY": "Google API Services User Data",
+    "GOOGLE_TERMS": "Policy, including the Limited Use requirements.",
+    "LOGIN_FORM": {
+      "SIGN_WITH_GOOGLE": "Sign in with Google",
+      "BY_CONTINUING": "By continuing you agree to allow Open Studio sends your comments to OpenAI for processing. OpenAI does not use the submitted data to train or improve their AI models.",
+      "USAGE_CONSENT": "Open Studio's use and transfer of information received from Google APIs to any other app will adhere to",
+      "AGREE": "I agree"
+    },
+    "EARLY_ACCESS_MODAL": {
+      "TITLE": "Early Access",
+      "DESCRIPTION": "Open Studio is in early access, awaiting full approval from Google to use Youtube Data API. Till then you will see a warning sign when signing in. To get past this warning, click 'Advanced' and then 'Go to Open Studio'.",
+      "UNDERSTAND": "I understand I will see a warning message when signing in"
+    }
   }
 }
