@@ -31,7 +31,7 @@ export const LocaleSwitcher = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button disabled={isPending} variant="outline" size="icon">
-          {isLoading ? <Loading /> : locale.toUpperCase()}
+          {isLoading ? <Loading size="xs" /> : locale.toUpperCase()}
           <span className="sr-only">Chnage language</span>
         </Button>
       </DropdownMenuTrigger>
