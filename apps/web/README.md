@@ -32,3 +32,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 For creating supbase client for SSR : https://supabase.com/docs/guides/auth/server-side/creating-a-client?queryGroups=package-manager&package-manager=pnpm
 
 For supabase google oauth : https://supabase.com/docs/guides/auth/social-login/auth-google?queryGroups=environment&environment=client
+
+## TO GENERATE SUPABASE DB TYPES
+
+```sh
+npx supabase gen types typescript --project-id "hileqdqqjnijldutjsyu" --schema public > types/db.ts
+```
