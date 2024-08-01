@@ -73,7 +73,7 @@ export async function middleware(request: NextRequest) {
   }
 
   //Not authenticated
-  if (!session && newUrl.pathname === "/dashboard") {
+  if (!session && newUrl.pathname.includes("dashboard")) {
     const url = new URL(`/${pathnameLocale}/login`, request.url);
 
     return NextResponse.redirect(url);
