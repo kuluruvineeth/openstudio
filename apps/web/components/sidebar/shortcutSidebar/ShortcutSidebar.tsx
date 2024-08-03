@@ -1,5 +1,6 @@
 import { ScrollArea } from "@openstudio/ui/components/ui/scroll-area";
 import { Top } from "@/components/sidebar/shortcutSidebar/Top";
+import { Bottom } from "@/components/sidebar/shortcutSidebar/Bottom";
 
 interface ShortcutSidebarProps {}
 
@@ -11,6 +12,7 @@ export const ShortcutSidebar = ({}: ShortcutSidebarProps) => {
           <Top />
         </div>
       </ScrollArea>
+      <Bottom />
     </div>
   );
 };
