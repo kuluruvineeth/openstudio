@@ -170,7 +170,7 @@ export const User = ({ profileImage, username, email }: UserProps) => {
           </DropdownMenuSub>
 
           <DropdownMenuItem className="cursor-pointer gap-2" asChild>
-            <Link href={""}>
+            <Link href={"/dashboard/settings"}>
               <Settings2 size={16} /> {t("SETTINGS")}
             </Link>
           </DropdownMenuItem>
