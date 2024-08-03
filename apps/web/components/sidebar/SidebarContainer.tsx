@@ -3,6 +3,7 @@
 import { useToggleSidebar } from "@/context/ToggleSidebar";
 import { ShortcutSidebar } from "@/components/sidebar/shortcutSidebar/ShortcutSidebar";
 import { CloseSidebar } from "@/components/sidebar/CloseSidebar";
+import { OptionsSidebar } from "@/components/sidebar/optionsSidebar/OptionsSidebar";
 
 interface SidebarContainerProps {}
 
@@ -17,6 +18,7 @@ export const SidebarContainer = ({}: SidebarContainerProps) => {
         }`}
       >
         <ShortcutSidebar />
+        <OptionsSidebar />
         <CloseSidebar />
       </aside>
       <div
