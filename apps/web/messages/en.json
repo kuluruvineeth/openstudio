@@ -26,7 +26,13 @@
   },
   "SIDEBAR": {
     "MAIN": {
-      "HOME_HOVER": "HOME"
+      "HOME_HOVER": "Home",
+      "LOG_OUT_HOVER": "Log out",
+      "SETTINGS_HOVER": "Settings"
+    },
+    "SETTINGS": {
+      "GENERAL": "General",
+      "THEME": "Theme"
     }
   },
   "COMMON": {
@@ -37,5 +43,18 @@
     "LANG_HOVER": "Change Language",
     "LOG_OUT": "Log out",
     "SETTINGS": "Settings"
+  },
+  "SETTINGS": {
+    "THEME": {
+      "TITLE": "Theme",
+      "DESCRIPTION": "Select how you would like your interface to look. Select theme from dark, light or system.",
+      "LIGHT_TITLE": "Light",
+      "DARK_TITLE": "Dark",
+      "SYSTEM_TITLE": "System",
+      "LIGHT_FOOTER": "DEFAULT light",
+      "DARK_FOOTER": "DEFAULT dark",
+      "SYSTEM_FOOTER": "DEFAULT system",
+      "ACTIVE": "Active"
+    }
   }
 }

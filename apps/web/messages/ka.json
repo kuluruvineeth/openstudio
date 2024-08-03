@@ -26,7 +26,13 @@
   },
   "SIDEBAR": {
     "MAIN": {
-      "HOME_HOVER": "ಮನೆ"
+      "HOME_HOVER": "ಮನೆ",
+      "LOG_OUT_HOVER": "ಲಾಗ್ ಔಟ್",
+      "SETTINGS_HOVER": "ಸೆಟ್ಟಿಂಗ್ಸ್"
+    },
+    "SETTINGS": {
+      "GENERAL": "ಸಾಮಾನ್ಯ",
+      "THEME": "ಥೀಮ್"
     }
   },
   "COMMON": {
@@ -37,5 +43,18 @@
     "LANG_HOVER": "ಭಾಷೆ ಬದಲಾಯಿಸಿ",
     "LOG_OUT": "ಲಾಗ್ ಔಟ್",
     "SETTINGS": "ಸೆಟ್ಟಿಂಗ್ಸ್"
+  },
+  "SETTINGS": {
+    "THEME": {
+      "TITLE": "ಥೀಮ್",
+      "DESCRIPTION": "ನಿಮ್ಮ ಇಂಟರ್ಫೇಸ್ ಅನ್ನು ಹೇಗೆ ತೋರಿಸಲು ಇಚ್ಛಿಸುತ್ತೀರಿ ಆಯ್ಕೆಮಾಡಿ. ಡಾರ್ಕ್, ಲೈಟ್ ಅಥವಾ ಸಿಸ್ಟಂ ಥೀಮ್ ಆಯ್ಕೆಮಾಡಿ.",
+      "LIGHT_TITLE": "ಲೈಟ್",
+      "DARK_TITLE": "ಡಾರ್ಕ್",
+      "SYSTEM_TITLE": "ಸಿಸ್ಟಂ",
+      "LIGHT_FOOTER": "ಡೀಫಾಲ್ಟ್ ಲೈಟ್",
+      "DARK_FOOTER": "ಡೀಫಾಲ್ಟ್ ಡಾರ್ಕ್",
+      "SYSTEM_FOOTER": "ಡೀಫಾಲ್ಟ್ ಸಿಸ್ಟಂ",
+      "ACTIVE": "ಸಕ್ರಿಯ"
+    }
   }
 }

@@ -26,7 +26,13 @@
   },
   "SIDEBAR": {
     "MAIN": {
-      "HOME_HOVER": "ఇల్లు"
+      "HOME_HOVER": "ఇల్లు",
+      "LOG_OUT_HOVER": "లాగ్ అవుట్",
+      "SETTINGS_HOVER": "సెట్టింగ్సు"
+    },
+    "SETTINGS": {
+      "GENERAL": "సాధారణ",
+      "THEME": "థీమ్"
     }
   },
   "COMMON": {
@@ -37,5 +43,18 @@
     "LANG_HOVER": "భాషను మార్చండి",
     "LOG_OUT": "లాగ్ అవుట్",
     "SETTINGS": "సెట్టింగ్సు"
+  },
+  "SETTINGS": {
+    "THEME": {
+      "TITLE": "థీమ్",
+      "DESCRIPTION": "మీ ఇంటర్ఫేస్ ఎలా కనిపించాలి అనేది ఎంచుకోండి. డార్క్, లైట్ లేదా సిస్టమ్ నుండి థీమ్ ఎంచుకోండి.",
+      "LIGHT_TITLE": "లైట్",
+      "DARK_TITLE": "డార్క్",
+      "SYSTEM_TITLE": "సిస్టమ్",
+      "LIGHT_FOOTER": "డీఫాల్ట్ లైట్",
+      "DARK_FOOTER": "డీఫాల్ట్ డార్క్",
+      "SYSTEM_FOOTER": "డీఫాల్ట్ సిస్టమ్",
+      "ACTIVE": "సక్రియ"
+    }
   }
 }
