@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Toaster } from "@openstudio/ui/components/Toast";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <NextTopLoader color="#f44336" />
             <Toaster closeButton richColors theme="light" visibleToasts={9} />
             {children}
           </ThemeProvider>
