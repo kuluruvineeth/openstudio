@@ -18,13 +18,13 @@ export type ChannelAnalytics = Analytics<
   [number, number, number, number, number]
 >;
 
-type TransformedSubscriberStats = {
+export type TransformedSubscriberStats = {
   date: string;
   subscribersGained: number;
   subscribersLost: number;
 };
 
-type ChannelStats = {
+export type ChannelStats = {
   totalViews: number;
   totalLikes: number;
   totalDislikes: number;
