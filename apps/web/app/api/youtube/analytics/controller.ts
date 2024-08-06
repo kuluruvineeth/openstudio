@@ -13,8 +13,10 @@ import {
 
 type Analytics<T extends number[]> = [string, ...T];
 
-type SubscribersAnalytics = Analytics<[number, number]>;
-type ChannelAnalytics = Analytics<[number, number, number, number, number]>;
+export type SubscribersAnalytics = Analytics<[number, number]>;
+export type ChannelAnalytics = Analytics<
+  [number, number, number, number, number]
+>;
 
 type TransformedSubscriberStats = {
   date: string;
