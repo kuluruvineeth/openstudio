@@ -17,17 +17,17 @@ export function LoginForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const SCOPES = [
-    "openid https://www.googleapis.com/auth/userinfo.profile",
-    "openid https://www.googleapis.com/auth/userinfo.email",
-    "openid https://www.googleapis.com/auth/youtubepartner-channel-audit",
-    "openid https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
-    "openid https://www.googleapis.com/auth/yt-analytics.readonly",
-    "openid https://www.googleapis.com/auth/youtubepartner",
-    "openid https://www.googleapis.com/auth/youtube.force-ssl",
-    "openid https://www.googleapis.com/auth/youtube.channel-memberships.creator",
-    "openid https://www.googleapis.com/auth/youtube.upload",
-    "openid https://www.googleapis.com/auth/youtube",
-    "openid https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/youtubepartner-channel-audit",
+    "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
+    "https://www.googleapis.com/auth/youtubepartner",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
+    "https://www.googleapis.com/auth/youtube.channel-memberships.creator",
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.readonly",
   ];
 
   async function socialAuth(provider: Provider) {
@@ -37,6 +37,12 @@ export function LoginForm() {
         redirectTo: `${location.origin}/auth/callback`,
         queryParams: {
           scope: SCOPES.join(" "),
+          access_type: "offline",
+          prompt: "consent", //<- Optional. The refresh-token gets returned
+          //only immediately after consent. It will not be
+          //re-issued on sessionRefresh or Login.
+          //Therefore, for test purposes I
+          //"force" consent every time.
         },
       },
     });
