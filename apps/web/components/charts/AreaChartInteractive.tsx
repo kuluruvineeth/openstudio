@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@openstudio/ui/components/ui/select";
 import { endOfWeek, format, parseISO, startOfWeek } from "date-fns";
+import { TransformedSubscriberStats } from "@/app/api/youtube/analytics/controller";
 
 const chartConfig = {
   visitors: {
@@ -96,7 +97,7 @@ function aggregateData(
 }
 
 export function AreaChartInteractive(props: {
-  data: { date: string; subscribersGained: number; subscribersLost: number }[];
+  data: TransformedSubscriberStats[];
 }) {
   const [groupByPeriod, setGroupByPeriod] = React.useState<
     "day" | "week" | "month" | "year"
