@@ -4,6 +4,7 @@ export const env = createEnv({
   server: {
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
+    LOG_ZOD_ERRORS: z.coerce.boolean().optional(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_URL: z.string().min(1),
