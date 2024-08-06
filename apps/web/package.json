@@ -18,7 +18,9 @@
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "recharts": "^2.12.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.2.4",
