@@ -2,10 +2,15 @@ import { ReactNode } from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { Loading } from "@openstudio/ui/components/Loading";
 
+export interface ErrorInfo {
+  message: string;
+  code?: number;
+}
+
 interface LoadingContentProps {
   loading: boolean;
   loadingComponent?: ReactNode;
-  error?: { info?: { error: string }; error?: string };
+  error?: ErrorInfo | null;
   errorComponent?: ReactNode;
   children: ReactNode;
 }

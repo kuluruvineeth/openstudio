@@ -1,15 +1,10 @@
 import { ReactNode } from "react";
 import { Panel } from "./Panel";
+import { ErrorInfo } from "./LoadingContent";
 
-export function ErrorDisplay(props: {
-  error: { info?: { error: string }; error?: string };
-}) {
-  if (props.error.info?.error || props.error.error) {
-    return (
-      <NotFound>
-        There was an error: {props.error.info?.error || props.error.error}
-      </NotFound>
-    );
+export function ErrorDisplay(props: { error: ErrorInfo }) {
+  if (props.error.message) {
+    return <NotFound>There was an error: {props.error.message}</NotFound>;
   }
 }
 
