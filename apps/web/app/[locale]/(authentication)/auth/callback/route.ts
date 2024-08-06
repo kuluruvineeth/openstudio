@@ -27,8 +27,19 @@ export async function GET(request: Request) {
         },
       },
     );
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({
+        access_token: data.session?.provider_token,
+        refresh_token: data.session?.provider_refresh_token,
+      })
+      .eq("id", data.session?.user.id);
+
+    if (updateError) {
+      console.error(updateError);
+    }
+    if (!error && !updateError) {
       return NextResponse.redirect(`${origin}/dashboard`); // Changed from `${origin}${next}`
     }
   }
