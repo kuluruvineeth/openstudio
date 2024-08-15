@@ -4,6 +4,7 @@ import { cn } from "@openstudio/ui/lib/utils";
 import { ReactNode } from "react";
 import { User as UserComponent } from "@/components/header/User";
 import { getUserData } from "@/actions/GetUserData";
+import { redirect } from "next/navigation";
 
 interface DashboardHeaderProps {
   className?: string;
@@ -15,6 +16,7 @@ export const DashboardHeader = async ({
   children,
 }: DashboardHeaderProps) => {
   const user = await getUserData();
+  if (!user) redirect("/login"); //TODO: Is it really needed here
   return (
     <header
       className={cn(
