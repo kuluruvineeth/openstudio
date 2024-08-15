@@ -14,6 +14,8 @@ import {
 type Analytics<T extends number[]> = [string, ...T];
 
 export type SubscribersAnalytics = Analytics<[number, number]>;
+export type AcceptanceAnalytics = Analytics<[number, number]>;
+export type VisitorAnalytics = Analytics<[number]>;
 export type ChannelAnalytics = Analytics<
   [number, number, number, number, number]
 >;
@@ -22,6 +24,17 @@ export type TransformedSubscriberStats = {
   date: string;
   subscribersGained: number;
   subscribersLost: number;
+};
+
+export type AcceptanceStats = {
+  date: string;
+  likes: number;
+  dislikes: number;
+};
+
+export type VisitorStats = {
+  date: string;
+  views: number;
 };
 
 export type ChannelStats = {
@@ -100,6 +113,23 @@ export const transformSubscribersStats = (
     date,
     subscribersGained,
     subscribersLost,
+  }));
+};
+
+export const getAcceptanceStats = (
+  data: AcceptanceAnalytics[],
+): AcceptanceStats[] => {
+  return data.map(([date, likes, dislikes]) => ({
+    date,
+    likes,
+    dislikes: -dislikes,
+  }));
+};
+
+export const getVistorStats = (data: VisitorAnalytics[]): VisitorStats[] => {
+  return data.map(([date, views]) => ({
+    date,
+    views,
   }));
 };
 

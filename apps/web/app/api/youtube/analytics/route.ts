@@ -1,11 +1,15 @@
 import { withError } from "@/utils/middleware";
 import { NextResponse } from "next/server";
 import {
+  AcceptanceAnalytics,
   calculateChannelStats,
   ChannelAnalytics,
+  getAcceptanceStats,
   getAnalytics,
+  getVistorStats,
   SubscribersAnalytics,
   transformSubscribersStats,
+  VisitorAnalytics,
 } from "./controller";
 import { auth } from "@/utils/auth";
 import { analyticsQuery } from "./validation";
@@ -33,14 +37,23 @@ export const GET = withError(async (request: Request) => {
     ...query,
   });
 
-  if (query.type === "channel") {
-    analytics = calculateChannelStats(rawAnalytics as ChannelAnalytics[]);
-  } else if (query.type === "subscribers") {
-    analytics = transformSubscribersStats(
-      rawAnalytics as SubscribersAnalytics[],
-    );
-  } else {
-    return NextResponse.json({ error: "Invalid Params" });
+  switch (query.type) {
+    case "channel":
+      analytics = calculateChannelStats(rawAnalytics as ChannelAnalytics[]);
+      break;
+    case "subscribers":
+      analytics = transformSubscribersStats(
+        rawAnalytics as SubscribersAnalytics[],
+      );
+      break;
+    case "acceptance":
+      analytics = getAcceptanceStats(rawAnalytics as AcceptanceAnalytics[]);
+      break;
+    case "visitors":
+      analytics = getVistorStats(rawAnalytics as VisitorAnalytics[]);
+      break;
+    default:
+      return NextResponse.json({ error: "Invalid Params" });
   }
 
   return NextResponse.json(analytics);
