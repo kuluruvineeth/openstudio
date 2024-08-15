@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import { ChannelAnalytics } from "./ChannelAnalytics";
 import { SubscriberAnalytics } from "./SubscriberAnalytics";
+import { CommentAnalytics } from "./CommentAnalytics";
 import { AcceptanceAnalytics } from "./AcceptanceAnalytics";
 import { VisitorAnalytics } from "./VisitorAnalytics";
 
@@ -48,6 +49,18 @@ export default function Dashboard() {
           refreshInterval={1_000_000}
         />
       </div>
+
+      <div className="mt-4 px-4">
+        <CommentAnalytics
+          query={{
+            limit: 10,
+            fromDate: +new Date(dateRange?.from!).getTime(),
+            toDate: +new Date(dateRange?.to!).getTime(),
+          }}
+          refreshInterval={1_000_000}
+        />
+      </div>
+
       <div className="mt-4 px-4">
         <AcceptanceAnalytics
           query={{
