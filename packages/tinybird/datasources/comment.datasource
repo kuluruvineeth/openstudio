@@ -1,0 +1,16 @@
+SCHEMA > 
+    `ownerEmail` String `json:$.ownerEmail`,
+    `commentId` String `json:$.commentId`,
+    `videoThumbnail` String `json:$.videoThumbnail`,
+    `videoTitle` String `json:$.videoTitle`,
+    `videoDescription` String `json:$.videoDescription`,
+    `commentedText` String `json:$.commentedText`,
+    `authorDisplayName` String `json:$.authorDisplayName`,
+    `authorProfileImageUrl` String `json:$.authorProfileImageUrl`,
+    `videoId` String `json:$.videoId`,
+    `timestamp` Int64 `json:$.timestamp` -- Assuming the timestamp is Unix timestamp in milliseconds
+
+
+ENGINE "ReplacingMergeTree"
+ENGINE_SORTING_KEY ownerEmail, timestamp
+ENGINE_PARTITION_KEY "toYYYYMM(fromUnixTimestamp64Milli(timestamp))"
