@@ -1,0 +1,17 @@
+NODE get_oldest_or_latest_comment
+DESCRIPTION > 
+    Find the last/first comment stored for the account (Youtube Channel)
+
+SQL >
+    %
+        SELECT
+        {% if String(direction) == "oldest" %}
+            minMerge(oldest_comment_ts) timestamp,
+            argMinMerge(oldest_comment) commentId
+        {% else %}
+            maxMerge(latest_comment_ts) timestamp,
+            argMaxMerge(latest_comment) commentId
+        {% end %}
+        FROM latest_and_oldest_comment_mv
+        WHERE ownerEmail = {{ String(ownerEmail) }}
+        GROUP BY ownerEmail
