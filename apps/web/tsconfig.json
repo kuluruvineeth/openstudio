@@ -16,7 +16,10 @@
     "postcss.config.mjs",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../packages/ui/src/components/ErrorDisplay.tsx",
+    "../../packages/ui/src/components/LoadingContent.tsx",
+    "../../packages/ui/src/components/Panel.tsx"
   ],
   "exclude": ["node_modules"]
 }
