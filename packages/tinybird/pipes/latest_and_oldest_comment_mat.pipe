@@ -1,0 +1,15 @@
+NODE get_latest_and_oldest_comment
+SQL > 
+    SELECT
+        ownerEmail,
+        argMaxState(commentId, timestamp) AS latest_comment,
+        maxState(timestamp) AS latest_comment_ts,
+        argMinState(commentId, timestamp) AS oldest_comment,
+        minState(timestamp) AS oldest_comment_ts
+    FROM comment
+    GROUP BY ownerEmail
+
+TYPE materialized
+DATASOURCE latest_and_oldest_comment_mv
+ENGINE "AggregatingMergeTree"
+ENGINE_SORTING_KEY "ownerEmail"
