@@ -1,0 +1,14 @@
+NODE retrieve_comments_for_one_account
+DESCRIPTION > 
+    Filter comments received for one account (youtube channel)
+
+SQL >
+    %
+        SELECT "authorDisplayName" FROM comment
+        WHERE ownerEmail = {{ String(ownerEmail) }}
+        {% if defined(fromDate) %}
+            AND "timestamp" >= {{ Int64(fromDate) }}
+        {% end %}
+        {% if defined(toDate) %}
+            AND "timestamp" <= {{ Int64(toDate) }}
+        {% end %}
