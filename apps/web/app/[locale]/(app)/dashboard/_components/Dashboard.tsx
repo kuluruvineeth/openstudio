@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import { ChannelAnalytics } from "./ChannelAnalytics";
 import { SubscriberAnalytics } from "./SubscriberAnalytics";
+import { AcceptanceAnalytics } from "./AcceptanceAnalytics";
+import { VisitorAnalytics } from "./VisitorAnalytics";
 
 export default function Dashboard() {
   const now = useMemo(() => new Date(), []);
