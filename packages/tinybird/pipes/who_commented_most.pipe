@@ -1,0 +1,14 @@
+INCLUDE "../includes/retrieve_comments_for_one_account.incl"
+
+
+NODE get_who_commented_most
+DESCRIPTION >
+    Get most active commenters for a given period of time
+
+
+SQL >
+    %
+        SELECT "authorDisplayName", COUNT(*) as count from retrieve_comments_for_one_account
+        GROUP BY "authorDisplayName"
+        ORDER BY count DESC
+        LIMIT {{Int64(limit, 50) }}
