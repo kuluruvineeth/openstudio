@@ -1,0 +1,18 @@
+{
+  "name": "@openstudio/tinybird",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "keywords": [],
+  "author": "kuluruvineeth",
+  "license": "ISC",
+  "dependencies": {
+    "@chronark/zod-bird": "^0.3.9",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@openstudio/typescript-config": "workspace:*",
+    "@types/node": "^20",
+    "typescript": "^5.4.5"
+  }
+}
