@@ -1,0 +1,14 @@
+NODE retrieve_most_commented_videos_for_one_account
+DESCRIPTION > 
+    Filter most commented videos for one user account
+
+SQL > 
+    %
+        SELECT "videoTitle", "videoId" FROM comment
+        WHERE ownerEmail = {{ String(ownerEmail) }}
+        {% if defined(fromDate) %}
+            AND "timestamp" >= {{ Int64(fromDate) }}
+        {% end %}
+        {% if defined(toDate) %}
+            AND "timestamp" <= {{ Int64(toDate) }}
+        {% end %}
