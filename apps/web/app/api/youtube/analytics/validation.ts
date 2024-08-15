@@ -6,7 +6,7 @@ export const analyticsQuery = z.object({
   fromDate: z.string(),
   toDate: z.string(),
   dimensions: zodDimension,
-  type: z.enum(["channel", "subscribers"]),
+  type: z.enum(["channel", "subscribers", "acceptance", "visitors"]),
   metrics: z
     .enum([
       "views",
