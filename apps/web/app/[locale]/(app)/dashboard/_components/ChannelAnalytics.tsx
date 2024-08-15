@@ -14,11 +14,13 @@ import {
   ThumbsDown,
   ThumbsUp,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function ChannelAnalytics(props: {
   query: AnalyticsQuery;
   refreshInterval: number;
 }) {
+  const t = useTranslations("DASHBOARD.CHANNEL");
   const {
     data: dataAnalytics,
     isLoading: isLoadingAnalytics,
@@ -42,33 +44,33 @@ export function ChannelAnalytics(props: {
           <StatsCards
             stats={[
               {
-                name: "Total Comments", //TODO: Should Localize Values
+                name: `${t("TOTAL_COMMENTS")}`,
                 value: dataAnalytics.totalComments,
-                subValue: "comments",
+                subValue: `${t("COMMENTS")}`,
                 icon: <MessageCircleIcon className="text-yellow-600" />,
               },
               {
-                name: "Total Shares",
+                name: `${t("TOTAL_SHARES")}`,
                 value: dataAnalytics.totalShares,
-                subValue: "shares",
+                subValue: `${t("SHARES")}`,
                 icon: <Share2 className="text-blue-600" />,
               },
               {
-                name: "Total Likes",
+                name: `${t("TOTAL_LIKES")}`,
                 value: dataAnalytics.totalLikes,
-                subValue: "likes",
+                subValue: `${t("LIKES")}`,
                 icon: <ThumbsUp className="text-green-600" />,
               },
               {
-                name: "Total Views",
+                name: `${t("TOTAL_VIEWS")}`,
                 value: dataAnalytics.totalViews,
-                subValue: "views",
+                subValue: `${t("VIEWS")}`,
                 icon: <Eye className="text-violet-500" />,
               },
               {
-                name: "Total Dislikes",
+                name: `${t("TOTAL_DISLIKES")}`,
                 value: dataAnalytics.totalDislikes,
-                subValue: "dislikes",
+                subValue: `${t("DISLIKES")}`,
                 icon: <ThumbsDown className="text-red-600" />,
               },
             ]}
