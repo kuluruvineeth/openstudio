@@ -1,0 +1,13 @@
+INCLUDE "../includes/retrieve_most_commented_videos.incl"
+
+
+NODE get_most_commented_video
+DESCRIPTION > 
+    Get most commented videos which received good audience engagement for a given period of time
+
+SQL > 
+    %
+        SELECT "videoTitle", "videoId", COUNT(*) as count FROM retrieve_most_commented_videos_for_one_account
+        GROUP BY "videoTitle", "videoId"
+        ORDER BY count DESC
+        LIMIT {{Int64(limit, 50) }}
