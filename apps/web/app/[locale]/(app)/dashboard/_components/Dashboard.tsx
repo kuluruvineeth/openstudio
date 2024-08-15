@@ -46,6 +46,31 @@ export default function Dashboard() {
           refreshInterval={1_000_000}
         />
       </div>
+      <div className="mt-4 px-4">
+        <AcceptanceAnalytics
+          query={{
+            dimensions: "day",
+            fromDate: format(dateRange?.from!, "yyyy-MM-dd"),
+            toDate: format(dateRange?.to!, "yyyy-MM-dd"),
+            type: "acceptance",
+            metrics: ["likes", "dislikes"],
+          }}
+          refreshInterval={1_000_0000}
+        />
+      </div>
+
+      <div className="mt-4 px-4">
+        <VisitorAnalytics
+          query={{
+            dimensions: "day",
+            fromDate: format(dateRange?.from!, "yyyy-MM-dd"),
+            toDate: format(dateRange?.to!, "yyyy-MM-dd"),
+            type: "visitors",
+            metrics: ["views"],
+          }}
+          refreshInterval={1_000_0000}
+        />
+      </div>
     </div>
   );
 }
