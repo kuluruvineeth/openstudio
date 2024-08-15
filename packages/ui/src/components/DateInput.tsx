@@ -222,7 +222,7 @@ const DateInput = ({ value, onChange }: DateInputProps) => {
           }
         }}
         onBlur={handleBlur("month")}
-        className="p-0 outline-none w-6 border-none text-center"
+        className="p-0 outline-none w-6 border-none text-center dark:text-gray-700"
         placeholder="M"
       />
       <span>/</span>
@@ -240,7 +240,7 @@ const DateInput = ({ value, onChange }: DateInputProps) => {
           }
         }}
         onBlur={handleBlur("day")}
-        className="p-0 outline-none w-6 border-none text-center"
+        className="p-0 outline-none w-6 border-none text-center dark:text-gray-700"
         placeholder="D"
       />
       <span>/</span>
@@ -258,7 +258,7 @@ const DateInput = ({ value, onChange }: DateInputProps) => {
           }
         }}
         onBlur={handleBlur("year")}
-        className="p-0 outline-none w-12 border-none text-center"
+        className="p-0 outline-none w-12 border-none text-center dark:text-gray-700"
         placeholder="YYYY"
       />
     </div>
