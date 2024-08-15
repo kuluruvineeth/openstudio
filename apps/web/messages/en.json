@@ -35,6 +35,57 @@
       "THEME": "Theme"
     }
   },
+  "DASHBOARD": {
+    "VISITOR": {
+      "TITLE": "Views or Visitors",
+      "DESCRIPTION": "Showing traffic into your channel"
+    },
+    "CHANNEL": {
+      "TOTAL_COMMENTS": "Total Comments",
+      "COMMENTS": "comments",
+      "TOTAL_SHARES": "Total Shares",
+      "SHARES": "shares",
+      "TOTAL_LIKES": "Total Likes",
+      "LIKES": "likes",
+      "TOTAL_VIEWS": "Total Views",
+      "VIEWS": "views",
+      "TOTAL_DISLIKES": "Total Dislikes"
+    },
+    "ACCEPTANCE": {
+      "TITLE": "Likes Vs Dislikes",
+      "DESCRIPTION": "Showing Acceptance Rate"
+    },
+    "COMMENT": {
+      "WHO_COMMENTS_MOST": {
+        "TITLE": "Who Comments You Most",
+        "COL1": "User",
+        "COL2": "Comments"
+      },
+      "MOST_COMMENTED_VIDEO": {
+        "TITLE": "Which Video Most Commented",
+        "COL1": "Video",
+        "COL2": "Comments"
+      },
+      "COMMENTS_CATEGORY": {
+        "TITLE": "Types Of Comment You're Receiving",
+        "COL1": "Category",
+        "COL2": "Comments",
+        "AI_CATEGORIZATION": "AI Categorization",
+        "DESCRIPTION": "Use AI to categorize your comments",
+        "BUTTON_TEXT": "Work In Progress"
+      }
+    },
+    "SUBSCRIBER": {
+      "TITLE": "Subscribers Gained Vs Subscribers Lost",
+      "DESCRIPTION": "Showing total count for the selected date range"
+    },
+    "GROUP_BY": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    }
+  },
   "COMMON": {
     "THEME_HOVER": "Change Theme",
     "DARK": "Dark",
