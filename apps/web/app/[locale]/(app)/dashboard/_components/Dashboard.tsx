@@ -2,13 +2,15 @@
 
 import { ActionBar } from "@/app/[locale]/(app)/dashboard/_components/ActionBar";
 import { DateRange } from "@/types/app";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import { ChannelAnalytics } from "./ChannelAnalytics";
 import { SubscriberAnalytics } from "./SubscriberAnalytics";
 import { CommentAnalytics } from "./CommentAnalytics";
 import { AcceptanceAnalytics } from "./AcceptanceAnalytics";
 import { VisitorAnalytics } from "./VisitorAnalytics";
+import { LoadStatsButton } from "./LoadStatsButton";
+import { useStatLoader } from "@/providers/StatLoaderProvider";
 
 export default function Dashboard() {
   const now = useMemo(() => new Date(), []);
@@ -16,11 +18,18 @@ export default function Dashboard() {
     from: subDays(now, parseInt("7")),
     to: now,
   });
+
+  const { isLoading, onLoad } = useStatLoader();
+  const refreshInterval = isLoading ? 5_000 : 1_000_000;
+  useEffect(() => {
+    onLoad({ loadBefore: false, showToast: false });
+  }, [onLoad]);
   return (
     <div className="pb-20">
       <div className="sticky -top-7 z-10 justify-end space-x-1 border-b bg-background px-4 py-2 shadow sm:flex">
         <div className="space-y-1 sm:flex sm:space-x-1 sm:space-y-0">
           <ActionBar dateRange={dateRange} onDateRangeUpdate={setDateRange} />
+          <LoadStatsButton />
         </div>
       </div>
 
