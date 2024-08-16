@@ -49,7 +49,8 @@
       "LIKES": "likes",
       "TOTAL_VIEWS": "Total Views",
       "VIEWS": "views",
-      "TOTAL_DISLIKES": "Total Dislikes"
+      "TOTAL_DISLIKES": "Total Dislikes",
+      "DISLIKES": "dislikes"
     },
     "ACCEPTANCE": {
       "TITLE": "Likes Vs Dislikes",
