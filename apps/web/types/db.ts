@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      channel_comment_pagination: {
+        Row: {
+          channel_id: string
+          last_fetched_timestamp: string | null
+          next_page_token: string | null
+          no_more_comments: boolean | null
+        }
+        Insert: {
+          channel_id: string
+          last_fetched_timestamp?: string | null
+          next_page_token?: string | null
+          no_more_comments?: boolean | null
+        }
+        Update: {
+          channel_id?: string
+          last_fetched_timestamp?: string | null
+          next_page_token?: string | null
+          no_more_comments?: boolean | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           access_token: string | null
