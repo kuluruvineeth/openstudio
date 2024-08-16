@@ -3,7 +3,7 @@ import { withError } from "@/utils/middleware";
 import { loadTinybirdComments } from "./controller";
 import { NextResponse } from "next/server";
 
-export const GET = withError(async (request: Request) => {
+export const POST = withError(async (request: Request) => {
   const session = await auth();
 
   if (!session) {
