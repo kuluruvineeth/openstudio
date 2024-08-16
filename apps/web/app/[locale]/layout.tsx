@@ -7,6 +7,7 @@ import { getMessages } from "next-intl/server";
 import { Toaster } from "@openstudio/ui/components/Toast";
 import NextTopLoader from "nextjs-toploader";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { StatLoaderProvider } from "@/providers/StatLoaderProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,7 +37,7 @@ export default async function RootLayout({
             >
               <NextTopLoader color="#f44336" />
               <Toaster closeButton richColors theme="light" visibleToasts={9} />
-              {children}
+              <StatLoaderProvider> {children}</StatLoaderProvider>
             </ThemeProvider>
           </QueryProvider>
         </NextIntlClientProvider>
