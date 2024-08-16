@@ -4,6 +4,7 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@openstudio/ui", "@t3-oss/env-nextjs"],
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
