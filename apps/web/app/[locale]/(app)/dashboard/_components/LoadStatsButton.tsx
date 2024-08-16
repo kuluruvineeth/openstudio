@@ -19,7 +19,7 @@ export function LoadStatsButton() {
         ) : (
           <BarChart2Icon className="mr-2 h-4 w-4" />
         )}
-        Load more
+        Load more comments
       </Button>
     </div>
   );
