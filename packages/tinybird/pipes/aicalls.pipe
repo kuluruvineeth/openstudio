@@ -16,3 +16,11 @@ SQL >
 NODE count_per_model
 SQL > 
     SELECT model, count(*) as count FROM aicall GROUP BY model ORDER BY count DESC
+
+
+NODE count_per_user
+SQL > 
+    SELECT userId, count(*) as count, toDateTime(fromUnixTimestamp64Milli(MAX(timestamp))) as lastTimestamp
+    FROM aicall
+    GROUP BY userId
+    ORDER BY count DESC
