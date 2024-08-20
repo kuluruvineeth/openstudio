@@ -33,31 +33,40 @@ export type Database = {
       users: {
         Row: {
           access_token: string | null
+          aimodel: string | null
+          aiprovider: string | null
           avatar_url: string
           created_at: string | null
           email: string
           id: string
           name: string | null
+          openaiapikey: string | null
           refresh_token: string | null
           type: string | null
         }
         Insert: {
           access_token?: string | null
+          aimodel?: string | null
+          aiprovider?: string | null
           avatar_url: string
           created_at?: string | null
           email: string
           id: string
           name?: string | null
+          openaiapikey?: string | null
           refresh_token?: string | null
           type?: string | null
         }
         Update: {
           access_token?: string | null
+          aimodel?: string | null
+          aiprovider?: string | null
           avatar_url?: string
           created_at?: string | null
           email?: string
           id?: string
           name?: string | null
+          openaiapikey?: string | null
           refresh_token?: string | null
           type?: string | null
         }
