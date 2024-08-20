@@ -8,4 +8,7 @@ export interface CommentItem {
   commentedText: string | null | undefined;
   authorDisplayName: string | null | undefined;
   authorProfileImageUrl: string | null | undefined;
+  category?: {
+    category: string;
+  };
 }
