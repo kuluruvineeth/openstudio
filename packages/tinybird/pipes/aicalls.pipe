@@ -28,3 +28,11 @@ SQL >
 NODE cost_per_user
 SQL > 
     SELECT userId, sum(cost) as cost FROM aicall GROUP BY userId ORDER BY cost DESC
+
+
+NODE count_per_day
+SQL > 
+    SELECT toStartOfDay(fromUnixTimestamp64Milli(timestamp)) as "day", count(*) as count
+    FROM aicall
+    GROUP BY day
+    ORDER BY day
