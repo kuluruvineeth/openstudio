@@ -79,6 +79,46 @@ export async function chatCompletionObject<T>({
   return result;
 }
 
+//TODO: to fix type visibility type issue
+export async function chatCompletionStream({
+  provider,
+  model,
+  apiKey,
+  prompt,
+  system,
+  userEmail,
+  usageLabel: label,
+  onFinish,
+}: {
+  provider: string;
+  model: string;
+  apiKey: string | null;
+  prompt: string;
+  system?: string;
+  userEmail: string;
+  usageLabel: string;
+  onFinish?: (text: string) => Promise<void>;
+}) {
+  const result = await streamText({
+    model: getModel(provider, model, apiKey),
+    prompt,
+    system,
+    onFinish: async ({ usage, text }) => {
+      await saveAiUsage({
+        email: userEmail,
+        provider,
+        model,
+        usage,
+        label,
+      });
+
+      if (onFinish) await onFinish(text);
+    },
+  });
+
+  return result;
+}
+
 export async function chatCompletionTools({
   provider,
   model,
