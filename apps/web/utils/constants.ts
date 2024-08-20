@@ -43,3 +43,7 @@ export const THEMES: Themes[] = [
     footer: "THEME.SYSTEM_FOOTER",
   },
 ];
+
+export const DEFAULT_AI_PROVIDER = "openai";
+export const DEFAULT_OPENAI_MODEL = "gpt-4o";
+export const DEFAULT_ANTHROPIC_MODEL = "claude-3-haiku-20240307";
