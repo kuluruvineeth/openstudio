@@ -21,3 +21,23 @@ export const publishComment = tb.buildIngestEndpoint({
   datasource: "comment",
   event: tinybirdComment,
 });
+
+const tinybirdAiCall = z.object({
+  userId: z.string(),
+  timestamp: z.number(),
+  totalTokens: z.number().int(),
+  completionTokens: z.number().int(),
+  promptTokens: z.number().int(),
+  cost: z.number(),
+  model: z.string(),
+  provider: z.string(),
+  label: z.string().optional(),
+  data: z.string().optional(),
+});
+
+export type TinybirdAiCall = z.infer<typeof tinybirdAiCall>;
+
+export const publishAiCall = tb.buildIngestEndpoint({
+  datasource: "aicall",
+  event: tinybirdAiCall,
+});
