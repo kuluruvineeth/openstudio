@@ -1,4 +1,4 @@
-import { Home, LucideIcon } from "lucide-react";
+import { Home, LucideIcon, MessageCircle } from "lucide-react";
 
 export interface TopSidebarLink {
   href: string;
@@ -12,6 +12,11 @@ export const TOP_SIDEBAR_LINKS: TopSidebarLink[] = [
     href: "/dashboard",
     Icon: Home,
     hoverTextKey: "HOME_HOVER",
+  },
+  {
+    href: "/dashboard/comments",
+    Icon: MessageCircle,
+    hoverTextKey: "COMMENTS_HOVER",
   },
 ];
 
