@@ -17,6 +17,7 @@
     "@t3-oss/env-nextjs": "^0.11.0",
     "@tanstack/react-query": "^5.51.21",
     "@tremor/react": "^3.17.4",
+    "@upstash/redis": "^1.34.0",
     "axios": "^1.7.3",
     "date-fns": "^3.6.0",
     "googleapis": "^140.0.1",
