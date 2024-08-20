@@ -1,3 +1,7 @@
 NODE total_cost
 SQL > 
     SELECT sum(cost) FROM aicall
+
+NODE cost_per_label
+SQL > 
+    SELECT label, sum(cost) as cost FROM aicall GROUP BY label ORDER BY cost DESC
