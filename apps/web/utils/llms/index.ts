@@ -6,6 +6,10 @@ import {
   DEFAULT_OPENAI_MODEL,
 } from "../constants";
 import { env } from "@/env.mjs";
+import { type CoreTool, generateObject, generateText, streamText } from "ai";
+import { z } from "zod";
+import { saveAiUsage } from "../usage";
+
 export function getAiProviderAndModel(
   provider: string | null,
   model: string | null,
@@ -34,4 +38,43 @@ function getModel(provider: string, model: string, apiKey: string | null) {
   }
 
   throw new Error("AI provider not supported");
+}
+
+export async function chatCompletionObject<T>({
+  provider,
+  model,
+  apiKey,
+  prompt,
+  system,
+  schema,
+  userEmail,
+  usageLabel,
+}: {
+  provider: string;
+  model: string;
+  apiKey: string | null;
+  prompt: string;
+  system?: string;
+  schema: z.Schema<T>;
+  userEmail: string;
+  usageLabel: string;
+}) {
+  const result = await generateObject({
+    model: getModel(provider, model, apiKey),
+    prompt,
+    system,
+    schema,
+  });
+
+  if (result.usage) {
+    await saveAiUsage({
+      email: userEmail,
+      usage: result.usage,
+      provider,
+      model,
+      label: usageLabel,
+    });
+  }
+
+  return result;
 }
