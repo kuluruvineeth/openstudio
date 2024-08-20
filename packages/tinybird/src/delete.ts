@@ -42,3 +42,9 @@ export async function deleteTinybirdComments(options: {
     `ownerEmail='${options.ownerEmail}`,
   );
 }
+
+export async function deleteTinybirdAiCalls(options: {
+  userId: string;
+}): Promise<unknown> {
+  return await deleteFromDatasource("aicall", `userId='${options.userId}`);
+}
