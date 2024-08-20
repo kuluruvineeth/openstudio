@@ -78,3 +78,43 @@ export async function chatCompletionObject<T>({
 
   return result;
 }
+
+export async function chatCompletionTools({
+  provider,
+  model,
+  apiKey,
+  prompt,
+  system,
+  tools,
+  label,
+  userEmail,
+}: {
+  provider: string;
+  model: string;
+  apiKey: string | null;
+  prompt: string;
+  system?: string;
+  tools: Record<string, CoreTool>;
+  label: string;
+  userEmail: string;
+}) {
+  const result = await generateText({
+    model: getModel(provider, model, apiKey),
+    tools,
+    toolChoice: "required",
+    prompt,
+    system,
+  });
+
+  if (result.usage) {
+    await saveAiUsage({
+      email: userEmail,
+      usage: result.usage,
+      provider,
+      model,
+      label,
+    });
+  }
+
+  return result;
+}
