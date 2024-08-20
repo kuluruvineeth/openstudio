@@ -9,7 +9,7 @@ interface OptionsSidebarProps {}
 export const OptionsSidebar = ({}: OptionsSidebarProps) => {
   const pathname = usePathname();
 
-  if (pathname === "/dashboard") {
+  if (pathname === "/dashboard" || pathname === "/dashboard/comments") {
     return null;
   }
 
