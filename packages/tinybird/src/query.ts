@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { tb } from "./client";
-import { decrypt } from "./encrypt";
+import { decrypt, encrypt } from "./encrypt";
 
 export const getLatestOrOldestComment = tb.buildPipe({
   pipe: "find_oldest_or_latest_comment",
@@ -40,5 +40,27 @@ export const getMostCommentedVideo = tb.buildPipe({
     videoId: z.string(),
     videoTitle: z.string(),
     count: z.number(),
+  }),
+});
+
+export const getComments = tb.buildPipe({
+  pipe: "get_comments",
+  parameters: z.object({
+    ownerEmail: z.string(),
+    fromDate: z.number().nullish(),
+    toDate: z.number().nullish(),
+    authorDisplayName: z.string().transform(encrypt).nullish(),
+    limit: z.number().nullish(),
+  }),
+  data: z.object({
+    commentId: z.string(),
+    videoThumbnail: z.string(),
+    videoTitle: z.string(),
+    videoDescription: z.string(),
+    commentedText: z.any().transform(decrypt),
+    authorDisplayName: z.string().transform(decrypt),
+    authorProfileImageUrl: z.string(),
+    videoId: z.string(),
+    commentedAt: z.number(),
   }),
 });
