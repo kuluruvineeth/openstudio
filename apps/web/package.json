@@ -29,11 +29,14 @@
     "next-intl": "^3.17.2",
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.12",
+    "openai": "^4.56.0",
     "react": "^18",
     "react-dom": "^18",
     "recharts": "^2.12.7",
     "server-only": "^0.0.1",
     "usehooks-ts": "^3.1.0",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.2.4",
