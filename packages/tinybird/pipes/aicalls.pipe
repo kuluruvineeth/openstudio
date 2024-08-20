@@ -24,3 +24,7 @@ SQL >
     FROM aicall
     GROUP BY userId
     ORDER BY count DESC
+
+NODE cost_per_user
+SQL > 
+    SELECT userId, sum(cost) as cost FROM aicall GROUP BY userId ORDER BY cost DESC
