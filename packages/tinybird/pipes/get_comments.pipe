@@ -1,0 +1,21 @@
+NODE get_comments_for_one_account
+DESCRIPTION > 
+    fetch comments received for one account (youtube channel)
+
+SQL >
+    %
+        SELECT "commentId", "videoThumbnail", "videoTitle", "videoDescription", "commentedText", "authorDisplayName", "authorProfileImageUrl", "videoId", "timestamp" as commentedAt FROM comment
+        WHERE ownerEmail = {{ String(ownerEmail) }}
+        {% if defined(fromDate) %}
+            AND "timestamp" >= {{ Int64(fromDate) }}
+        {% end %}
+        {% if defined(toDate) %}
+            AND "timestamp" <= {{ Int64(toDate) }}
+        {% end %}
+        {% if defined(authorDisplayName) %}
+            AND "authorDisplayName" = {{ String(authorDisplayName) }}
+        {% end %}
+        ORDER BY "timestamp" DESC
+        {% if defined(limit) %}
+            LIMIT {{ Int64(limit) }}
+        {% end %}
