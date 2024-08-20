@@ -1,3 +1,41 @@
+import { publishAiCall } from "@openstudio/tinybird";
+import { saveUsage } from "./redis/usage";
+
+export async function saveAiUsage({
+  email,
+  provider,
+  model,
+  usage,
+  label,
+}: {
+  email: string;
+  provider: string | null;
+  model: string;
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+  label: string;
+}) {
+  const cost = calculateCost(model, usage);
+
+  return Promise.all([
+    publishAiCall({
+      userId: email,
+      provider: provider || "openai",
+      totalTokens: usage.totalTokens,
+      completionTokens: usage.completionTokens,
+      promptTokens: usage.promptTokens,
+      cost,
+      model,
+      timestamp: Date.now(),
+      label,
+    }),
+    saveUsage({ email, cost, usage }),
+  ]);
+}
+
 // https://openai.com/pricing
 const costs: Record<string, { input: number; output: number }> = {
   "gpt-3.5-turbo-0125": {
