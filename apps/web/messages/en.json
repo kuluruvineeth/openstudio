@@ -27,6 +27,7 @@
   "SIDEBAR": {
     "MAIN": {
       "HOME_HOVER": "Home",
+      "COMMENTS_HOVER": "Comments",
       "LOG_OUT_HOVER": "Log out",
       "SETTINGS_HOVER": "Settings"
     },

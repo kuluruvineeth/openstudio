@@ -27,6 +27,7 @@
   "SIDEBAR": {
     "MAIN": {
       "HOME_HOVER": "ಮನೆ",
+      "COMMENTS_HOVER": "ಕಾಮೆಂಟ್ಸ್",
       "LOG_OUT_HOVER": "ಲಾಗ್ ಔಟ್",
       "SETTINGS_HOVER": "ಸೆಟ್ಟಿಂಗ್ಸ್"
     },

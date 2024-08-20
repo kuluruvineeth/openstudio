@@ -27,6 +27,7 @@
   "SIDEBAR": {
     "MAIN": {
       "HOME_HOVER": "ఇల్లు",
+      "COMMENTS_HOVER": "వ్యాఖ్యలు",
       "LOG_OUT_HOVER": "లాగ్ అవుట్",
       "SETTINGS_HOVER": "సెట్టింగ్సు"
     },
