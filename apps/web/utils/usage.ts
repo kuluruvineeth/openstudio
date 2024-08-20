@@ -17,3 +17,18 @@ const costs: Record<string, { input: number; output: number }> = {
     output: 15 / 1_000_000,
   },
 };
+
+// returns cost in cents
+function calculateCost(
+  model: string,
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+  },
+): number {
+  if (!costs[model]) return 0;
+
+  const { input, output } = costs[model];
+
+  return usage.promptTokens * input + usage.completionTokens * output;
+}
