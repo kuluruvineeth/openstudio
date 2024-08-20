@@ -22,6 +22,7 @@
     "@upstash/redis": "^1.34.0",
     "ai": "^3.3.9",
     "axios": "^1.7.3",
+    "change-case": "^5.4.4",
     "date-fns": "^3.6.0",
     "googleapis": "^140.0.1",
     "lucide-react": "^0.395.0",
