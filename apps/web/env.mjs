@@ -11,6 +11,7 @@ export const env = createEnv({
     ENCRYPT_SECRET: z.string().optional(),
     ENCRYPT_SALT: z.string().optional(),
     OPENAI_API_KEY: z.string().min(1),
+    ANTHROPIC_API_KEY: z.string().optional(),
     UPSTASH_REDIS_URL: z.string().min(1),
     UPSTASH_REDIS_TOKEN: z.string().min(1),
     REDIS_URL: z.string().optional(),
