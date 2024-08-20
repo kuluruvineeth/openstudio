@@ -9,6 +9,8 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^0.0.43",
+    "@ai-sdk/openai": "^0.0.48",
     "@openstudio/tinybird": "workspace:*",
     "@openstudio/ui": "workspace:*",
     "@remixicon/react": "^4.2.0",
