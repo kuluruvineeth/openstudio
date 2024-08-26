@@ -44,3 +44,13 @@ export function AlertWithButton(props: {
     </Alert>
   );
 }
+
+export function AlertError(props: { title: string; description: string }) {
+  return (
+    <Alert variant="destructive">
+      <AlertCircle className="h-4 w-4" />
+      <AlertTitle>{props.title}</AlertTitle>
+      <AlertDescription>{props.description}</AlertDescription>
+    </Alert>
+  );
+}
