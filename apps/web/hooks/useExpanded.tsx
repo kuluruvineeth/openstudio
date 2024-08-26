@@ -12,6 +12,12 @@ export const useExpanded = () => {
     [],
   );
 
+  const [expanded, setExpanded] = useState(false);
+  const toggleExpandWithoutIndex = useCallback(
+    () => setExpanded((expanded) => !expanded),
+    [],
+  );
+
   const extra = useCallback(
     (index: number) => {
       return (
@@ -40,5 +46,30 @@ export const useExpanded = () => {
     [expandedIndex, toggleExpand],
   );
 
-  return { expandedIndex, extra };
+  const extraWithoutIndex = useCallback(() => {
+    return (
+      <div className="mt-2">
+        <Button
+          variant={"outline"}
+          size={"sm"}
+          onClick={toggleExpandWithoutIndex}
+          className="w-full"
+        >
+          {expanded ? (
+            <>
+              <ChevronsUpIcon className="h-4 w-4" />
+              <span className="ml-2">Show less</span>
+            </>
+          ) : (
+            <>
+              <ChevronsDownIcon className="h-4 w-4" />
+              <span className="ml-2">Show more</span>
+            </>
+          )}
+        </Button>
+      </div>
+    );
+  }, [expanded, toggleExpandWithoutIndex]);
+
+  return { expandedIndex, extra, expanded, extraWithoutIndex };
 };
