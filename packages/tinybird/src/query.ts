@@ -61,6 +61,19 @@ export const getCommentsFromAuthor = tb.buildPipe({
   data: getAuthorsData,
 });
 
+export const getAuthorCounts = tb.buildPipe({
+  pipe: "authors",
+  parameters: z.object({
+    ownerEmail: z.string(),
+    limit: z.number().nullish(),
+    fromDate: z.number().nullish(),
+    toDate: z.number().nullish(),
+  }),
+  data: z.object({
+    from: z.string().transform(decrypt),
+    count: z.number(),
+  }),
+});
 
 export const getComments = tb.buildPipe({
   pipe: "get_comments",
