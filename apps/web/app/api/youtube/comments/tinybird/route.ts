@@ -13,16 +13,23 @@ export const GET = withError(async (request: Request) => {
   }
 
   const { searchParams } = new URL(request.url);
-  const authorDisplayName = searchParams.get("authorDisplayName");
-  const limit = searchParams.get("limit") || 500;
-  let query;
-  if (authorDisplayName)
-    query = commentsQuery.parse({ limit, authorDisplayName });
-  else query = commentsQuery.parse({ limit });
+
+  // Construct the query object from searchParams
+  const query = {
+    // limit: searchParams.get("limit"),
+    authorDisplayName: searchParams.get("authorDisplayName"),
+    fromDate: searchParams.get("fromDate"),
+    toDate: searchParams.get("toDate"),
+  };
+
+  // Parse the query object using Zod
+  const parsedQuery = commentsQuery.parse(query);
+
   const commentsData = await getComments({
     ownerEmail: session.ownerEmail,
-    ...query,
+    ...parsedQuery,
   });
+
   const commentsWithCategory = await Promise.all(
     commentsData.data.map(async (c) => {
       return {
