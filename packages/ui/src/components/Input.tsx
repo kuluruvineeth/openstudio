@@ -1,7 +1,101 @@
+import type React from "react";
+import type { HTMLInputTypeAttribute } from "react";
+import type { FieldError } from "react-hook-form";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 import { cn } from "../lib/utils";
 import { TooltipExplanation } from "../components/TooltipExplanation";
 
+export interface InputProps {
+  name: string;
+  label?: string;
+  labelComponent?: React.ReactNode;
+  type: HTMLInputTypeAttribute;
+  placeholder?: string;
+  registerProps?: any; // TODO
+  explainText?: string;
+  tooltipText?: string;
+  as?: React.ElementType;
+  rows?: number;
+  min?: number;
+  step?: number;
+  max?: number;
+  disabled?: boolean;
+  error?: FieldError;
+  leftText?: string;
+  rightText?: string;
+  className?: string;
+  onClickAdd?: () => void;
+  onClickRemove?: () => void;
+}
+
+export const Input = (props: InputProps) => {
+  const Component = props.as || "input";
+
+  const errorMessage = getErrorMessage(props.error?.type, props.error?.message);
+
+  const inputProps = {
+    type: props.type,
+    name: props.name,
+    id: props.name,
+    placeholder: props.placeholder,
+    rows: props.rows,
+    min: props.min,
+    max: props.max,
+    step: props.step,
+    disabled: props.disabled,
+    ...props.registerProps,
+  };
+
+  return (
+    <div>
+      {props.labelComponent ? (
+        props.labelComponent
+      ) : props.label ? (
+        <Label
+          name={props.name}
+          label={props.label}
+          tooltipText={props.tooltipText}
+        />
+      ) : null}
+
+      <div className={cn(props.label || props.labelComponent ? "mt-1" : "")}>
+        <div className="flex">
+          {props.leftText ? (
+            <div className="flex-1">
+              <InputWithLeftFixedText
+                inputProps={inputProps}
+                leftText={props.leftText}
+              />
+            </div>
+          ) : props.rightText ? (
+            <InputWithRightFixedText
+              inputProps={inputProps}
+              rightText={props.rightText}
+            />
+          ) : (
+            <Component
+              {...inputProps}
+              className={cn(
+                "block w-full flex-1 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm",
+                props.className,
+              )}
+            />
+          )}
+
+          <AddRemoveButtons
+            onClickAdd={props.onClickAdd}
+            onClickRemove={props.onClickRemove}
+          />
+        </div>
+
+        {props.explainText ? (
+          <ExplainText>{props.explainText}</ExplainText>
+        ) : null}
+        {errorMessage ? <ErrorMessage message={errorMessage} /> : null}
+      </div>
+    </div>
+  );
+};
 
 type LabelProps = Pick<InputProps, "name" | "label" | "tooltipText">;
 
