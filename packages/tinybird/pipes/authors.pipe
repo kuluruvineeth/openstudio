@@ -1,0 +1,29 @@
+NODE get_authors
+DESCRIPTION >
+    get all authors for one youtube channel
+
+SQL >
+    %
+    SELECT *
+    FROM comment
+    WHERE
+        "ownerEmail" = {{ String(ownerEmail) }}
+        {% if defined(fromDate) %}
+          AND "timestamp" >= {{ Int64(fromDate) }}
+        {% end %}
+        {% if defined(toDate) %}
+          AND "timestamp" <= {{ Int64(toDate) }}
+        {% end %}
+
+NODE author_counts
+DESCRIPTION >
+    Count comments by author
+
+SQL >
+    %
+    SELECT "authorDisplayName" as from,
+        COUNT(*) as count
+    FROM get_authors
+    GROUP BY "authorDisplayName"
+    ORDER BY count DESC
+    LIMIT {{ Int64(limit, 50) }}
