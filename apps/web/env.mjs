@@ -16,6 +16,8 @@ export const env = createEnv({
     UPSTASH_REDIS_TOKEN: z.string().min(1),
     REDIS_URL: z.string().optional(),
     REDIS_TOKEN: z.string().optional(),
+    POSTHOG_API_SECRET: z.string().optional(),
+    POSTHOG_PROJECT_ID: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_URL: z.string().min(1),
