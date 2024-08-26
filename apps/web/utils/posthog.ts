@@ -34,3 +34,32 @@ async function getPosthogUserId(options: { email: string }) {
 
   return userId;
 }
+
+export async function deletePosthogUser(options: { email: string }) {
+  if (!env.POSTHOG_API_SECRET || !env.POSTHOG_PROJECT_ID) {
+    console.warn("Posthog env variables not set");
+    return;
+  }
+
+  // 1. find user id by distinct id
+  const userId = await getPosthogUserId({ email: options.email });
+
+  if (!userId) {
+    console.warn(`No Posthog user found with distinct id ${options.email}`);
+    return;
+  }
+
+  const personsEndpoint = `https://app.posthog.com/api/projects/${env.POSTHOG_PROJECT_ID}/persons/`;
+
+  //2. delete user by id
+  try {
+    await fetch(`${personsEndpoint}${userId}/?delete_events=true`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${env.POSTHOG_API_SECRET}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
