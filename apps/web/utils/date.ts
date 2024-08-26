@@ -1,3 +1,5 @@
+import { DateRange } from "@/types/app";
+
 export function formatShortDate(
   date: Date,
   options: {
@@ -29,4 +31,12 @@ export function formatShortDate(
 
     return options.lowerCase ? formattedDate : formattedDate.toUpperCase();
   }
+}
+
+export function getDateRangeParams(dateRange?: DateRange) {
+  const params: { fromDate?: number; toDate?: number } = {};
+  if (dateRange?.from) params.fromDate = +dateRange?.from;
+  if (dateRange?.to) params.toDate = +dateRange.to;
+
+  return params;
 }
