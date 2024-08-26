@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Modal, useModal } from "@openstudio/ui/components/Modal";
 import { Button } from "@openstudio/ui/components/Button";
 import { SectionDescription } from "@openstudio/ui/components/Typography";
-import { EarlyAccessModal } from "@/app/[locale]/(landing)/login/_components/EarlyAccessModal";
+import { EarlyAccessModal } from "@/app/[locale]/(marketing)/login/_components/EarlyAccessModal";
 import { Provider } from "@supabase/supabase-js";
 import { supabaseBrowserClient } from "@/supabase/supabaseClient";
 import { useTranslations } from "next-intl";
