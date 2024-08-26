@@ -16,3 +16,9 @@ export interface DateRange {
   from: Date;
   to: Date | undefined;
 }
+
+export const AuthorStatus = {
+  APPROVED: "APPROVED",
+  BANNED: "BANNED",
+} as const;
+export type AuthorStatusType = (typeof AuthorStatus)[keyof typeof AuthorStatus];
