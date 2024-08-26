@@ -64,3 +64,23 @@ export const getComments = tb.buildPipe({
     commentedAt: z.number(),
   }),
 });
+
+export const getWhoCommentedForFirstTime = tb.buildPipe({
+  pipe: "who_commented_for_first_time",
+  parameters: z.object({
+    ownerEmail: z.string(),
+    fromDate: z.number().nullish(),
+    toDate: z.number().nullish(),
+  }),
+  data: z.object({
+    commentId: z.string(),
+    videoThumbnail: z.string(),
+    videoTitle: z.string(),
+    videoDescription: z.string(),
+    commentedText: z.any().transform(decrypt),
+    authorDisplayName: z.string().transform(decrypt),
+    authorProfileImageUrl: z.string(),
+    videoId: z.string(),
+    commentedAt: z.number(),
+  }),
+});
