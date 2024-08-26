@@ -1,0 +1,22 @@
+
+NODE get_comments_from_author
+DESCRIPTION >
+  Filter comments for a author.
+
+SQL >
+  %
+    SELECT
+        toStartOfDay(fromUnixTimestamp64Milli(timestamp)) AS "startOfPeriod",
+      COUNT(*) as count
+    FROM comment
+    WHERE "ownerEmail" = {{ String(ownerEmail) }}
+      AND "authorDisplayName" = {{ String(authorDisplayName) }}
+      {% if defined(fromDate) %}
+        AND "timestamp" >= {{ Int64(fromDate) }}
+      {% end %}
+      {% if defined(toDate) %}
+        AND "timestamp" <= {{ Int64(toDate) }}
+      {% end %}
+    GROUP BY startOfPeriod
+    ORDER BY startOfPeriod
+    WITH FILL STEP 86400
