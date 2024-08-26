@@ -37,6 +37,23 @@ export const ErrorMessage = (props: { message: string }) => {
   );
 };
 
+const InputWithLeftFixedText = (props: {
+  leftText: string;
+  inputProps: any;
+}) => {
+  return (
+    <div className="flex rounded-md shadow-sm">
+      <span className="inline-flex max-w-[150px] flex-shrink items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:max-w-full sm:text-sm">
+        {props.leftText}
+      </span>
+      <input
+        {...props.inputProps}
+        className="block w-[120px] flex-1 rounded-none rounded-r-md border-gray-300 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:w-full sm:min-w-[150px] sm:max-w-full sm:text-sm"
+      />
+    </div>
+  );
+};
+
 
 function getErrorMessage(
   errorType?: FieldError["type"],
