@@ -13,6 +13,7 @@ export const auth = async () => {
   }
 
   return {
+    userId: userData.id,
     ownerEmail: userData.email,
     accessToken: userData?.access_token,
     refreshToken: userData?.refresh_token,
