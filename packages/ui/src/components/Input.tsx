@@ -1,3 +1,26 @@
+import { TooltipExplanation } from "../components/TooltipExplanation";
+
+
+type LabelProps = Pick<InputProps, "name" | "label" | "tooltipText">;
+
+export const Label = (props: LabelProps) => {
+  return (
+    <label
+      htmlFor={props.name}
+      className="block text-sm font-medium text-gray-700"
+    >
+      {props.tooltipText ? (
+        <span className="flex items-center space-x-1">
+          <span>{props.label}</span>
+          <TooltipExplanation text={props.tooltipText} />
+        </span>
+      ) : (
+        props.label
+      )}
+    </label>
+  );
+};
+
 
 function getErrorMessage(
   errorType?: FieldError["type"],
