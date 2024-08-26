@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../lib/utils";
+import Link from "next/link";
 
 const PageHeading = React.forwardRef<
   HTMLHeadingElement,
@@ -71,6 +72,21 @@ const TypographyH3 = React.forwardRef<
 ));
 TypographyH3.displayName = "TypographyH3";
 
+type LinkProps = React.ComponentProps<typeof Link>;
+const TextLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <Link
+        ref={ref}
+        className={cn("font-semibold text-red-600 hover:underline", className)}
+        {...props}
+      />
+    );
+  },
+);
+
+TextLink.displayName = "TextLink";
+
 export {
   PageHeading,
   SectionHeader,
@@ -78,4 +94,5 @@ export {
   SectionDescription,
   MessageText,
   TypographyP,
+  TextLink,
 };
