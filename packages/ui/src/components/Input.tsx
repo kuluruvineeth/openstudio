@@ -1,3 +1,5 @@
+import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
+import { cn } from "../lib/utils";
 import { TooltipExplanation } from "../components/TooltipExplanation";
 
 
@@ -67,6 +69,36 @@ const InputWithRightFixedText = (props: {
       <span className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
         {props.rightText}
       </span>
+    </div>
+  );
+};
+
+export const AddRemoveButtons = (props: {
+  onClickAdd?: () => void;
+  onClickRemove?: () => void;
+}) => {
+  if (!props.onClickAdd && !props.onClickRemove) return null;
+
+  return (
+    <div className="ml-2 flex space-x-2">
+      {props.onClickAdd && (
+        <button
+          type="button"
+          className="text-gray-700 transition-transform hover:scale-110 hover:text-gray-900"
+          onClick={props.onClickAdd}
+        >
+          <PlusCircleIcon className="h-6 w-6" />
+        </button>
+      )}
+      {props.onClickRemove && (
+        <button
+          type="button"
+          className="text-gray-700 transition-transform hover:scale-110 hover:text-gray-900"
+          onClick={props.onClickRemove}
+        >
+          <MinusCircleIcon className="h-6 w-6" />
+        </button>
+      )}
     </div>
   );
 };
