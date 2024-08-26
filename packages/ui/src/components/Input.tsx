@@ -103,6 +103,22 @@ export const AddRemoveButtons = (props: {
   );
 };
 
+export function LabelWithRightButton(
+  props: LabelProps & { rightButton: { text: string; onClick: () => void } },
+) {
+  return (
+    <div className="flex justify-between">
+      <Label {...props} />
+      <button
+        type="button"
+        className="cursor-pointer bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-sm text-transparent hover:from-sky-600 hover:to-blue-700"
+        onClick={props.rightButton.onClick}
+      >
+        {props.rightButton.text}
+      </button>
+    </div>
+  );
+}
 
 function getErrorMessage(
   errorType?: FieldError["type"],
