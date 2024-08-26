@@ -1,0 +1,33 @@
+NODE get_who_commented_for_first_time
+DESCRIPTION > 
+    Find all new commenters from a given date
+
+SQL > 
+    %
+WITH old_comments AS (
+    SELECT DISTINCT `authorDisplayName`
+    FROM comment
+    WHERE
+        `ownerEmail` = {{ String(ownerEmail) }}
+        {% if defined(fromDate) %}
+            AND "timestamp" < {{ Int64(fromDate) }}
+        {% end %}
+        {% if defined(toDate) %}
+            AND "timestamp" > {{ Int64(toDate) }}
+        {% end %}
+)
+SELECT "commentId", "videoThumbnail", "videoTitle", "videoDescription", "commentedText", "authorDisplayName", "authorProfileImageUrl", "videoId", "timestamp" as commentedAt
+FROM comment
+WHERE
+    `ownerEmail` = {{ String(ownerEmail) }}
+    {% if defined(fromDate) %}
+        AND "timestamp" >= {{ Int64(fromDate) }}
+    {% end %}
+    {% if defined(toDate) %}
+        AND "timestamp" <= {{ Int64(toDate) }}
+    {% end %}
+    AND `authorDisplayName` NOT IN (
+        SELECT `authorDisplayName`
+        FROM old_comments
+    )
+    ORDER BY `timestamp` DESC
