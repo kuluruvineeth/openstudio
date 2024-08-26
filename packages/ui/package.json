@@ -13,6 +13,7 @@
     "@openstudio/eslint-config": "workspace:*",
     "@openstudio/typescript-config": "workspace:*",
     "@tailwindcss/forms": "^0.5.7",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "autoprefixer": "^10.4.19",
@@ -25,6 +26,8 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@headlessui/tailwindcss": "^0.2.1",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-hover-card": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -39,14 +42,18 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
     "react-day-picker": "8.10.1",
+    "react-hook-form": "^7.52.2",
     "react-resizable-panels": "^2.1.0",
     "recharts": "^2.12.7",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "^3.1.0",
+    "zod": "^3.23.8"
   },
   "exports": {
     "./globals.css": "./src/globals.css",
