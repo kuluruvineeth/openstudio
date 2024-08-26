@@ -29,6 +29,7 @@
       "HOME_HOVER": "Home",
       "COMMENTS_HOVER": "Comments",
       "LOG_OUT_HOVER": "Log out",
+      "PREMIUM_HOVER": "Premium",
       "SETTINGS_HOVER": "Settings"
     },
     "SETTINGS": {
@@ -75,6 +76,12 @@
         "AI_CATEGORIZATION": "AI Categorization",
         "DESCRIPTION": "Use AI to categorize your comments",
         "BUTTON_TEXT": "Work In Progress"
+      },
+      "OPTIONS": {
+        "ALL_COMMENTS": "All Comments",
+        "NEW_SENDERS": "New Senders",
+        "AUTHORS": "Authors",
+        "AI_AUTOMATION": "AI Automation"
       }
     },
     "SUBSCRIBER": {
