@@ -43,6 +43,9 @@ export const getMostCommentedVideo = tb.buildPipe({
   }),
 });
 
+const zodStartOfPeriod = z.string().transform((t) => new Date(t));
+
+
 export const getComments = tb.buildPipe({
   pipe: "get_comments",
   parameters: z.object({
