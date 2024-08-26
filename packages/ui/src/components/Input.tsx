@@ -29,6 +29,14 @@ export const ExplainText = (props: { children: React.ReactNode }) => {
   );
 };
 
+export const ErrorMessage = (props: { message: string }) => {
+  return (
+    <div className="mt-0.5 text-sm font-semibold leading-snug text-red-400">
+      {props.message}
+    </div>
+  );
+};
+
 
 function getErrorMessage(
   errorType?: FieldError["type"],
