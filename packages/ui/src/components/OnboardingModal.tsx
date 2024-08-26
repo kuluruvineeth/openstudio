@@ -10,6 +10,10 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { YouTubeVideo } from "./YoutubeVideo";
+import { useModal } from "./Modal";
+import { Button } from "./ui/button";
+import { PlayIcon } from "lucide-react";
+
 export function OnboardingModalDialog({
   isModalOpen,
   setIsModalOpen,
@@ -50,5 +54,34 @@ export function OnboardingModalDialog({
         />
       </DialogContent>
     </Dialog>
+  );
+}
+
+export function OnboardingModal({
+  title,
+  description,
+  videoId,
+}: {
+  title: string;
+  description: React.ReactNode;
+  videoId: string;
+}) {
+  const { isModalOpen, openModal, setIsModalOpen } = useModal();
+
+  return (
+    <>
+      <Button onClick={openModal} className="text-nowrap">
+        <PlayIcon className="mr-2 h-4 w-4" />
+        Watch Video
+      </Button>
+
+      <OnboardingModalDialog
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        title={title}
+        description={description}
+        videoId={videoId}
+      />
+    </>
   );
 }
