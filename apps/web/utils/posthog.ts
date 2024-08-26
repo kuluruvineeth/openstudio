@@ -1,6 +1,7 @@
 "use server";
 
 import { env } from "@/env.mjs";
+import { PostHog } from "posthog-node";
 
 async function getPosthogUserId(options: { email: string }) {
   const personsEndpoint = `https://app.posthog.com/api/projects/${env.POSTHOG_PROJECT_ID}/persons/`;
@@ -62,4 +63,19 @@ export async function deletePosthogUser(options: { email: string }) {
   } catch (error) {
     console.error("Error:", error);
   }
+}
+
+export async function posthogCaptureEvent(
+  email: string,
+  event: string,
+  properties: Record<string, any>,
+) {
+  if (!env.NEXT_PUBLIC_POSTHOG_KEY) {
+    console.warn("NEXT_PUBLIC_POSTHOG_KEY not set");
+    return;
+  }
+
+  const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY);
+  client.capture({ distinctId: email, event, properties });
+  await client.shutdown();
 }
