@@ -1,4 +1,6 @@
 import { cn } from "../lib/utils";
+import { SectionDescription, SectionHeader } from "./Typography";
+
 export function FormWrapper(props: { children: React.ReactNode }) {
   return <div className="divide-y divide-black/5">{props.children}</div>;
 }
@@ -17,6 +19,15 @@ export function FormSection(props: {
       )}
     >
       {props.children}
+    </div>
+  );
+}
+
+export function FormSectionLeft(props: { title: string; description: string }) {
+  return (
+    <div>
+      <SectionHeader>{props.title}</SectionHeader>
+      <SectionDescription>{props.description}</SectionDescription>
     </div>
   );
 }
