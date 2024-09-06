@@ -11,6 +11,18 @@ export async function markSpam(options: {
   });
 }
 
+export async function setModerationStatus(options: {
+  youtube: youtube_v3.Youtube;
+  commentId: string;
+  moderationStatus: "heldForReview" | "rejected" | "published";
+}) {
+  const { youtube, commentId, moderationStatus } = options;
+
+  await youtube.comments.setModerationStatus({
+    id: [commentId],
+    moderationStatus,
+  });
+}
 
 export async function replyToComment(options: {
   youtube: youtube_v3.Youtube;
