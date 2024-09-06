@@ -17,7 +17,7 @@ interface ButtonProps
   loading?: boolean;
 }
 
-type Color = "primary" | "white" | "red" | "blue" | "transparent";
+type Color = "primary" | "white" | "red" | "blue" | "transparent" | "green";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "circle";
 
@@ -70,6 +70,8 @@ export const Button = (props: ButtonProps) => {
             color === "white",
           "bg-blue-600 text-white hover:bg-blue-500 focus:ring-blue-600":
             color === "blue",
+          "bg-green-600 text-white hover:bg-green-500 focus:ring-green-600":
+            color === "green",
         },
         className,
       )}
