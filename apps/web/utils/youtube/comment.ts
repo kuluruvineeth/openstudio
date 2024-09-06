@@ -1,5 +1,17 @@
 import { type youtube_v3 } from "googleapis";
 
+export async function markSpam(options: {
+  youtube: youtube_v3.Youtube;
+  commentId: string;
+}) {
+  const { youtube, commentId } = options;
+
+  await youtube.comments.markAsSpam({
+    id: [commentId],
+  });
+}
+
+
 export async function replyToComment(options: {
   youtube: youtube_v3.Youtube;
   commentId: string;
