@@ -9,6 +9,7 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@ai-sdk/amazon-bedrock": "^0.0.22",
     "@ai-sdk/anthropic": "^0.0.43",
     "@ai-sdk/openai": "^0.0.48",
     "@openstudio/tinybird": "workspace:*",
