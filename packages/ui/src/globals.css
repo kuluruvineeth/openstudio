@@ -67,3 +67,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.content-container {
+  @apply px-2 sm:px-6;
+}
