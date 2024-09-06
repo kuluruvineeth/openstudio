@@ -31,3 +31,12 @@ export function FormSectionLeft(props: { title: string; description: string }) {
     </div>
   );
 }
+
+export function FormSectionRight(props: { children: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+      {props.children}
+    </div>
+  );
+}
+
