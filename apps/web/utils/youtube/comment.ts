@@ -24,6 +24,19 @@ export async function setModerationStatus(options: {
   });
 }
 
+export async function banAuthor(options: {
+  youtube: youtube_v3.Youtube;
+  commentId: string;
+}) {
+  const { youtube, commentId } = options;
+
+  await youtube.comments.setModerationStatus({
+    id: [commentId],
+    banAuthor: true,
+    // moderationStatus: "rejected",
+  });
+}
+
 export async function replyToComment(options: {
   youtube: youtube_v3.Youtube;
   commentId: string;
