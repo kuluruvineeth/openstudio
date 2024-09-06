@@ -121,26 +121,23 @@ export async function chatCompletionObject<T>({
 
 //TODO: to fix type visibility type issue
 export async function chatCompletionStream({
-  provider,
-  model,
-  apiKey,
+  userAi,
   prompt,
   system,
   userEmail,
   usageLabel: label,
   onFinish,
 }: {
-  provider: string;
-  model: string;
-  apiKey: string | null;
+  userAi: UserAIFields;
   prompt: string;
   system?: string;
   userEmail: string;
   usageLabel: string;
   onFinish?: (text: string) => Promise<void>;
 }) {
+  const { provider, model, llmModel } = getModel(userAi);
   const result = await streamText({
-    model: getModel(provider, model, apiKey),
+    model: llmModel,
     prompt,
     system,
     onFinish: async ({ usage, text }) => {
