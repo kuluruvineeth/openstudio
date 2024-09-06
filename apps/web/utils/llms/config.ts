@@ -20,3 +20,24 @@ export const providerOptions = [
     value: Provider.ANTHROPIC,
   },
 ];
+
+export const modelOptions: Record<string, { label: string; value: string }[]> =
+  {
+    [Provider.OPEN_AI]: [
+      {
+        label: "GPT-4o",
+        value: Model.GPT_4O,
+      },
+      {
+        label: "GPT-4o Mini",
+        value: Model.GPT_4O_MINI,
+      },
+    ],
+    [Provider.ANTHROPIC]: [
+      {
+        label: "Claude 3.5 Sonnet",
+        value: "claude-3-5-sonnet",
+      },
+    ],
+  };
+
