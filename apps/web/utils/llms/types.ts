@@ -2,5 +2,5 @@ import { User } from "@/types/app";
 
 export type UserAIFields = Pick<
   User,
-  "aiprovider" | "aimodel" | "openaiapikey"
+  "ai_provider" | "ai_model" | "ai_api_key"
 >;
