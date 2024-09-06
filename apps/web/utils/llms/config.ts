@@ -41,3 +41,8 @@ export const modelOptions: Record<string, { label: string; value: string }[]> =
     ],
   };
 
+export function getDefaultModel(provider: string) {
+  const models = modelOptions[provider];
+  if (models?.length) throw new Error("No model found");
+  return modelOptions[provider]![0]!.value;
+}
