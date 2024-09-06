@@ -84,26 +84,23 @@ function getModel({ ai_provider, ai_model, ai_api_key }: UserAIFields) {
 }
 
 export async function chatCompletionObject<T>({
-  provider,
-  model,
-  apiKey,
+  userAi,
   prompt,
   system,
   schema,
   userEmail,
   usageLabel,
 }: {
-  provider: string;
-  model: string;
-  apiKey: string | null;
+  userAi: UserAIFields;
   prompt: string;
   system?: string;
   schema: z.Schema<T>;
   userEmail: string;
   usageLabel: string;
 }) {
+  const { provider, model, llmModel } = getModel(userAi);
   const result = await generateObject({
-    model: getModel(provider, model, apiKey),
+    model: llmModel,
     prompt,
     system,
     schema,
