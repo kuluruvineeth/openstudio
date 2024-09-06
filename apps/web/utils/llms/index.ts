@@ -9,6 +9,9 @@ import { env } from "@/env.mjs";
 import { type CoreTool, generateObject, generateText, streamText } from "ai";
 import { z } from "zod";
 import { saveAiUsage } from "../usage";
+import { UserAIFields } from "./types";
+import { Model, Provider } from "./config";
+import { createAmazonBedrock } from "@ai-sdk/amazon-bedrock";
 
 export function getAiProviderAndModel(
   provider: string | null,
@@ -157,26 +160,23 @@ export async function chatCompletionStream({
 }
 
 export async function chatCompletionTools({
-  provider,
-  model,
-  apiKey,
+  userAi,
   prompt,
   system,
   tools,
   label,
   userEmail,
 }: {
-  provider: string;
-  model: string;
-  apiKey: string | null;
+  userAi: UserAIFields;
   prompt: string;
   system?: string;
   tools: Record<string, CoreTool>;
   label: string;
   userEmail: string;
 }) {
+  const { provider, model, llmModel } = getModel(userAi);
   const result = await generateText({
-    model: getModel(provider, model, apiKey),
+    model: llmModel,
     tools,
     toolChoice: "required",
     prompt,
