@@ -40,3 +40,6 @@ export function FormSectionRight(props: { children: React.ReactNode }) {
   );
 }
 
+export function SubmitButtonWrapper(props: { children: React.ReactNode }) {
+  return <div className="mt-8 flex">{props.children}</div>;
+}
