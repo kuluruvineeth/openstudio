@@ -30,11 +30,54 @@ export function getAiProviderAndModel(
   };
 }
 
-function getModel(provider: string, model: string, apiKey: string | null) {
-  if (provider === "openai") {
-    return createOpenAI({ apiKey: apiKey || env.OPENAI_API_KEY })(model);
-  } else if (provider === "anthropic") {
-    return createAnthropic({ apiKey: apiKey || env.ANTHROPIC_API_KEY })(model);
+function getModel({ ai_provider, ai_model, ai_api_key }: UserAIFields) {
+  const provider = ai_provider || Provider.ANTHROPIC;
+  //TODO: Temporary code for testing
+  const model = ai_model || Model.GPT_4O;
+  return {
+    provider: Provider.OPEN_AI,
+    model,
+    llmModel: createOpenAI({ apiKey: ai_api_key || env.OPENAI_API_KEY })(model),
+  };
+
+  if (provider === Provider.OPEN_AI) {
+    const model = ai_model || Model.GPT_4O;
+    return {
+      provider: Provider.OPEN_AI,
+      model,
+      llmModel: createOpenAI({ apiKey: ai_api_key || env.OPENAI_API_KEY })(
+        model,
+      ),
+    };
+  }
+
+  if (provider === Provider.ANTHROPIC) {
+    if (ai_api_key) {
+      const model = ai_model || Model.CLAUDE_3_5_SONNET_ANTHROPIC;
+      return {
+        provider: Provider.ANTHROPIC,
+        model,
+        llmModel: createAnthropic({ apiKey: ai_api_key })(model),
+      };
+    } else {
+      if (!env.BEDROCK_ACCESS_KEY) {
+        throw new Error("BEDROCK_ACCESS_KEY is not set");
+      }
+      if (!env.BEDROCK_SECRET_KEY) {
+        throw new Error("BEDROCK_SECRET_KEY is not set");
+      }
+
+      const model = ai_model || Model.CLAUDE_3_5_SONNET_BEDROCK;
+      return {
+        provider: Provider.ANTHROPIC,
+        model,
+        llmModel: createAmazonBedrock({
+          accessKeyId: env.BEDROCK_ACCESS_KEY,
+          secretAccessKey: env.BEDROCK_SECRET_KEY,
+          region: env.BEDROCK_REGION,
+        })(model),
+      };
+    }
   }
 
   throw new Error("AI provider not supported");
