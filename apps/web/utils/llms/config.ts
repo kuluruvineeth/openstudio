@@ -10,3 +10,13 @@ export const Model = {
   CLAUDE_3_5_SONNET_ANTHROPIC: "claude-3-5-sonnet-20240620",
 };
 
+export const providerOptions = [
+  {
+    label: "OpenAI",
+    value: Provider.OPEN_AI,
+  },
+  {
+    label: "Anthropic",
+    value: Provider.ANTHROPIC,
+  },
+];
