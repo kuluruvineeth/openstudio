@@ -11,25 +11,28 @@ export type Database = {
     Tables: {
       action: {
         Row: {
+          content: string | null
+          content_prompt: string | null
           created_at: string | null
           id: string
-          reply_prompt: string | null
           rule_id: string
           type: Database["public"]["Enums"]["action_type"]
           updated_at: string | null
         }
         Insert: {
+          content?: string | null
+          content_prompt?: string | null
           created_at?: string | null
           id?: string
-          reply_prompt?: string | null
           rule_id: string
           type: Database["public"]["Enums"]["action_type"]
           updated_at?: string | null
         }
         Update: {
+          content?: string | null
+          content_prompt?: string | null
           created_at?: string | null
           id?: string
-          reply_prompt?: string | null
           rule_id?: string
           type?: Database["public"]["Enums"]["action_type"]
           updated_at?: string | null
@@ -102,26 +105,26 @@ export type Database = {
       }
       executed_action: {
         Row: {
+          content: string | null
           created_at: string | null
           executed_rule_id: string
           id: string
-          reply: string | null
           type: Database["public"]["Enums"]["action_type"]
           updated_at: string | null
         }
         Insert: {
+          content?: string | null
           created_at?: string | null
           executed_rule_id: string
           id?: string
-          reply?: string | null
           type: Database["public"]["Enums"]["action_type"]
           updated_at?: string | null
         }
         Update: {
+          content?: string | null
           created_at?: string | null
           executed_rule_id?: string
           id?: string
-          reply?: string | null
           type?: Database["public"]["Enums"]["action_type"]
           updated_at?: string | null
         }
@@ -342,8 +345,8 @@ export type Database = {
       }
       users: {
         Row: {
-          about: string | null
           access_token: string | null
+          ai_api_key: string | null
           ai_model: string | null
           ai_provider: string | null
           avatar_url: string
@@ -355,15 +358,15 @@ export type Database = {
           last_login: string | null
           name: string | null
           onboarding_answers: Json | null
-          openai_api_key: string | null
           premium_admin_id: string | null
           premium_id: string | null
+          prompt: string | null
           refresh_token: string | null
           type: string | null
         }
         Insert: {
-          about?: string | null
           access_token?: string | null
+          ai_api_key?: string | null
           ai_model?: string | null
           ai_provider?: string | null
           avatar_url: string
@@ -375,15 +378,15 @@ export type Database = {
           last_login?: string | null
           name?: string | null
           onboarding_answers?: Json | null
-          openai_api_key?: string | null
           premium_admin_id?: string | null
           premium_id?: string | null
+          prompt?: string | null
           refresh_token?: string | null
           type?: string | null
         }
         Update: {
-          about?: string | null
           access_token?: string | null
+          ai_api_key?: string | null
           ai_model?: string | null
           ai_provider?: string | null
           avatar_url?: string
@@ -395,9 +398,9 @@ export type Database = {
           last_login?: string | null
           name?: string | null
           onboarding_answers?: Json | null
-          openai_api_key?: string | null
           premium_admin_id?: string | null
           premium_id?: string | null
+          prompt?: string | null
           refresh_token?: string | null
           type?: string | null
         }
@@ -427,13 +430,59 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      author_status_summary: {
+        Row: {
+          display_name: string | null
+          status: Database["public"]["Enums"]["author_status"] | null
+          status_count: number | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      insert_rule_with_actions: {
+        Args: {
+          rule_type: Database["public"]["Enums"]["rule_type"]
+          rule_name: string
+          rule_instructions: string
+          rule_automate: boolean
+          user_id: string
+          actions_data: Json
+        }
+        Returns: {
+          rule_id: string
+        }[]
+      }
+      update_rule_and_actions: {
+        Args: {
+          _rule_id: string
+          _user_id: string
+          _name: string
+          _instructions: string
+          _automate: boolean
+          _type: Database["public"]["Enums"]["rule_type"]
+          _actions: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      action_type: "REPLY" | "PUBLISH" | "REJECT" | "REVIEW" | "MARK_SPAM"
+      action_type:
+        | "REPLY"
+        | "PUBLISH"
+        | "REJECT"
+        | "REVIEW"
+        | "MARK_SPAM"
+        | "DELETE"
       author_status: "APPROVED" | "BANNED"
       executed_rule_status: "APPLIED" | "REJECTED" | "PENDING" | "SKIPPED"
       feature_access: "UNLOCKED" | "UNLOCKED_WITH_API_KEY" | "LOCKED"
