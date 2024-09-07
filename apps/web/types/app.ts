@@ -97,6 +97,16 @@ export type PromptHistory = {
   user_id: string;
 };
 
+export type RuleTable = {
+  automate: boolean | null;
+  created_at: string | null;
+  id: string;
+  instructions: string;
+  name: string;
+  type: RuleType | null;
+  updated_at: string | null;
+  user_id: string;
+};
 
 export interface DateRange {
   from: Date;
