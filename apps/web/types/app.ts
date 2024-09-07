@@ -60,6 +60,13 @@ export type Author = {
   user_id: string;
 };
 
+export type ChannelCommentPagination = {
+  channel_id: string;
+  last_fetched_timestamp: string | null;
+  next_page_token: string | null;
+  no_more_comments: boolean | null;
+};
+
 
 export interface DateRange {
   from: Date;
