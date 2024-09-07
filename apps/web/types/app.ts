@@ -1,5 +1,5 @@
 export type User = {
-  about: string | null;
+  prompt: string | null;
   access_token: string | null;
   ai_model: string | null;
   ai_provider: string | null;
@@ -12,7 +12,7 @@ export type User = {
   last_login: string | null;
   name: string | null;
   onboarding_answers: any | null;
-  openai_api_key: string | null;
+  ai_api_key: string | null;
   premium_admin_id: string | null;
   premium_id: string | null;
   refresh_token: string | null;
