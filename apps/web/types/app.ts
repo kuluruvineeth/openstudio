@@ -157,4 +157,9 @@ export const PremiumTier = {
 
 export type PremiumTierType = (typeof PremiumTier)[keyof typeof PremiumTier];
 
-export type RuleType = "AI" | "STATIC";
+export const Rule = {
+  AI: "AI",
+  STATIC: "STATIC",
+} as const;
+
+export type RuleType = (typeof Rule)[keyof typeof Rule];
