@@ -54,6 +54,16 @@ const costs: Record<string, { input: number; output: number }> = {
     input: 5 / 1_000_000,
     output: 15 / 1_000_000,
   },
+  // https://www.anthropic.com/pricing#anthropic-api
+  "claude-3-5-sonnet-20240620": {
+    input: 3 / 1_000_000,
+    output: 15 / 1_000_000,
+  },
+  // https://aws.amazon.com/bedrock/pricing/
+  "anthropic.claude-3-5-sonnet-20240620-v1:0": {
+    input: 3 / 1_000_000,
+    output: 15 / 1_000_000,
+  },
 };
 
 // returns cost in cents
