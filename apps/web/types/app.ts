@@ -119,6 +119,7 @@ export const ActionType = {
   REJECT: "REJECT",
   REVIEW: "REVIEW",
   MARK_SPAM: "MARK_SPAM",
+DELETE: "DELETE",
 } as const;
 export type ActionTypeType = (typeof ActionType)[keyof typeof ActionType];
 
