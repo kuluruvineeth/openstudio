@@ -41,6 +41,17 @@ export type Premium = {
   updated_at: string | null;
 };
 
+export type Action = {
+  content_prompt: string | null;
+  content: string | null;
+  created_at: string | null;
+  id: string;
+  rule_id: string;
+  type: ActionTypeType;
+  updated_at: string | null;
+};
+
+
 export interface DateRange {
   from: Date;
   to: Date | undefined;
