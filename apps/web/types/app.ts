@@ -76,6 +76,19 @@ export type ExecutedAction = {
   updated_at: string | null;
 };
 
+export type ExecutedRule = {
+  automated: boolean;
+  comment_id: string;
+  created_at: string | null;
+  id: string;
+  reason: string | null;
+  rule_id: string | null;
+  status: ExecutedRuleStatusType | null;
+  updated_at: string | null;
+  user_id: string;
+  video_id: string;
+};
+
 
 export interface DateRange {
   from: Date;
