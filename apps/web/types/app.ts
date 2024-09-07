@@ -89,6 +89,14 @@ export type ExecutedRule = {
   video_id: string;
 };
 
+export type PromptHistory = {
+  created_at: string | null;
+  id: string;
+  prompt: string;
+  updated_at: string | null;
+  user_id: string;
+};
+
 
 export interface DateRange {
   from: Date;
