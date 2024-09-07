@@ -67,6 +67,15 @@ export type ChannelCommentPagination = {
   no_more_comments: boolean | null;
 };
 
+export type ExecutedAction = {
+  created_at: string | null;
+  executed_rule_id: string;
+  id: string;
+  content: string | null;
+  type: ActionTypeType;
+  updated_at: string | null;
+};
+
 
 export interface DateRange {
   from: Date;
