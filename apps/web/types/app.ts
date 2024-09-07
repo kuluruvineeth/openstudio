@@ -51,6 +51,15 @@ export type Action = {
   updated_at: string | null;
 };
 
+export type Author = {
+  created_at: string | null;
+  display_name: string;
+  id: string;
+  status: AuthorStatusType | null;
+  updated_at: string | null;
+  user_id: string;
+};
+
 
 export interface DateRange {
   from: Date;
