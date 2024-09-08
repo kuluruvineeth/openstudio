@@ -11,4 +11,5 @@ export interface CommentItem {
   category?: {
     category: string;
   };
+  plan?: any;
 }
