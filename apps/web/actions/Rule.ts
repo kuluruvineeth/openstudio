@@ -52,3 +52,25 @@ export async function createRuleAction(options: CreateRuleBody) {
     return { error: "Unexpected error creating rule." };
   }
 }
+
+export async function deleteRuleAction(
+  ruleId: string,
+): Promise<ServerActionResponse> {
+  const session = await auth();
+  if (!session?.ownerEmail) return { error: "Not logged in" };
+
+  const supabase = await supabaseServerClient();
+
+  const { error } = await supabase
+    .from("rule")
+    .delete()
+    .eq("id", ruleId)
+    .eq("user_id", session.userId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return { success: true };
+}
+
