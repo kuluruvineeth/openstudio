@@ -1,6 +1,6 @@
 import { UserAIFields } from "@/utils/llms/types";
 import { aiResponseSchema, CategorizeCommentBody } from "./validation";
-import { chatCompletionObject, getAiProviderAndModel } from "@/utils/llms";
+import { chatCompletionObject } from "@/utils/llms";
 import { getCategory, saveCategory } from "@/utils/redis/category";
 import { getVideoTranscript } from "../../youtube/transcripts/controller";
 
@@ -48,15 +48,8 @@ async function aiCategorize(
     ###
     `;
 
-  const { model, provider } = getAiProviderAndModel(
-    body.aiprovider,
-    body.aimodel,
-  );
-
   const response = await chatCompletionObject({
-    provider,
-    model,
-    apiKey: body.openaiapikey,
+    userAi: body,
     system,
     prompt,
     schema: aiResponseSchema,
