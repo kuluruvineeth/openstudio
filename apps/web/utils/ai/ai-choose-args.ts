@@ -1,6 +1,10 @@
-import { Action, 
- } from "@/types/app";
+import { Action, ActionTypeType, User } from "@/types/app";
 import { z } from "zod";
+import { ActionItem } from "./actions";
+type AIGeneratedArgs = Record<
+  ActionTypeType,
+  Record<keyof Omit<ActionItem, "type">, string>
+>;
 
 function getParamterFieldsForAction({ content_prompt, content }: Action) {
   const fields: Record<string, z.ZodString> = {};
@@ -13,4 +17,17 @@ function getParamterFieldsForAction({ content_prompt, content }: Action) {
   }
 
   return fields;
+}
+export function getActionItemsFromAiArgsResponse(
+  response: AIGeneratedArgs | undefined,
+  ruleActions: Action[],
+) {
+  return ruleActions.map((ra) => {
+    const a = response?.[ra.type] || ({} as any);
+
+    return {
+      type: ra.type,
+      content: ra.content === null ? a.content : ra.content,
+    };
+  });
 }
