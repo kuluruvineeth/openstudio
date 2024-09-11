@@ -28,3 +28,9 @@ export const createRuleBody = z.object({
 });
 
 export type CreateRuleBody = z.infer<typeof createRuleBody>;
+
+export const updateRuleBody = createRuleBody.extend({
+  id: z.string(),
+  actions: z.array(zodAction.extend({ id: z.string().optional() })),
+});
+export type UpdateRuleBody = z.infer<typeof updateRuleBody>;
