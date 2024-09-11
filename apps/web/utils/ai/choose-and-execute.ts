@@ -14,6 +14,56 @@ type ChooseRuleAndExecuteOptions = ChooseRuleOptions & {
   forceExecute?: boolean;
   isTest: boolean;
 };
+
+export async function chooseRuleAndExecute(
+  options: ChooseRuleAndExecuteOptions,
+): Promise<{
+  handled: boolean;
+  rule?: Omit<RuleTable, "updated_at">;
+  actionItems?: ActionItem[];
+  reason?: string;
+}> {
+  const { rules, comment, user, forceExecute, youtube, isTest } = options;
+
+  if (!rules.length) return { handled: false };
+
+  const plannedAct = await chooseRule(options);
+
+  console.log("Planned act:", plannedAct.rule?.name, plannedAct.actionItems);
+
+  if (!plannedAct.rule) return { handled: false, reason: plannedAct.reason };
+
+  const executedRule = isTest
+    ? undefined
+    : await saveExecutedRule(
+        {
+          userId: user.id,
+          commentId: comment.commentId,
+          //TODO: Pass in actual video id
+          videoId: comment.videoId ?? "1234",
+        },
+        plannedAct,
+      );
+
+  const shouldExecute =
+    executedRule && (plannedAct.rule?.automate || forceExecute);
+
+  if (shouldExecute) {
+    await executeAct({
+      youtube,
+      userEmail: user.email || "",
+      executedRule,
+      comment,
+    });
+  }
+
+  return {
+    handled: true,
+    rule: plannedAct.rule,
+    actionItems: plannedAct.actionItems,
+  };
+}
+
 export async function saveExecutedRule(
   {
     userId,
