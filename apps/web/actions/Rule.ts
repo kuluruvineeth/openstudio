@@ -125,3 +125,24 @@ export async function updateRuleAction(options: UpdateRuleBody) {
   }
 }
 
+export async function setRuleAutomatedAction(
+  ruleId: string,
+  automate: boolean,
+): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session?.ownerEmail) return { error: "Not logged in" };
+
+  const supabase = await supabaseServerClient();
+
+  const { error } = await supabase
+    .from("rule")
+    .update({ automate })
+    .eq("id", ruleId)
+    .eq("user_id", session.userId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return {};
+}
