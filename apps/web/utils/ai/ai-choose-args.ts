@@ -1,10 +1,30 @@
 import { Action, ActionTypeType, User } from "@/types/app";
 import { z } from "zod";
+import { isDefined } from "../types";
 import { ActionItem } from "./actions";
 type AIGeneratedArgs = Record<
   ActionTypeType,
   Record<keyof Omit<ActionItem, "type">, string>
 >;
+
+export function getActionsWithParameters(
+  actions: Omit<Action[], "created_at" | "updated_at">,
+) {
+  return actions
+    .map((action) => {
+      const fields = getParamterFieldsForAction(action);
+
+      if (!Object.keys(fields).length) return;
+
+      const parameters = z.object(fields);
+
+      return {
+        type: action.type,
+        parameters,
+      };
+    })
+    .filter(isDefined);
+}
 
 function getParamterFieldsForAction({ content_prompt, content }: Action) {
   const fields: Record<string, z.ZodString> = {};
