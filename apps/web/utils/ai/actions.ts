@@ -125,6 +125,7 @@ export const actionFunctionDefs: Record<ActionTypeType, ActionFunctionDef> = {
   [ActionType.REPLY]: REPLY,
   [ActionType.REVIEW]: REVIEW,
 };
+
 const delete_comment: ActionFunction<any> = async (
   youtube: youtube_v3.Youtube,
   comment: CommentForAction,
@@ -186,3 +187,28 @@ const mark_spam: ActionFunction<any> = async (
   return await markSpam({ youtube, commentId: comment.commentId });
 };
 
+export const runActionFunction = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+  action: ActionItem,
+  userEmail: string,
+) => {
+  const { type, ...args } = action;
+
+  switch (type) {
+    case ActionType.DELETE:
+      return delete_comment(youtube, comment, args, userEmail);
+    case ActionType.MARK_SPAM:
+      return mark_spam(youtube, comment, args, userEmail);
+    case ActionType.PUBLISH:
+      return publish_comment(youtube, comment, args, userEmail);
+    case ActionType.REJECT:
+      return reject_comment(youtube, comment, args, userEmail);
+    case ActionType.REPLY:
+      return reply_to_comment(youtube, comment, args, userEmail);
+    case ActionType.REVIEW:
+      return review_comment(youtube, comment, args, userEmail);
+    default:
+      throw new Error(`Unknown action: ${action}`);
+  }
+};
