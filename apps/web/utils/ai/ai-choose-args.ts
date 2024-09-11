@@ -38,6 +38,24 @@ function getParamterFieldsForAction({ content_prompt, content }: Action) {
 
   return fields;
 }
+
+function getToolParamtersForRule(actions: Action[]) {
+  const actionsWithParamters = getActionsWithParameters(actions);
+
+  const typeCount: Record<string, number> = {};
+  const parameters: Record<string, z.ZodObject<any>> = {};
+
+  for (const action of actionsWithParamters) {
+    typeCount[action.type] = (typeCount[action.type] || 0) + 1;
+    parameters[
+      typeCount[action.type] === 1
+        ? action.type
+        : `${action.type}_${typeCount[action.type]}`
+    ] = action.parameters;
+  }
+
+  return parameters;
+}
 export function getActionItemsFromAiArgsResponse(
   response: AIGeneratedArgs | undefined,
   ruleActions: Action[],
