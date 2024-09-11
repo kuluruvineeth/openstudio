@@ -3,6 +3,7 @@ import { PartialRecord } from "../types";
 import { youtube_v3 } from "googleapis";
 import {
   deleteComment,
+  setModerationStatus,
 } from "../youtube/comment";
 export type CommentForAction = {
   commentId: string;
@@ -126,4 +127,15 @@ const delete_comment: ActionFunction<any> = async (
   comment: CommentForAction,
 ) => {
   return await deleteComment({ youtube, commentId: comment.commentId });
+};
+
+const review_comment: ActionFunction<any> = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+) => {
+  return await setModerationStatus({
+    youtube,
+    commentId: comment.commentId,
+    moderationStatus: "heldForReview",
+  });
 };
