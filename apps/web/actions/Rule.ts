@@ -74,3 +74,54 @@ export async function deleteRuleAction(
   return { success: true };
 }
 
+export async function updateRuleAction(options: UpdateRuleBody) {
+  const session = await auth();
+  if (!session?.ownerEmail) return { error: "Not logged in" };
+
+  const { data: body, error } = updateRuleBody.safeParse(options);
+  if (error) return { error: error.message };
+
+  try {
+    const supabase = await supabaseServerClient();
+    // Fetch the current rule to compare changes
+    const { data: currentRule, error: fetchError } = await supabase
+      .from("rule")
+      .select("name")
+      .eq("id", body.id)
+      .eq("user_id", session.userId)
+      .single();
+
+    if (fetchError || !currentRule) {
+      return { error: "Rule not found" };
+    }
+
+    const actionsData = body.actions.map((action) => ({
+      id: action.id ?? null,
+      type: action.type,
+      content: action.content?.value ?? null,
+      content_prompt: action.content?.ai ? action.content?.value : null,
+    }));
+
+    const { error: rpcError } = await supabase.rpc("update_rule_and_actions", {
+      _rule_id: body.id,
+      _user_id: session.userId,
+      _name: body.name,
+      _instructions: body.instructions || "",
+      _automate: body.automate ?? false,
+      _type: body.type,
+      _actions: actionsData,
+    });
+
+    if (rpcError) {
+      if (rpcError.message.includes("unique constraint")) {
+        return { error: "Rule name already exists for this user" };
+      }
+      return { error: "Error updating rule." };
+    }
+
+    return { success: true };
+  } catch (error) {
+    return { error: "Unexpected error updating rule." };
+  }
+}
+
