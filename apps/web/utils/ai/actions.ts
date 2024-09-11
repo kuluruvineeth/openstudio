@@ -1,5 +1,9 @@
 import { ActionType, ActionTypeType, ExecutedAction } from "@/types/app";
 import { PartialRecord } from "../types";
+import { youtube_v3 } from "googleapis";
+import {
+  deleteComment,
+} from "../youtube/comment";
 export type CommentForAction = {
   commentId: string;
   content: string;
@@ -116,4 +120,10 @@ export const actionFunctionDefs: Record<ActionTypeType, ActionFunctionDef> = {
   [ActionType.REJECT]: REJECT,
   [ActionType.REPLY]: REPLY,
   [ActionType.REVIEW]: REVIEW,
+};
+const delete_comment: ActionFunction<any> = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+) => {
+  return await deleteComment({ youtube, commentId: comment.commentId });
 };
