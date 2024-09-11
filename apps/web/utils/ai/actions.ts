@@ -3,9 +3,11 @@ import { PartialRecord } from "../types";
 import { youtube_v3 } from "googleapis";
 import {
   deleteComment,
+  markSpam,
   replyToComment,
   setModerationStatus,
 } from "../youtube/comment";
+
 export type CommentForAction = {
   commentId: string;
   content: string;
@@ -175,5 +177,12 @@ const reply_to_comment: ActionFunction<any> = async (
     commentId: comment.commentId,
     content: args.content,
   });
+};
+
+const mark_spam: ActionFunction<any> = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+) => {
+  return await markSpam({ youtube, commentId: comment.commentId });
 };
 
