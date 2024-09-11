@@ -3,6 +3,7 @@ import { PartialRecord } from "../types";
 import { youtube_v3 } from "googleapis";
 import {
   deleteComment,
+  replyToComment,
   setModerationStatus,
 } from "../youtube/comment";
 export type CommentForAction = {
@@ -159,6 +160,20 @@ const publish_comment: ActionFunction<any> = async (
     youtube,
     commentId: comment.commentId,
     moderationStatus: "published",
+  });
+};
+
+const reply_to_comment: ActionFunction<any> = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+  args: {
+    content: string;
+  },
+) => {
+  return await replyToComment({
+    youtube,
+    commentId: comment.commentId,
+    content: args.content,
   });
 };
 
