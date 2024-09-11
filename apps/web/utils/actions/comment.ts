@@ -3,6 +3,8 @@
 import { youtube_v3 } from "googleapis";
 import { ServerActionResponse } from "../error";
 import { getSessionAndYoutubeClient, handleError, isStatusOk } from "./helpers";
+import { deleteComment } from "../youtube/comment";
+
 async function executeYoutubeAction<T>(
   action: (
     youtube: youtube_v3.Youtube,
@@ -22,4 +24,17 @@ async function executeYoutubeAction<T>(
     if (onError?.(error)) return;
     return handleError(error, errorMessage);
   }
+}
+
+export async function deleteCommentAction(
+  commentId: string,
+): Promise<ServerActionResponse> {
+  return executeYoutubeAction(
+    async (youtube) =>
+      deleteComment({
+        youtube,
+        commentId,
+      }),
+    "Failed to delete comment",
+  );
 }
