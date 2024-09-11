@@ -139,3 +139,14 @@ const review_comment: ActionFunction<any> = async (
     moderationStatus: "heldForReview",
   });
 };
+
+const reject_comment: ActionFunction<any> = async (
+  youtube: youtube_v3.Youtube,
+  comment: CommentForAction,
+) => {
+  return await setModerationStatus({
+    youtube,
+    commentId: comment.commentId,
+    moderationStatus: "rejected",
+  });
+};
