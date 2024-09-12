@@ -3,6 +3,18 @@ import { Badge, Color } from "@openstudio/ui/components/Badge";
 import { HoverCard } from "@openstudio/ui/components/HoverCard";
 import { capitalCase } from "change-case";
 import { CheckCircleIcon } from "lucide-react";
+
+function getPlanColor(plan: any | null, executed: boolean): Color {
+  if (executed) return "green";
+
+  const firstAction = plan?.actionItems?.[0];
+
+  switch (firstAction?.type) {
+    default:
+      return "darkred";
+  }
+}
+
 function getActionLabel(type: ActionTypeType) {
   switch (type) {
     case ActionType.DELETE:
