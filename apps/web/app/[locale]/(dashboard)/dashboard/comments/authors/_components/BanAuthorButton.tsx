@@ -4,7 +4,7 @@ import { type PostHog } from "posthog-js/react";
 import { Row } from "./types";
 import { Button, ButtonLoader } from "@openstudio/ui/components/ui/button";
 import { AuthorStatus } from "@/types/app";
-import { MailMinusIcon, MinusIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { useBanAuthorButton } from "@/hooks/useBanAuthorButton";
 
 export function BanAuthorButton<T extends Row>({
