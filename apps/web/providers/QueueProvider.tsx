@@ -22,6 +22,24 @@ export const deleteComments = async (
     }),
   );
 };
+function updateQueueStorage(
+  name: QueueNameLocalStorage,
+  commentIds: string[],
+  state: "pending" | "complete",
+) {
+  const currentStateString = localStorage.getItem(name);
+
+  if (currentStateString) {
+    const currentState: string[] = JSON.parse(currentStateString);
+    const updatedState: string[] =
+      state === "pending"
+        ? Array.from(new Set([...currentState, ...commentIds]))
+        : currentState.filter((id: string) => !commentIds.includes(id));
+    localStorage.setItem(name, JSON.stringify(updatedState));
+  } else {
+    return localStorage.setItem(name, JSON.stringify(commentIds));
+  }
+}
 
 function getPendingComments(name: QueueNameLocalStorage) {
   const currentStateString = localStorage.getItem(name);
