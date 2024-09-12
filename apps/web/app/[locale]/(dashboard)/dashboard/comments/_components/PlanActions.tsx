@@ -66,3 +66,72 @@ export function useExecutePlan(refetch: () => void) {
     rejectPlan,
   };
 }
+
+export function PlanActions(props: {
+  comment: any;
+  executingPlan: boolean;
+  rejectingPlan: boolean;
+  executePlan: (comment: any) => Promise<void>;
+  rejectPlan: (comment: any) => Promise<void>;
+  className?: string;
+}) {
+  const { comment, executePlan, rejectPlan } = props;
+
+  const execute = useCallback(
+    async (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      executePlan(comment);
+    },
+    [executePlan, comment],
+  );
+
+  const reject = useCallback(
+    async (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      rejectPlan(comment);
+    },
+    [rejectPlan, comment],
+  );
+
+  if (!comment.plan?.rule) return null;
+
+  if (
+    comment.plan?.status === "APPLIED" ||
+    comment.plan?.status === "REJECTED"
+  ) {
+    return null;
+  }
+
+  return (
+    <div className={cn("flex items-center space-x-1", props.className)}>
+      {props.executingPlan ? (
+        <LoadingMiniSpinner />
+      ) : (
+        <Tooltip content="Execute AI Plan">
+          <button
+            type="button"
+            onClick={execute}
+            className="rounded-full border border-gray-400 p-1 text-gray-400 hover:border-green-500 hover:text-green-500"
+          >
+            <CheckIcon className="h-4 w-4" />
+          </button>
+        </Tooltip>
+      )}
+      {props.rejectingPlan ? (
+        <LoadingMiniSpinner />
+      ) : (
+        <Tooltip content="Reject AI Plan">
+          <button
+            type="button"
+            onClick={reject}
+            className="rounded-full border border-gray-400 p-1 text-gray-400 hover:border-red-500 hover:text-red-500"
+          >
+            <XIcon className="h-4 w-4" />
+          </button>
+        </Tooltip>
+      )}
+    </div>
+  );
+}
