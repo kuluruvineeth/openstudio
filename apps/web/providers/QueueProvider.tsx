@@ -22,6 +22,25 @@ export const deleteComments = async (
     }),
   );
 };
+export const runAiRules = async (comments: CommentItem[], force: boolean) => {
+  const { pushToAiQueue, removeFromAiQueue } = useAiQueueStore.getState();
+
+  // Add all comment IDs to the AI queue
+  pushToAiQueue(comments.map((c) => c.commentId!));
+
+  queue.addAll(
+    comments.map((comment) => async () => {
+      if (!comment) return;
+      console.log("runRulesAction", comment.commentId);
+      const result = await runRulesAction(
+        { content: comment.commentedText!, commentId: comment.commentId! },
+        force,
+      );
+      console.log("result", result);
+      removeFromAiQueue(comment.commentId!);
+    }),
+  );
+};
 function updateQueueStorage(
   name: QueueNameLocalStorage,
   commentIds: string[],
