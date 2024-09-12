@@ -4,6 +4,66 @@ import { HoverCard } from "@openstudio/ui/components/HoverCard";
 import { capitalCase } from "change-case";
 import { CheckCircleIcon } from "lucide-react";
 
+export function PlanBadge(props: { plan?: any }) {
+  const { plan } = props;
+
+  if (!plan) return null;
+
+  if (!plan.rule) {
+    const component = <Badge color={"yellow"}>No plan</Badge>;
+
+    if (plan.reason) {
+      return (
+        <HoverCard
+          content={
+            <div className="max-w-full whitespace-pre-wrap text-sm">
+              <strong>Reason:</strong> {plan.reason}
+            </div>
+          }
+        >
+          {component}
+        </HoverCard>
+      );
+    }
+    return component;
+  }
+
+  return (
+    <HoverCard
+      content={
+        <div className="text-sm">
+          {plan.rule?.instructions ? (
+            <div className="max-w-full whitespace-pre-wrap">
+              {plan.rule.instructions}
+            </div>
+          ) : null}
+          <div className="mt-4 space-y-2">
+            {plan.actionItems?.map((action: any, i: any) => {
+              return (
+                <div key={i}>
+                  <Badge
+                    color={getActionColor(action.type)}
+                    className="whitespace-pre-wrap"
+                  >
+                    {getActionMessage(action)}
+                  </Badge>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      }
+    >
+      <Badge color={getPlanColor(plan, plan.status === "APPLIED")}>
+        {plan.status === "APPLIED" && (
+          <CheckCircleIcon className="mr-2 h-3 w-3" />
+        )}
+        {plan.rule.name}
+      </Badge>
+    </HoverCard>
+  );
+}
+
 function getPlanColor(plan: any | null, executed: boolean): Color {
   if (executed) return "green";
 
