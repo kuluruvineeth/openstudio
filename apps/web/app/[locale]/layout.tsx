@@ -10,6 +10,7 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { StatLoaderProvider } from "@/providers/StatLoaderProvider";
 import { PostHogPageview, PostHogProvider } from "@/providers/PostHogProvider";
 import { Suspense } from "react";
+import { QueueProvider } from "@/providers/QueueProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,30 +30,32 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
-        <PostHogProvider>
-          <Suspense>
-            <PostHogPageview />
-          </Suspense>
-          <NextIntlClientProvider messages={messages}>
-            <QueryProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                <NextTopLoader color="#f44336" />
-                <Toaster
-                  closeButton
-                  richColors
-                  theme="light"
-                  visibleToasts={9}
-                />
-                <StatLoaderProvider> {children}</StatLoaderProvider>
-              </ThemeProvider>
-            </QueryProvider>
-          </NextIntlClientProvider>
-        </PostHogProvider>
+        <QueueProvider>
+          <PostHogProvider>
+            <Suspense>
+              <PostHogPageview />
+            </Suspense>
+            <NextIntlClientProvider messages={messages}>
+              <QueryProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <NextTopLoader color="#f44336" />
+                  <Toaster
+                    closeButton
+                    richColors
+                    theme="light"
+                    visibleToasts={9}
+                  />
+                  <StatLoaderProvider> {children}</StatLoaderProvider>
+                </ThemeProvider>
+              </QueryProvider>
+            </NextIntlClientProvider>
+          </PostHogProvider>
+        </QueueProvider>
       </body>
     </html>
   );
