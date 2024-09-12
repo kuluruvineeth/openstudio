@@ -4,6 +4,7 @@ import ActiveLink from "@/components/ActiveLink";
 import {
   BookIcon,
   MessageCircleDashedIcon,
+  SparklesIcon,
   UsersRoundIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -32,6 +33,11 @@ export const COMMENTS_SIDEBAR_FIELDS: CommentsSidebarField[] = [
     href: "/dashboard/comments/authors",
     icon: <BookIcon size={20} />,
     title: "AUTHORS",
+  },
+  {
+    href: "/dashboard/comments/automation",
+    icon: <SparklesIcon size={20} />,
+    title: "AI_AUTOMATION",
   },
 ];
 
