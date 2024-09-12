@@ -1,7 +1,7 @@
 "use client";
 
 import ActiveLink from "@/components/ActiveLink";
-import { SunMoon } from "lucide-react";
+import { SunMoon, User2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 
@@ -14,6 +14,11 @@ export interface SettingsField {
 }
 
 export const SETTINGS_FIELDS: SettingsField[] = [
+  {
+    href: "/dashboard/settings",
+    icon: <User2Icon size={20} />,
+    title: "SETTINGS.ACCOUNT",
+  },
   {
     href: "/dashboard/settings/theme",
     icon: <SunMoon size={20} />,
