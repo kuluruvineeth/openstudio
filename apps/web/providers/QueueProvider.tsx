@@ -22,6 +22,7 @@ export const deleteComments = async (
     }),
   );
 };
+
 export const runAiRules = async (comments: CommentItem[], force: boolean) => {
   const { pushToAiQueue, removeFromAiQueue } = useAiQueueStore.getState();
 
@@ -41,6 +42,19 @@ export const runAiRules = async (comments: CommentItem[], force: boolean) => {
     }),
   );
 };
+
+export function QueueProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const pendingDelete = getPendingComments("deleteQueue");
+    if (pendingDelete) deleteComments(pendingDelete, () => {});
+
+    // const pendingAi = getPendingComments("aiRuleQueue");
+    // if (pendingAi) runAiRules(pendingAi, false);
+  }, []);
+
+  return <>{children}</>;
+}
+
 function updateQueueStorage(
   name: QueueNameLocalStorage,
   commentIds: string[],
