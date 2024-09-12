@@ -25,3 +25,23 @@ export const saveOnboardingAnswersAction = async (onboardingAnswers: {
     })
     .eq("id", user.id);
 };
+
+export const completeOnboardingAction =
+  async (): Promise<ServerActionResponse> => {
+    const supabase = await supabaseServerClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { error: "Not logged in" };
+    }
+
+    await supabase
+      .from("users")
+      .update({
+        completed_onboarding: true,
+      })
+      .eq("id", user.id);
+  };
