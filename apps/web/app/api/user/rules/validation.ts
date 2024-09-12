@@ -1,7 +1,16 @@
 import { ActionType, Rule } from "@/types/app";
 import { z } from "zod";
+
 export const zodRuleType = z.enum([Rule.AI, Rule.STATIC]);
 
+export const zodActionType = z.enum([
+  ActionType.MARK_SPAM,
+  ActionType.PUBLISH,
+  ActionType.REJECT,
+  ActionType.REPLY,
+  ActionType.REVIEW,
+  ActionType.DELETE,
+]);
 
 const zodField = z
   .object({
@@ -15,6 +24,7 @@ const zodAction = z.object({
   content: zodField,
   to: zodField, // commentId
 });
+
 export const createRuleBody = z.object({
   id: z.string().optional(),
   name: z.string(),
