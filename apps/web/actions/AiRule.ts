@@ -92,3 +92,22 @@ export async function approvePlanAction(
     },
   });
 }
+
+export async function rejectPlanAction(
+  executedRuleId: string,
+): Promise<ServerActionResponse> {
+  const session = await auth();
+  if (!session?.userId) return { error: "Not logged in" };
+
+  const supabase = await supabaseServerClient();
+
+  const { error } = await supabase
+    .from("executed_rule")
+    .update({ status: ExecutedRuleStatus.REJECTED })
+    .eq("id", executedRuleId)
+    .eq("user_id", session.userId);
+
+  if (error) return { error: "Failed to update the status" };
+
+  return { success: true };
+}
