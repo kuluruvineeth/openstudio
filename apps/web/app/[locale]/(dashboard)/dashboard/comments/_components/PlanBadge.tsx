@@ -22,6 +22,13 @@ function getActionLabel(type: ActionTypeType) {
   }
 }
 
+function getActionMessage(action: ExecutedAction): string {
+  switch (action.type) {
+    default:
+      return getActionLabel(action.type);
+  }
+}
+
 export function getActionColor(actionType: ActionTypeType): Color {
   switch (actionType) {
     case ActionType.REPLY:
