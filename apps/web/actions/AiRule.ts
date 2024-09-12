@@ -57,3 +57,38 @@ export async function runRulesAction(
     user: { ...user, email: user.email },
   });
 }
+
+export async function approvePlanAction(
+  executedRuleId: string,
+  comment: CommentForAction,
+): Promise<ServerActionResponse> {
+  const session = await auth();
+  if (!session?.ownerEmail) return { error: "Not logged in" };
+
+  const youtube = getYoutubeDataClient(session);
+
+  const supabase = await supabaseServerClient();
+
+  const { data: executedRule, error } = await supabase
+    .from("executed_rule")
+    .select(
+      `
+      *,
+      executed_action(*)
+    `,
+    )
+    .eq("id", executedRuleId)
+    .single();
+
+  if (error || !executedRule) return { error: "Item not found" };
+
+  await executeAct({
+    youtube,
+    executedRule,
+    userEmail: session.ownerEmail,
+    comment: {
+      commentId: comment.commentId,
+      content: comment.content,
+    },
+  });
+}
