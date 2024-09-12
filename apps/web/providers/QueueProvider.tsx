@@ -22,3 +22,13 @@ export const deleteComments = async (
     }),
   );
 };
+
+function getPendingComments(name: QueueNameLocalStorage) {
+  const currentStateString = localStorage.getItem(name);
+  if (!currentStateString) return;
+
+  const currentState = JSON.parse(currentStateString);
+  if (!currentState.length) return;
+
+  return currentState;
+}
