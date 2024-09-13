@@ -21,6 +21,7 @@ export const pricing: Record<PremiumTierType, number> = {
   [PremiumTier.COPILOT_MONTHLY]: 99,
   [PremiumTier.LIFETIME]: 299,
 };
+
 export const pricingAdditionalChannel: Record<PremiumTierType, number> = {
   [PremiumTier.BASIC_MONTHLY]: 2,
   [PremiumTier.BASIC_ANNUALLY]: 1.5,
@@ -31,3 +32,7 @@ export const pricingAdditionalChannel: Record<PremiumTierType, number> = {
   [PremiumTier.COPILOT_MONTHLY]: 0,
   [PremiumTier.LIFETIME]: 59,
 };
+
+function discount(monthly: number, annually: number) {
+  return ((monthly - annually) / monthly) * 100;
+}
