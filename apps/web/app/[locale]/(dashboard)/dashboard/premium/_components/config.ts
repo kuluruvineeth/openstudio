@@ -155,6 +155,35 @@ const businessTier = {
   cta: "Upgrade",
   mostPopular: true,
 };
+
+export const tiers: {
+  name: string;
+  tiers: {
+    monthly: PremiumTierType;
+    annually: PremiumTierType;
+  };
+  href: {
+    monthly: string;
+    annually: string;
+  };
+  price: {
+    monthly: number;
+    annually: number;
+  };
+  priceAdditional: {
+    monthly: number;
+    annually: number;
+  };
+  discount: {
+    monthly: number;
+    annually: number;
+  };
+  description: string;
+  features: string[];
+  cta: string;
+  mostPopular?: boolean;
+}[] = [freeTier, basicTier, proTier, businessTier];
+
 export const lifetimeFeatures = [
   "Everything in Open Studio Business",
   "Priority support",
