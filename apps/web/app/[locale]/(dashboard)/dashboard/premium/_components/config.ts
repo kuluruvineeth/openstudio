@@ -122,3 +122,36 @@ const proTier = {
   cta: "Upgrade",
   mostPopular: false,
 };
+
+const businessTier = {
+  name: "Business",
+  tiers: {
+    monthly: PremiumTier.BUSINESS_MONTHLY,
+    annually: PremiumTier.BUSINESS_ANNUALLY,
+  },
+  href: {
+    monthly: env.NEXT_PUBLIC_BUSINESS_MONTHLY_PAYMENT_LINK,
+    annually: env.NEXT_PUBLIC_BUSINESS_ANNUALLY_PAYMENT_LINK,
+  },
+  price: {
+    monthly: pricing.BUSINESS_MONTHLY,
+    annually: pricing.BUSINESS_ANNUALLY,
+  },
+  priceAdditional: {
+    monthly: pricingAdditionalChannel.BUSINESS_MONTHLY,
+    annually: pricingAdditionalChannel.BUSINESS_ANNUALLY,
+  },
+  discount: {
+    monthly: 0,
+    annually: discount(pricing.BUSINESS_MONTHLY, pricing.BUSINESS_ANNUALLY),
+  },
+  description: "Unlock full AI-powered channel management",
+  features: [
+    "Everything in pro",
+    "Unlimited AI credits",
+    "No need to provide your own OpenAI API key",
+    "Priority support",
+  ],
+  cta: "Upgrade",
+  mostPopular: true,
+};
