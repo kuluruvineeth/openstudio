@@ -15,6 +15,17 @@ function setUpLemon() {
   isSetup = true;
 }
 
+export async function updateSubscriptionItemQuantity(options: {
+  id: number;
+  quantity: number;
+}) {
+  setUpLemon();
+  return updateSubscriptionItem(options.id, {
+    quantity: options.quantity,
+    invoiceImmediately: true,
+  });
+}
+
 export async function getLemonCustomer(customerId: string) {
   setUpLemon();
   return getCustomer(customerId, { include: ["subscriptions", "orders"] });
