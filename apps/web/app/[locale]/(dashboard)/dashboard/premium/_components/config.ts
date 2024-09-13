@@ -21,3 +21,13 @@ export const pricing: Record<PremiumTierType, number> = {
   [PremiumTier.COPILOT_MONTHLY]: 99,
   [PremiumTier.LIFETIME]: 299,
 };
+export const pricingAdditionalChannel: Record<PremiumTierType, number> = {
+  [PremiumTier.BASIC_MONTHLY]: 2,
+  [PremiumTier.BASIC_ANNUALLY]: 1.5,
+  [PremiumTier.PRO_MONTHLY]: 3,
+  [PremiumTier.PRO_ANNUALLY]: 2.5,
+  [PremiumTier.BUSINESS_MONTHLY]: 3.5,
+  [PremiumTier.BUSINESS_ANNUALLY]: 3,
+  [PremiumTier.COPILOT_MONTHLY]: 0,
+  [PremiumTier.LIFETIME]: 59,
+};
