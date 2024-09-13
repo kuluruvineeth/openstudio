@@ -14,6 +14,7 @@
     "@ai-sdk/openai": "^0.0.48",
     "@headlessui/react": "^2.1.2",
     "@hookform/resolvers": "^3.9.0",
+    "@lemonsqueezy/lemonsqueezy.js": "^3.2.0",
     "@openstudio/tinybird": "workspace:*",
     "@openstudio/ui": "workspace:*",
     "@remixicon/react": "^4.2.0",
