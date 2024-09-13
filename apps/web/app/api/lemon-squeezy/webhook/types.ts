@@ -11,3 +11,17 @@ export type EventName =
   | "subscription_payment_failed"
   | "subscription_payment_success"
   | "subscription_payment_recovered";
+export interface FirstOrderItem {
+  id: number;
+  order_id: number;
+  product_id: number;
+  variant_id: number;
+  price_id: number;
+  product_name: string;
+  variant_name: string;
+  price: number;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+  test_mode: boolean;
+}
