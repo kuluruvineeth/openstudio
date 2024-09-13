@@ -57,3 +57,32 @@ const freeTier = {
   ],
   cta: "Get Started",
 };
+const basicTier = {
+  name: "Basic",
+  tiers: {
+    monthly: PremiumTier.BASIC_MONTHLY,
+    annually: PremiumTier.BASIC_ANNUALLY,
+  },
+  //TODO: Add Links
+  href: {
+    monthly: "",
+    annually: "",
+  },
+  price: { monthly: pricing.BASIC_MONTHLY, annually: pricing.BASIC_ANNUALLY },
+  priceAdditional: {
+    monthly: pricingAdditionalChannel.BASIC_MONTHLY,
+    annually: pricingAdditionalChannel.BASIC_ANNUALLY,
+  },
+  discount: {
+    monthly: 0,
+    annually: discount(pricing.BASIC_MONTHLY, pricing.BASIC_ANNUALLY),
+  },
+  description: "Unlimited Approve or Ban credits.",
+  features: [
+    "Everything in free",
+    "5 Categorization's per month",
+    "Unlimited approves or bans",
+    "Comment Analytics",
+  ],
+  cta: "Upgrade",
+};
