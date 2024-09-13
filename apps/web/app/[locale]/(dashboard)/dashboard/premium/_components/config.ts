@@ -155,3 +155,9 @@ const businessTier = {
   cta: "Upgrade",
   mostPopular: true,
 };
+export const lifetimeFeatures = [
+  "Everything in Open Studio Business",
+  "Priority support",
+  "$100 of AI credits",
+  "Early access to new features",
+];
