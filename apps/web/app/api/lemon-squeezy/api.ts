@@ -14,6 +14,12 @@ function setUpLemon() {
   lemonSqueezySetup({ apiKey: env.LEMON_SQUEEZY_API_KEY });
   isSetup = true;
 }
+
+export async function getLemonCustomer(customerId: string) {
+  setUpLemon();
+  return getCustomer(customerId, { include: ["subscriptions", "orders"] });
+}
+
 export async function activateLemonLicenseKey(
   licenseKey: string,
   name: string,
