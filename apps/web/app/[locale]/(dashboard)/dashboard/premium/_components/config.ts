@@ -1,4 +1,6 @@
+import { env } from "@/env.mjs";
 import { PremiumTier, PremiumTierType } from "@/types/app";
+
 export const frequencies = [
   {
     value: "monthly" as const,
@@ -11,6 +13,7 @@ export const frequencies = [
     priceSuffix: "/month",
   },
 ];
+
 export const pricing: Record<PremiumTierType, number> = {
   [PremiumTier.BASIC_MONTHLY]: 10,
   [PremiumTier.BASIC_ANNUALLY]: 6,
@@ -57,6 +60,7 @@ const freeTier = {
   ],
   cta: "Get Started",
 };
+
 const basicTier = {
   name: "Basic",
   tiers: {
@@ -85,4 +89,36 @@ const basicTier = {
     "Comment Analytics",
   ],
   cta: "Upgrade",
+};
+
+const proTier = {
+  name: "Pro",
+  tiers: {
+    monthly: PremiumTier.PRO_MONTHLY,
+    annually: PremiumTier.PRO_ANNUALLY,
+  },
+  href: {
+    monthly: env.NEXT_PUBLIC_PRO_MONTHLY_PAYMENT_LINK,
+    annually: env.NEXT_PUBLIC_PRO_ANNUALLY_PAYMENT_LINK,
+  },
+  price: { monthly: pricing.PRO_MONTHLY, annually: pricing.PRO_ANNUALLY },
+  priceAdditional: {
+    monthly: pricingAdditionalChannel.PRO_MONTHLY,
+    annually: pricingAdditionalChannel.PRO_ANNUALLY,
+  },
+  discount: {
+    monthly: 0,
+    annually: discount(pricing.PRO_MONTHLY, pricing.PRO_ANNUALLY),
+  },
+  description: "Unlock AI features with your own OpenAI key.",
+  features: [
+    "Everything in basic",
+    "Unlimited bans or approvals",
+    "AI Automations with personal OpenAI key",
+    "AI automated categorization with personal OpenAI key",
+    "AI Planned mode with personal OpenAI key",
+    "AI test mode with personal OpenAI key",
+  ],
+  cta: "Upgrade",
+  mostPopular: false,
 };
