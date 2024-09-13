@@ -36,3 +36,24 @@ export const pricingAdditionalChannel: Record<PremiumTierType, number> = {
 function discount(monthly: number, annually: number) {
   return ((monthly - annually) / monthly) * 100;
 }
+
+const freeTier = {
+  name: "Free",
+  id: "tier-free",
+  tiers: {
+    monthly: PremiumTier.BASIC_MONTHLY,
+    annually: PremiumTier.BASIC_ANNUALLY,
+  },
+  href: { monthly: "/welcome", annually: "/welcome" },
+  price: { monthly: 0, annually: 0 },
+  priceAdditional: { monthly: 0, annually: 0 },
+  discount: { monthly: 0, annually: 0 },
+  description: "Try Open Studio for free.",
+  features: [
+    `Ban or Approve 5 audiences per month`,
+    "Authors & Comments clean up",
+    "New senders",
+    "Comment Section",
+  ],
+  cta: "Get Started",
+};
