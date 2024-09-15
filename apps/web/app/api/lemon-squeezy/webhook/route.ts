@@ -1,6 +1,7 @@
 import { env } from "@/env.mjs";
 import { PremiumTier, PremiumTierType } from "@/types/app";
 import { Payload } from "./types";
+import crypto from "crypto";
 import {
   cancelPremium,
   extendPremium,
@@ -9,6 +10,29 @@ import {
 import { posthogCaptureEvent } from "@/utils/posthog";
 import { NextResponse } from "next/server";
 import { supabaseServerClient } from "@/supabase/supabaseServer";
+// https://docs.lemonsqueezy.com/help/webhooks#signing-requests
+// https://gist.github.com/amosbastian/e403e1d8ccf4f7153f7840dd11a85a69
+async function getPayload(request: Request): Promise<Payload> {
+  if (!env.LEMON_SQUEEZY_SIGNING_SECRET) {
+    throw new Error("No Lemon Squeezy signing secret provided.");
+  }
+
+  const text = await request.text();
+  const hmac = crypto.createHmac("sha256", env.LEMON_SQUEEZY_SIGNING_SECRET);
+  const digest = Buffer.from(hmac.update(text).digest("hex"), "utf-8");
+  const signature = Buffer.from(
+    request.headers.get("x-signature") as string,
+    "utf-8",
+  );
+
+  if (!crypto.timingSafeEqual(digest, signature)) {
+    throw new Error("Invalid signature.");
+  }
+
+  const payload: Payload = JSON.parse(text);
+
+  return payload;
+}
 
 async function subscriptionCreated({
   payload,
