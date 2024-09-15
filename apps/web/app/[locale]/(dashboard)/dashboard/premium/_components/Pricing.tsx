@@ -1,3 +1,12 @@
+"use client";
+function Badge({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="rounded-full bg-red-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-red-600">
+      {children}
+    </p>
+  );
+}
+
 // $5.5 => $5.50
 // $10 => $10
 function formatPrice(price: number) {
