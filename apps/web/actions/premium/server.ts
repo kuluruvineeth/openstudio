@@ -128,3 +128,30 @@ export async function cancelPremium(options: {
     })
     .eq("id", options.premium_id);
 }
+
+function getTierAccess(tier: PremiumTierType) {
+  switch (tier) {
+    case PremiumTier.BASIC_MONTHLY:
+    case PremiumTier.BASIC_ANNUALLY:
+      return {
+        ai_automation_access: FeatureAccess.LOCKED,
+        bulk_approve_or_ban_access: FeatureAccess.LOCKED,
+      };
+    case PremiumTier.PRO_MONTHLY:
+    case PremiumTier.PRO_ANNUALLY:
+      return {
+        ai_automation_access: FeatureAccess.UNLOCKED_WITH_API_KEY,
+        bulk_approve_or_ban_access: FeatureAccess.UNLOCKED,
+      };
+    case PremiumTier.BUSINESS_MONTHLY:
+    case PremiumTier.BUSINESS_ANNUALLY:
+    case PremiumTier.COPILOT_MONTHLY:
+    case PremiumTier.LIFETIME:
+      return {
+        ai_automation_access: FeatureAccess.UNLOCKED,
+        bulk_approve_or_ban_access: FeatureAccess.UNLOCKED,
+      };
+    default:
+      throw new Error(`Unknown premium tier: ${tier}`);
+  }
+}
