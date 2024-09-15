@@ -94,3 +94,17 @@ function PremiumAlert({
     </>
   );
 }
+
+export function PremiumAlertWithData() {
+  const {
+    hasAiAccess,
+    isLoading: isLoadingPremium,
+    isProPlanWithoutApiKey,
+  } = usePremium();
+
+  if (!isLoadingPremium && !hasAiAccess) {
+    return <PremiumAlert showSetApiKey={isProPlanWithoutApiKey} />;
+  }
+
+  return null;
+}
