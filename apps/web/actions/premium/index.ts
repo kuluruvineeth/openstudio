@@ -46,3 +46,17 @@ export const isAdminForPremium = (
   if (!premiumAdmins.length) return true;
   return premiumAdmins.some((admin) => admin.id === userId);
 };
+
+export const hasApproveOrBanAccess = (
+  approveOrBanAccess?: FeatureAccessType | null,
+  approveOrBanCredits?: number | null,
+): boolean => {
+  if (
+    approveOrBanAccess === FeatureAccess.UNLOCKED ||
+    approveOrBanAccess === FeatureAccess.UNLOCKED_WITH_API_KEY
+  ) {
+    return true;
+  }
+
+  return approveOrBanCredits !== 0;
+};
