@@ -11,6 +11,8 @@ import { isActionError } from "@/utils/error";
 import { capitalCase } from "change-case";
 import { useCommentStore } from "@/store/comment";
 import { CommentPanel } from "./CommentPanel";
+import { runAiRules } from "@/providers/QueueProvider";
+import { useExecutePlan } from "./PlanActions";
 
 export function CommentList(props: {
   comments: CommentItem[];
@@ -73,6 +75,13 @@ export function CommentList(props: {
     },
     [comments, selectedRows, refetch],
   );
+
+  const onPlanAiAction = useCallback((comment: CommentItem) => {
+    toast.promise(() => runAiRules([comment], true), {
+      success: "Running...",
+      error: "There was an error running the AI rules :(",
+    });
+  }, []);
 
   const onAiCategorize = useCallback(
     (comment: CommentItem) => {
@@ -149,6 +158,9 @@ export function CommentList(props: {
     [openedRowId, comments],
   );
 
+  const { executingPlan, rejectingPlan, executePlan, rejectPlan } =
+    useExecutePlan(refetch);
+
   return (
     <>
       {!(isEmpty && hideActionBarWhenEmpty) && (
@@ -211,7 +223,12 @@ export function CommentList(props: {
                     onSelected={onSetSelectedRow}
                     isCategorizing={isCategorizing[comment.commentId!]!}
                     onAiCategorize={onAiCategorize}
+                    onPlanAiAction={onPlanAiAction}
                     refetch={refetch}
+                    rejectPlan={rejectPlan}
+                    executePlan={executePlan}
+                    rejectingPlan={rejectingPlan[comment.commentId!]!}
+                    executingPlan={executingPlan[comment.commentId!]!}
                   />
                 );
               })}
@@ -219,7 +236,19 @@ export function CommentList(props: {
           }
           right={
             !!(openedRowId && openedRow) && (
-              <CommentPanel row={openedRow} close={closePanel} />
+              <CommentPanel
+                row={openedRow}
+                close={closePanel}
+                executePlan={executePlan}
+                isCategorizing={isCategorizing[openedRowId]!}
+                onPlanAiAction={onPlanAiAction}
+                onDelete={() => {}}
+                rejectPlan={rejectPlan}
+                executingPlan={executingPlan[openedRowId]!}
+                rejectingPlan={rejectingPlan[openedRowId]!}
+                refetch={refetch}
+                onAiCategorize={() => {}}
+              />
             )
           }
         />
