@@ -15,6 +15,8 @@ import Link from "next/link";
 import { CrownIcon } from "lucide-react";
 import { Button } from "@openstudio/ui/components/Button";
 import React from "react";
+import { Tooltip } from "@openstudio/ui/components/Tooltip";
+
 export function usePremium() {
   const { data, isLoading, error, refetch } = useQuery<UserResponse>({
     queryKey: ["user"],
@@ -107,4 +109,20 @@ export function PremiumAlertWithData() {
   }
 
   return null;
+}
+
+export function PremiumTooltip(props: {
+  children: React.ReactElement;
+  showTooltip: boolean;
+  openModal: () => void;
+}) {
+  if (!props.showTooltip) return props.children;
+
+  return (
+    <Tooltip
+      contentComponent={<PremiumTooltipContent openModal={props.openModal} />}
+    >
+      <div>{props.children}</div>
+    </Tooltip>
+  );
 }
