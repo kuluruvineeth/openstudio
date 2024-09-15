@@ -12,6 +12,37 @@ import React from "react";
 import { HeaderButton } from "./HeaderButton";
 import { RowProps } from "./types";
 import { ActionCell } from "./ActionCell";
+
+export function AuthorDesktop(props: {
+  tableRows?: React.ReactNode;
+  sortColumn?: "comments";
+  setSortColumn?: (sortColumn: "comments") => void;
+}) {
+  const { tableRows, sortColumn, setSortColumn } = props;
+
+  return (
+    <Table className="mt-6">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell className="hidden lg:table-cell">
+            <span className="text-sm font-medium">From</span>
+          </TableHeaderCell>
+          <TableHeaderCell>
+            <HeaderButton
+              sorted={sortColumn === "comments"}
+              // onClick={() => setSortColumn("comments")}
+              onClick={() => {}}
+            >
+              Comments
+            </HeaderButton>
+          </TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>{tableRows}</TableBody>
+    </Table>
+  );
+}
+
 export function AuthorRowDesktop(props: RowProps) {
   const { item, refetchPremium } = props;
 
