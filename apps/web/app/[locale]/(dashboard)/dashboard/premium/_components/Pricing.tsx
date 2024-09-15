@@ -1,9 +1,195 @@
 "use client";
+
+import { Label, Radio, RadioGroup } from "@headlessui/react";
+import { useState } from "react";
 import {
+  frequencies,
   lifetimeFeatures,
+  pricingAdditionalChannel,
+  tiers,
 } from "./config";
+import { cn } from "@openstudio/ui/lib/utils";
 import { Tag } from "@openstudio/ui/components/Tag";
 import { CheckIcon, CreditCardIcon } from "lucide-react";
+import { usePremium } from "./PremiumAlert";
+import { getUserTier } from "@/actions/premium";
+import { LoadingContent } from "@openstudio/ui/components/LoadingContent";
+import { Button } from "@openstudio/ui/components/Button";
+import { env } from "@/env.mjs";
+import { AlertWithButton } from "@openstudio/ui/components/Alert";
+
+export function Pricing() {
+  const { isPremium, data, isLoading, error } = usePremium();
+  const [frequency, setFrequency] = useState(frequencies[1]);
+
+  const premiumTier = getUserTier(data?.premium);
+  return (
+    <LoadingContent loading={isLoading} error={error}>
+      <div
+        id="pricing"
+        className="relative isolate mx-auto max-w-7xl bg-white px-6 pt-10 lg:px-8"
+      >
+        <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
+          <h2 className="font-cal text-base leading-7 text-red-600">Pricing</h2>
+          <p className="mt-2 font-cal text-4xl text-gray-900 sm:text-5xl">
+            Try for free, affordable paid plans
+          </p>
+        </div>
+        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+          No hidden fees. Cancel anytime.
+        </p>
+
+        {isPremium && (
+          <div className="mt-8 text-center">
+            <Button
+              link={{
+                href: `https://${env.NEXT_PUBLIC_LEMON_STORE_ID}.lemonsqueezy.com/billing`,
+                target: "_blank",
+              }}
+            >
+              <CreditCardIcon className="mr-2 h-4 w-4" />
+              Manage subscription
+            </Button>
+          </div>
+        )}
+
+        <div className="mt-16 flex items-center justify-center">
+          <RadioGroup
+            value={frequency}
+            onChange={setFrequency}
+            className={
+              "grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+            }
+          >
+            <Label className={"sr-only"}>Payment frequency</Label>
+            {frequencies.map((option) => (
+              <Radio
+                key={option.value}
+                value={option}
+                className={({ checked }) =>
+                  cn(
+                    checked ? "bg-black text-white" : "text-gray-500",
+                    "cursor-pointer rounded-full px-2.5 py-1",
+                  )
+                }
+              >
+                <span>{option.label}</span>
+              </Radio>
+            ))}
+          </RadioGroup>
+
+          <div className="ml-1">
+            <Badge>Save up to 40%</Badge>
+          </div>
+        </div>
+
+        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+          {tiers.map((tier, tierIdx) => {
+            const isCurrentPlan =
+              tier.tiers?.[frequency?.value!] === premiumTier;
+
+            const user = data;
+
+            const href = user
+              ? isCurrentPlan
+                ? "#"
+                : buildLemonUrl(
+                    attachUserInfo(tier.href[frequency?.value!], {
+                      id: user.id,
+                      email: user.email!,
+                      name: user.name,
+                    }),
+                  )
+              : "/login?next=/premium"; //TODO: handle next query param
+            return (
+              <div
+                key={tier.name}
+                className={cn(
+                  "rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10",
+                  tierIdx === 1 || tierIdx === 2
+                    ? "lg:z-10 lg:rounded-b-none"
+                    : "lg:mt-8",
+                  tierIdx === 0 ? "lg:rounded-r-none" : "",
+                  tierIdx === tiers.length - 1 ? "lg:rounded-l-none" : "",
+                )}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-x-4">
+                    <h3
+                      id={tier.name}
+                      className={cn(
+                        tier.mostPopular ? "text-red-600" : "text-gray-900",
+                        "font-cal text-lg leading-8",
+                      )}
+                    >
+                      {tier.name}
+                    </h3>
+                    {tier.mostPopular ? <Badge>Most popular</Badge> : null}
+                  </div>
+                  <p className="mt-4 text-sm leading-6 text-gray-600">
+                    {tier.description}
+                  </p>
+                  <p className="mt-6 flex items-baseline gap-x-1">
+                    <span className="text-4xl font-bold tracking-tight text-gray-900">
+                      ${tier.price[frequency!.value]}
+                    </span>
+                    <span className="text-sm font-semibold leading-6 text-gray-600">
+                      {frequency?.priceSuffix}
+                    </span>
+
+                    {!!tier.discount?.[frequency!.value] && (
+                      <Badge>
+                        <span className="tracking-wide">
+                          SAVE {tier.discount[frequency!.value].toFixed(0)}%
+                        </span>
+                      </Badge>
+                    )}
+                  </p>
+                  {tier.priceAdditional ? (
+                    <p>
+                      +${formatPrice(tier.priceAdditional[frequency!.value])}{" "}
+                      for each additional youtube channel
+                    </p>
+                  ) : (
+                    <div className="mt-16" />
+                  )}
+                  <ul
+                    role="list"
+                    className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+                  >
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex gap-x-3">
+                        <CheckIcon className="h-6 w-5 flex-none text-red-600" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <a
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  aria-describedby={tier.name}
+                  className={cn(
+                    tier.mostPopular
+                      ? "bg-red-600 text-white shadow-sm hover:bg-red-500"
+                      : "text-red-600 ring-1 ring-inset ring-red-200 hover:ring-red-300",
+                    "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600",
+                  )}
+                >
+                  {isCurrentPlan ? "Current plan" : tier.cta}
+                </a>
+              </div>
+            );
+          })}
+        </div>
+
+        <LifetimePricing />
+      </div>
+    </LoadingContent>
+  );
+}
+
 function LifetimePricing(props: {
   user?: { id: string; email?: string | null; name?: string | null };
   affiliateCode?: string | null;
