@@ -112,3 +112,19 @@ export async function extendPremium(options: {
     })
     .eq("id", options.premium_id);
 }
+
+export async function cancelPremium(options: {
+  premium_id: string;
+  lemon_squeezy_renews_at: string;
+}) {
+  const supabase = await supabaseServerClient();
+
+  await supabase
+    .from("premium")
+    .update({
+      lemon_squeezy_renews_at: options.lemon_squeezy_renews_at,
+      bulk_approve_or_ban_access: null,
+      ai_automation_access: null,
+    })
+    .eq("id", options.premium_id);
+}
