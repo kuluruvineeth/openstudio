@@ -10,7 +10,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@openstudio/ui/components/ui/hover-card";
-import { LogOutIcon, Settings2 } from "lucide-react";
+import { CrownIcon, LogOutIcon, Settings2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 export const Bottom = () => {
@@ -39,6 +39,21 @@ export const Bottom = () => {
         </HoverCardContent>
       </HoverCard>
 
+      <HoverCard openDelay={250} closeDelay={250}>
+        <HoverCardTrigger asChild>
+          <ActiveLink
+            include="premium"
+            variant={"ghost"}
+            size={"icon"}
+            href={`/dashboard/premium`}
+          >
+            <CrownIcon />
+          </ActiveLink>
+        </HoverCardTrigger>
+        <HoverCardContent align="start">
+          <span>{t("MAIN.PREMIUM_HOVER")}</span>
+        </HoverCardContent>
+      </HoverCard>
       <HoverCard openDelay={250} closeDelay={250}>
         <HoverCardTrigger asChild>
           <ActiveLink
