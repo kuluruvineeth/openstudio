@@ -126,3 +126,19 @@ export function PremiumTooltip(props: {
     </Tooltip>
   );
 }
+
+export function PremiumTooltipContent({
+  openModal,
+}: {
+  openModal: () => void;
+}) {
+  return (
+    <div className="text-center">
+      <p>You{"'"}ve hit the free tier limit 🥺</p>
+      <p>Upgrade to unlock full access.</p>
+      <Button className="mt-1" onClick={openModal} size="xs">
+        Upgrade
+      </Button>
+    </div>
+  );
+}
