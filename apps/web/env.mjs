@@ -27,6 +27,29 @@ BEDROCK_ACCESS_KEY: z.string().optional(),
   client: {
     NEXT_PUBLIC_SUPABASE_URL: z.string().min(1),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+    NEXT_PUBLIC_LEMON_STORE_ID: z.string().nullish().default("openstudio"),
+
+    //lemon plans
+    //basic
+    NEXT_PUBLIC_BASIC_MONTHLY_VARIANT_ID: z.coerce.number().default(0),
+    NEXT_PUBLIC_BASIC_ANNUALLY_VARIANT_ID: z.coerce.number().default(0),
+    //pro
+    NEXT_PUBLIC_PRO_MONTHLY_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_PRO_ANNUALLY_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_PRO_MONTHLY_VARIANT_ID: z.coerce.number().default(0),
+    NEXT_PUBLIC_PRO_ANNUALLY_VARIANT_ID: z.coerce.number().default(0),
+    //business
+    NEXT_PUBLIC_BUSINESS_MONTHLY_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_BUSINESS_ANNUALLY_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_BUSINESS_MONTHLY_VARIANT_ID: z.coerce.number().default(0),
+    NEXT_PUBLIC_BUSINESS_ANNUALLY_VARIANT_ID: z.coerce.number().default(0),
+    //lifetime
+    NEXT_PUBLIC_LIFETIME_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_LIFETIME_VARIANT_ID: z.coerce.number().default(0),
+    NEXT_PUBLIC_LIFETIME_EXTRA_SEATS_PAYMENT_LINK: z.string().default(""),
+    NEXT_PUBLIC_LIFETIME_EXTRA_SEATS_VARIANT_ID: z.coerce.number().default(0),
+
+    NEXT_PUBLIC_ENTERPRISE_PAYMENT_LINK: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_ONBOARDING_SURVEY_ID: z.string().optional(),
   },
   experimental__runtimeEnv: {
