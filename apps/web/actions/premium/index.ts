@@ -60,3 +60,15 @@ export const hasApproveOrBanAccess = (
 
   return approveOrBanCredits !== 0;
 };
+
+export const hasAiAccess = (
+  aiAutomationAccess?: FeatureAccessType | null,
+  openAIApiKey?: string | null,
+) => {
+  const hasAiAccess = !!(
+    aiAutomationAccess === FeatureAccess.UNLOCKED ||
+    (aiAutomationAccess === FeatureAccess.UNLOCKED_WITH_API_KEY && openAIApiKey)
+  );
+
+  return hasAiAccess;
+};
