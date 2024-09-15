@@ -5,12 +5,16 @@ import {
   forwardRef,
   MouseEventHandler,
   useCallback,
+  useMemo,
 } from "react";
 import Image from "next/image";
 import { CommentItem } from "@/types/youtube/comment";
 import { ActionButtons } from "./ActionButtons";
 import { CommentDate } from "./CommentDate";
 import { CategoryBadge } from "./CategoryBadge";
+import { useAiQueueStore } from "@/store/queue";
+import { PlanBadge } from "./PlanBadge";
+import { PlanActions } from "./PlanActions";
 
 export const CommentListItem = forwardRef(
   (
@@ -24,6 +28,11 @@ export const CommentListItem = forwardRef(
       onSelected: (id: string) => void;
       isCategorizing: boolean;
       onAiCategorize: (comment: CommentItem) => void;
+      onPlanAiAction: (comment: CommentItem) => void;
+      executingPlan: boolean;
+      rejectingPlan: boolean;
+      executePlan: (comment: CommentItem) => Promise<void>;
+      rejectPlan: (comment: CommentItem) => Promise<void>;
       refetch: () => void;
     },
     ref: ForwardedRef<HTMLLIElement>,
@@ -49,6 +58,13 @@ export const CommentListItem = forwardRef(
       () => onSelected(comment.commentId!),
       [onSelected, comment.commentId!],
     );
+
+    const isInAiQueue = useAiQueueStore((state) => state.isInAiQueue);
+    const isPlanning = useMemo(
+      () => isInAiQueue(props.comment.commentId!),
+      [props.comment.commentId, isInAiQueue],
+    );
+
     return (
       <li
         ref={ref}
@@ -118,17 +134,28 @@ export const CommentListItem = forwardRef(
                     commentId={comment.commentId!}
                     shadow
                     isCategorizing={isCategorizing}
+                    isPlanning={isPlanning}
+                    onPlanAiAction={() => props.onPlanAiAction(comment)}
                     onAiCategorize={() => onAiCategorize(comment)}
                     refetch={refetch}
                   />
                 </div>
                 <CommentDate date={new Date(comment.commentedAt!)} />
 
-                {!!comment.category?.category && (
+                {!!(comment.category?.category || comment.plan) && (
                   <div className="ml-3 flex items-center whitespace-nowrap">
-                    {comment.category.category ? (
+                    {comment.category?.category ? (
                       <CategoryBadge category={comment.category.category} />
                     ) : null}
+                    <PlanBadge plan={comment.plan} />
+
+                    <PlanActions
+                      comment={comment}
+                      executePlan={props.executePlan}
+                      rejectPlan={props.rejectPlan}
+                      executingPlan={props.executingPlan}
+                      rejectingPlan={props.rejectingPlan}
+                    />
                   </div>
                 )}
               </div>
