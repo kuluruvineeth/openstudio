@@ -8,6 +8,46 @@ import { posthogCaptureEvent } from "@/utils/posthog";
 import { NextResponse } from "next/server";
 import { supabaseServerClient } from "@/supabase/supabaseServer";
 
+async function subscriptionUpdated({
+  payload,
+  premium_id,
+}: {
+  payload: Payload;
+  premium_id: string;
+}) {
+  if (!payload.data.attributes.renews_at) {
+    throw new Error("No renews_at provided");
+  }
+
+  const updatedPremium = await extendPremium({
+    premium_id,
+    lemon_squeezy_renews_at: new Date(
+      payload.data.attributes.renews_at,
+    ).toISOString(),
+  });
+
+  const supabase = await supabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("email")
+    .eq("id", payload.meta.custom_data?.user_id)
+    .single();
+
+  if (data?.email) {
+    await posthogCaptureEvent(
+      data.email,
+      "Premium subscription payment success",
+      {
+        ...payload.data.attributes,
+        $set: { premium: true, premiumTier: "subscription" },
+      },
+    );
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
 async function subscriptionCancelled({
   payload,
   premium_id,
