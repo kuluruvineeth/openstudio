@@ -72,3 +72,24 @@ export const hasAiAccess = (
 
   return hasAiAccess;
 };
+
+export function isOnHigherTier(
+  tier1?: PremiumTierType | null,
+  tier2?: PremiumTierType | null,
+) {
+  const tierRanking = {
+    [PremiumTier.BASIC_MONTHLY]: 1,
+    [PremiumTier.BASIC_ANNUALLY]: 2,
+    [PremiumTier.PRO_MONTHLY]: 3,
+    [PremiumTier.PRO_ANNUALLY]: 4,
+    [PremiumTier.BUSINESS_MONTHLY]: 5,
+    [PremiumTier.BUSINESS_ANNUALLY]: 6,
+    [PremiumTier.COPILOT_MONTHLY]: 7,
+    [PremiumTier.LIFETIME]: 8,
+  };
+
+  const tier1Rank = tier1 ? tierRanking[tier1] : 0;
+  const tier2Rank = tier2 ? tierRanking[tier2] : 0;
+
+  return tier1Rank > tier2Rank;
+}
