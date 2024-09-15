@@ -8,6 +8,42 @@ import { posthogCaptureEvent } from "@/utils/posthog";
 import { NextResponse } from "next/server";
 import { supabaseServerClient } from "@/supabase/supabaseServer";
 
+async function lifetimeOrder({
+  payload,
+  userId,
+}: {
+  payload: Payload;
+  userId: string;
+}) {
+  if (!payload.data.attributes.first_order_item) {
+    throw new Error("No order item");
+  }
+
+  const updatedPremium = await upgradeToPremium({
+    userId,
+    tier: PremiumTier.LIFETIME,
+    lemon_squeezy_renews_at: null,
+    lemon_squeezy_subscription_id: null,
+    lemon_squeezy_subscription_item_id: null,
+    lemon_squeezy_order_id: payload.data.attributes.first_order_item.order_id,
+    lemon_squeezy_customer_id: payload.data.attributes.customer_id,
+    lemon_squeezy_product_id: payload.data.attributes.product_id,
+    lemon_squeezy_variant_id: payload.data.attributes.variant_id,
+  });
+
+  if (updatedPremium.email) {
+    await Promise.allSettled([
+      posthogCaptureEvent(updatedPremium.email, "Upgraded to lifetime plan", {
+        ...payload.data.attributes,
+        $set: { premium: true, premiumTier: "lifetime" },
+      }),
+      //TODO: send out emails
+    ]);
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
 async function subscriptionUpdated({
   payload,
   premium_id,
