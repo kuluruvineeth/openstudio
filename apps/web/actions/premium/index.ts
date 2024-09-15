@@ -30,3 +30,9 @@ const getUserPlan = (
   // if renewsAt is less than 6 months in the future then it's a monthly plan
   return PremiumTier.BASIC_MONTHLY;
 };
+
+export const getUserTier = (
+  premium?: Pick<Premium, "tier" | "lemon_squeezy_renews_at"> | null,
+) => {
+  return premium?.tier || getUserPlan(premium?.lemon_squeezy_renews_at);
+};
