@@ -3,10 +3,62 @@ import { PremiumTier, PremiumTierType } from "@/types/app";
 import { Payload } from "./types";
 import {
   cancelPremium,
+  extendPremium,
+  upgradeToPremium,
 } from "@/actions/premium/server";
 import { posthogCaptureEvent } from "@/utils/posthog";
 import { NextResponse } from "next/server";
 import { supabaseServerClient } from "@/supabase/supabaseServer";
+
+async function subscriptionCreated({
+  payload,
+  userId,
+}: {
+  payload: Payload;
+  userId: string;
+}) {
+  if (!payload.data.attributes.renews_at) {
+    throw new Error("No renews_at provided");
+  }
+
+  const lemon_squeezy_renews_at = new Date(
+    payload.data.attributes.renews_at,
+  ).toISOString();
+
+  if (!payload.data.attributes.first_subscription_item) {
+    throw new Error("No subscription item");
+  }
+
+  const tier = getSubscriptionTier({
+    variantId: payload.data.attributes.variant_id,
+  });
+
+  const updatedPremium = await upgradeToPremium({
+    userId,
+    tier,
+    lemon_squeezy_renews_at,
+    lemon_squeezy_subscription_id:
+      payload.data.attributes.first_subscription_item.subscription_id,
+    lemon_squeezy_subscription_item_id:
+      payload.data.attributes.first_subscription_item.id,
+    lemon_squeezy_order_id: null,
+    lemon_squeezy_customer_id: payload.data.attributes.customer_id,
+    lemon_squeezy_product_id: payload.data.attributes.product_id,
+    lemon_squeezy_variant_id: payload.data.attributes.variant_id,
+  });
+
+  if (updatedPremium.email) {
+    await Promise.allSettled([
+      posthogCaptureEvent(updatedPremium.email, "Upgraded to premium", {
+        ...payload.data.attributes,
+        $set: { premium: true, premiumTier: "subscription" },
+      }),
+      //TODO: send out emails
+    ]);
+  }
+
+  return NextResponse.json({ ok: true });
+}
 
 async function lifetimeOrder({
   payload,
