@@ -98,3 +98,17 @@ export async function upgradeToPremium(options: {
     };
   }
 }
+
+export async function extendPremium(options: {
+  premium_id: string;
+  lemon_squeezy_renews_at: string;
+}) {
+  const supabase = await supabaseServerClient();
+
+  await supabase
+    .from("premium")
+    .update({
+      lemon_squeezy_renews_at: options.lemon_squeezy_renews_at,
+    })
+    .eq("id", options.premium_id);
+}
