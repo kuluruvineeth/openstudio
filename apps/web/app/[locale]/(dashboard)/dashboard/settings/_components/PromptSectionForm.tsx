@@ -1,5 +1,7 @@
 "use client";
 
+import { savePromptAction } from "@/utils/actions/user";
+import { handleActionResult } from "@/utils/server-action";
 import { Button } from "@openstudio/ui/components/Button";
 import {
   FormSection,
@@ -19,7 +21,13 @@ export const PromptSectionForm = (props: { prompt?: string }) => {
   });
 
   return (
-    <form action={async () => {}}>
+    <form
+      action={async (formData: FormData) => {
+        const prompt = formData.get("prompt") as string;
+        const result = await savePromptAction({ prompt });
+        handleActionResult(result, "Updated profile!");
+      }}
+    >
       <FormSection>
         <FormSectionLeft
           title="Default Prompt Settings"
