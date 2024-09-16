@@ -9,21 +9,30 @@ export const api = axios.create({
 export async function postRequest<T, S = any>(
   url: string,
   data: S,
+  method: "POST" | "DELETE" | "PUT" | "PATCH" = "POST",
 ): Promise<T | ErrorMessage> {
   try {
-    const response = await api.post<T>(url, data, {
+    const response = await api.request<T>({
+      url,
+      method,
+      data,
       headers: { "Content-Type": "application/json" },
     });
+
     return response.data;
   } catch (error) {
-    if (isErrorMessage(error)) {
-      if (error.error === "Failed to fetch" || !navigator.onLine) {
+    if (axios.isAxiosError(error)) {
+      if (error.message === "Network Error" || !navigator.onLine) {
         return {
           error: "Please check that you are connected to the Internet.",
         };
       }
-      return error;
+      // Handle known error message format
+      if (error.response?.data && isErrorMessage(error.response.data)) {
+        return error.response.data;
+      }
     }
+
     return { error: "An error occurred" };
   }
 }
