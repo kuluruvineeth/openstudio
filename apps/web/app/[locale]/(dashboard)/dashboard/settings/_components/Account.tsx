@@ -1,14 +1,12 @@
-"use client";
-
 import { FormWrapper } from "@openstudio/ui/components/Form";
 import { DeleteSection } from "./DeleteSection";
-import { PromptSectionForm } from "./PromptSectionForm";
 import { ModelSection } from "./ModelSection";
+import { PromptSection } from "./PromptSection";
 
 export function Account() {
   return (
     <FormWrapper>
-      <PromptSectionForm />
+      <PromptSection />
       <ModelSection />
       <DeleteSection />
     </FormWrapper>
