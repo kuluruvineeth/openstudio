@@ -15,3 +15,14 @@ export async function getDayStat(options: { email: string; day: string }) {
   const key = getStatsKey(options.email);
   return redis.hget<number>(key, options.day);
 }
+
+export async function saveDayStat(options: {
+  email: string;
+  day: string;
+  count: number;
+}) {
+  return redis.hmset(getStatsKey(options.email), {
+    [options.day]: options.count,
+  });
+}
+
