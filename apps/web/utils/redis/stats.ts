@@ -34,3 +34,7 @@ export async function saveUserStats(options: {
   return redis.set(key, options.stats);
 }
 
+export async function deleteUserStats(options: { email: string }) {
+  const key = getStatsKey(options.email);
+  return redis.del(key);
+}
