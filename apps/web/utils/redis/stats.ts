@@ -26,3 +26,11 @@ export async function saveDayStat(options: {
   });
 }
 
+export async function saveUserStats(options: {
+  email: string;
+  stats: RedisStats;
+}) {
+  const key = getStatsKey(options.email);
+  return redis.set(key, options.stats);
+}
+
