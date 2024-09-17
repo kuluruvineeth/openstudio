@@ -23,9 +23,12 @@ import Warning from "@/components/Warning";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { deleteAccountAction } from "@/utils/actions/user";
+import { handleActionResult } from "@/utils/server-action";
+import { logOut } from "@/utils/user";
 export function DeleteSection() {
   const deleteAccountSchema = z.object({
-    email: z.string(),
+    email: z.string().email(),
   });
 
   type DeleteAccountSchema = z.infer<typeof deleteAccountSchema>;
@@ -64,14 +67,19 @@ export function DeleteSection() {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button disabled={false} color={"red"} className="" type="button">
+              <Button
+                disabled={!form.formState.isValid}
+                color={"red"}
+                className=""
+                type="button"
+              >
                 Yes, delete my account
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle className="text-destructive">
-                  Are You Sure?
+                  Are You Sure you want to delete your account?
                 </DialogTitle>
                 <DialogDescription>Think</DialogDescription>
               </DialogHeader>
@@ -82,7 +90,11 @@ export function DeleteSection() {
 
               <Button
                 disabled={true}
-                onClick={() => {}}
+                onClick={async () => {
+                  const result = await deleteAccountAction();
+                  handleActionResult(result, "Account deleted!");
+                  await logOut();
+                }}
                 size={"lg"}
                 color={"red"}
               >
