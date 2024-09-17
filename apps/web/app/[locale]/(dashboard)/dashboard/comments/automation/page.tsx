@@ -16,6 +16,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { BulkRunRules } from "./_components/BulkRunRules";
 import { Rules } from "./_components/Rules";
+import { Pending } from "./_components/Pending";
+import { History } from "./_components/History";
 
 export default async function AutomationPage() {
   return (
@@ -48,10 +50,10 @@ export default async function AutomationPage() {
           <Rules />
         </TabsContent>
         <TabsContent value="pending" className="content-container mb-10">
-          Pending
+          <Pending />
         </TabsContent>
         <TabsContent value="history" className="content-container mb-10">
-          History
+          <History />
         </TabsContent>
         <TabsContent value="test" className="content-container mb-10">
           <Card>
