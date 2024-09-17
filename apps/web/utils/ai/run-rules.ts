@@ -1,10 +1,16 @@
 import { youtube_v3 } from "googleapis";
-import { CommentForAction } from "./actions";
+import { ActionItem, CommentForAction } from "./actions";
 import { RulesResponse } from "@/app/api/user/rules/route";
 import { ExecutedRuleStatus, Rule, User } from "@/types/app";
 import { UserAIFields } from "../llms/types";
 import { chooseRuleAndExecute } from "./choose-and-execute";
 import { supabaseServerClient } from "@/supabase/supabaseServer";
+
+export type TestResult = {
+  rule?: RulesResponse | null;
+  actionItems?: ActionItem[];
+  reason?: string | null;
+};
 
 export async function runRulesOnComment({
   youtube,
@@ -20,7 +26,7 @@ export async function runRulesOnComment({
   handled: boolean;
 }> {
   // ai rules
-  const aiRules = rules.filter((r) => r.type === Rule.AI);
+  const aiRules = rules.filter((r: any) => r.type === Rule.AI);
 
   const aiResponse = await chooseRuleAndExecute({
     comment,
