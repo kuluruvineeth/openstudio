@@ -20,6 +20,33 @@ import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SlideOverSheet } from "@openstudio/ui/components/SlideOverSheet";
 type TestRulesInputs = { comment: string };
+export function TestRulesContent() {
+  const {
+    data: rules,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<RulesResponse>({
+    queryKey: ["rules"],
+    queryFn: async () => {
+      const response = await api.get<RulesResponse>(`/user/rules`);
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+  });
+  return (
+    <div>
+      {rules?.some((rule) => rule.type === Rule.AI) && (
+        <>
+          <CardContent>
+            <TestRulesForm />
+          </CardContent>
+          <Separator />
+        </>
+      )}
+    </div>
+  );
+}
 const TestRulesForm = () => {
   const [testResult, setTestResult] = useState<TestResult | undefined>();
 
