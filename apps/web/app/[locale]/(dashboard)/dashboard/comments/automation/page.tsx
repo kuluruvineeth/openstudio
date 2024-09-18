@@ -18,6 +18,7 @@ import { BulkRunRules } from "./_components/BulkRunRules";
 import { Rules } from "./_components/Rules";
 import { Pending } from "./_components/Pending";
 import { History } from "./_components/History";
+import { TestRules, TestRulesContent } from "./_components/TestRules";
 
 export default async function AutomationPage() {
   return (
@@ -64,7 +65,8 @@ export default async function AutomationPage() {
                 content.
               </CardDescription>
             </CardHeader>
-            Rules Test
+            {/* <TestRulesContent /> */}
+            <TestRules />
           </Card>
         </TabsContent>
         <TabsContent value="groups" className="content-container mb-10">
