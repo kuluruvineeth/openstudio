@@ -19,6 +19,43 @@ import {
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SlideOverSheet } from "@openstudio/ui/components/SlideOverSheet";
+type TestRulesInputs = { comment: string };
+const TestRulesForm = () => {
+  const [testResult, setTestResult] = useState<TestResult | undefined>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<TestRulesInputs>();
+
+  const onSubmit: SubmitHandler<TestRulesInputs> = useCallback(() => {}, []);
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <Input
+          type="text"
+          as={"textarea"}
+          rows={3}
+          name="comment"
+          placeholder="Paste in comment content or write your own. eg. I love your content"
+          registerProps={register("comment", { required: true })}
+          error={errors.comment}
+        />
+        <Button type="submit" loading={isSubmitting}>
+          <SparklesIcon className="mr-2 h-4 w-4" />
+          Test Rules
+        </Button>
+      </form>
+      {testResult && (
+        <div className="mt-4">
+          <TestResultComponent result={testResult}></TestResultComponent>
+        </div>
+      )}
+    </div>
+  );
+};
 function TestResultComponent({ result }: { result: TestResult }) {
   if (!result) return null;
 
