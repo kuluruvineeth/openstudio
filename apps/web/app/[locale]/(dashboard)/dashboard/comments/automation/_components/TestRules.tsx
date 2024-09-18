@@ -19,7 +19,28 @@ import {
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SlideOverSheet } from "@openstudio/ui/components/SlideOverSheet";
+
 type TestRulesInputs = { comment: string };
+
+export function TestRules(props: { disabled?: boolean }) {
+  return (
+    <SlideOverSheet
+      title="Test Rules"
+      description="Test how your rules perform against real comments."
+      content={
+        <div className="mt-4">
+          <TestRulesContent />
+        </div>
+      }
+    >
+      <Button className="m-2" color="white" disabled={props.disabled}>
+        <BookOpenCheckIcon className="mr-2 h-4 w-4" />
+        Test Rules
+      </Button>
+    </SlideOverSheet>
+  );
+}
+
 export function TestRulesContent() {
   const {
     data: rules,
@@ -47,6 +68,7 @@ export function TestRulesContent() {
     </div>
   );
 }
+
 const TestRulesForm = () => {
   const [testResult, setTestResult] = useState<TestResult | undefined>();
 
@@ -83,6 +105,7 @@ const TestRulesForm = () => {
     </div>
   );
 };
+
 function TestResultComponent({ result }: { result: TestResult }) {
   if (!result) return null;
 
