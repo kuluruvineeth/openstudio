@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "ui:add": "pnpm dlx shadcn-ui@latest add",
+    "ui:add": "pnpm dlx shadcn@latest add",
     "lint": "eslint ."
   },
   "peerDependencies": {
