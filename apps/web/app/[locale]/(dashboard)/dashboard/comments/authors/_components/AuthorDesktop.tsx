@@ -1,33 +1,41 @@
 "use client";
-
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TableHeaderCell,
+  TableHeader,
   TableRow,
-} from "@tremor/react";
+} from "@openstudio/ui/components/ui/table";
 import React from "react";
 import { HeaderButton } from "./HeaderButton";
 import { RowProps } from "./types";
 import { ActionCell } from "./ActionCell";
+import { Checkbox } from "@openstudio/ui/components/Checkbox";
 
 export function AuthorDesktop(props: {
   tableRows?: React.ReactNode;
   sortColumn?: "comments";
   setSortColumn?: (sortColumn: "comments") => void;
+  isAllSelected: boolean;
+  onToggleSelectAll: () => void;
 }) {
   const { tableRows, sortColumn, setSortColumn } = props;
 
   return (
-    <Table className="mt-6">
-      <TableHead>
+    <Table>
+      <TableHeader>
         <TableRow>
-          <TableHeaderCell className="hidden lg:table-cell">
+          <TableHead className="pr-0">
+            <Checkbox
+              checked={props.isAllSelected}
+              onChange={props.onToggleSelectAll}
+            />
+          </TableHead>
+          <TableHead className="pr-0">
             <span className="text-sm font-medium">From</span>
-          </TableHeaderCell>
-          <TableHeaderCell>
+          </TableHead>
+          <TableHead>
             <HeaderButton
               sorted={sortColumn === "comments"}
               // onClick={() => setSortColumn("comments")}
@@ -35,16 +43,16 @@ export function AuthorDesktop(props: {
             >
               Comments
             </HeaderButton>
-          </TableHeaderCell>
+          </TableHead>
         </TableRow>
-      </TableHead>
+      </TableHeader>
       <TableBody>{tableRows}</TableBody>
     </Table>
   );
 }
 
 export function AuthorRowDesktop(props: RowProps) {
-  const { item, refetchPremium } = props;
+  const { item, refetchPremium, checked, onToggleSelect } = props;
 
   return (
     <TableRow
@@ -55,6 +63,12 @@ export function AuthorRowDesktop(props: RowProps) {
       onMouseEnter={props.onSelectRow}
       onDoubleClick={props.onDoubleClick}
     >
+      <TableCell className="pr-0">
+        <Checkbox
+          checked={checked}
+          onChange={() => onToggleSelect?.(item.name)}
+        />
+      </TableCell>
       <TableCell className="max-w-[250px] truncate pl-6 min-[1550px]:max-w-[300px] min-[1650px]:max-w-none">
         {item.name}
       </TableCell>
