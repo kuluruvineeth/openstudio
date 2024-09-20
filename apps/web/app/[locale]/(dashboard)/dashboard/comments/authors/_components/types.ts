@@ -20,4 +20,6 @@ export interface RowProps {
   hasApproveorBanAccess: boolean;
   refetchPremium: () => Promise<any>;
   openPremiumModal: () => void;
+  checked: boolean;
+  onToggleSelect: (id: string) => void;
 }
