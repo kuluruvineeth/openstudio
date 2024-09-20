@@ -27,6 +27,7 @@ import { LoadingContent } from "@openstudio/ui/components/LoadingContent";
 import { Skeleton } from "@openstudio/ui/components/ui/skeleton";
 import { AuthorModal } from "./AuthorModal";
 import { SearchBar } from "@openstudio/ui/components/SearchBar";
+import { useToggleSelect } from "@/hooks/useToggleSelect";
 
 export default function Authors() {
   const now = useMemo(() => new Date(), []);
@@ -68,14 +69,19 @@ export default function Authors() {
 
   const { PremiumModal, openModal } = usePremiumModal();
 
-  const tableRows = data?.authors
+  const rows = data?.authors
     .filter(
       search
         ? (item) => item.name.toLowerCase().includes(search.toLowerCase())
         : Boolean,
     )
-    .slice(0, expanded ? undefined : 5)
-    .map((item) => (
+    .slice(0, expanded ? undefined : 5);
+
+  const { selected, isAllSelected, onToggleSelect, onToggleSelectAll } =
+    useToggleSelect(rows?.map((item) => ({ id: item.name })) || []);
+
+  const tableRows = rows?.map((item) => {
+    return (
       <RowComponent
         key={item.name}
         item={item}
@@ -90,8 +96,12 @@ export default function Authors() {
         hasApproveorBanAccess={false}
         refetchPremium={refetch}
         openPremiumModal={openModal}
+        checked={selected.get(item.name) || false}
+        onToggleSelect={onToggleSelect}
       />
-    ));
+    );
+  });
+
   return (
     <div>
       <div className="-top-7 z-10 flex flex-col justify-between gap-1 border-b bg-white px-2 py-2 shadow sm:sticky sm:flex-row sm:px-4">
@@ -141,7 +151,11 @@ export default function Authors() {
           {isMobile ? (
             <AuthorMobile tableRows={tableRows} />
           ) : (
-            <AuthorDesktop tableRows={tableRows} />
+            <AuthorDesktop
+              tableRows={tableRows}
+              isAllSelected={isAllSelected}
+              onToggleSelectAll={onToggleSelectAll}
+            />
           )}
           <div className="mt-2 px-6 pb-6">{extraWithoutIndex()}</div>
         </LoadingContent>
