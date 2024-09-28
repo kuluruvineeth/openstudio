@@ -5,6 +5,8 @@ import { m } from "framer-motion";
 import ShimmerButton from "@openstudio/ui/components/ShimmerButton";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import HeroVideoDialog from "./HeroVideoDialog";
+import { Suspense } from "react";
 
 const Hero = () => {
   const router = useRouter();
@@ -110,6 +112,21 @@ const Hero = () => {
             </div>
           </m.div>
         </div>
+        <m.div
+          className="mx-auto max-w-[1200px]"
+          variants={{
+            hidden: { opacity: 0, y: -10 },
+            show: { opacity: 1, y: 0, transition: { type: "spring" } },
+          }}
+        >
+          <Suspense fallback={<div>Loading...</div>}>
+            <HeroVideoDialog
+              videoSrc="https://www.youtube.com/embed/WDNwUIBpsNk?autoplay=1"
+              className="block rounded-xl border shadow-2xl"
+              animationStyle="top-in-bottom-out"
+            />
+          </Suspense>
+        </m.div>
       </div>
     </m.section>
   );
