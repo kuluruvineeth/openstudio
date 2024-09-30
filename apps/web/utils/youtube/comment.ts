@@ -46,15 +46,15 @@ export async function deleteComment(options: {
   try {
     // Attempt to delete the comment
     //TODO: There is an issue with this from youtube api itself
-    // await youtube.comments.delete({
-    //   id: commentId,
-    // });
+    await youtube.comments.delete({
+      id: commentId,
+    });
 
     //TODO: Remove this work around later
-    await youtube.comments.setModerationStatus({
-      id: [commentId],
-      moderationStatus: "rejected",
-    });
+    // await youtube.comments.setModerationStatus({
+    //   id: [commentId],
+    //   moderationStatus: "rejected",
+    // });
   } catch (error: any) {
     // Handle errors
     console.error("Error deleting comment:", error.message);
