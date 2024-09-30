@@ -1,4 +1,4 @@
-// import { onDeleteComment } from "@/utils/actions/client";
+import { onDeleteComment } from "@/utils/actions/client";
 import { ButtonGroup } from "@openstudio/ui/components/ButtonGroup";
 import { LoadingMiniSpinner } from "@openstudio/ui/components/Loading";
 import { OrbitIcon, SparklesIcon, Trash2Icon } from "lucide-react";
@@ -27,7 +27,7 @@ export function ActionButtons(props: {
 
   const onDelete = useCallback(async () => {
     setIsDeleting(true);
-    // await onDeleteComment(commentId);
+    await onDeleteComment(commentId);
     refetch();
     setIsDeleting(false);
   }, [commentId, refetch]);
