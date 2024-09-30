@@ -11,7 +11,7 @@ import { isActionError } from "@/utils/error";
 import { capitalCase } from "change-case";
 import { useCommentStore } from "@/store/comment";
 import { CommentPanel } from "./CommentPanel";
-import { runAiRules } from "@/providers/QueueProvider";
+import { deleteComments, runAiRules } from "@/providers/QueueProvider";
 import { useExecutePlan } from "./PlanActions";
 
 export function CommentList(props: {
@@ -161,6 +161,47 @@ export function CommentList(props: {
   const { executingPlan, rejectingPlan, executePlan, rejectPlan } =
     useExecutePlan(refetch);
 
+  const onAiApproveBulk = useCallback(async () => {
+    onApplyAction(executePlan);
+  }, [onApplyAction, executePlan]);
+
+  const onAiRejectBulk = useCallback(async () => {
+    onApplyAction(rejectPlan);
+  }, [onApplyAction, rejectPlan]);
+
+  const onPlanAiBulk = useCallback(async () => {
+    toast.promise(
+      async () => {
+        const selectedComments = Object.entries(selectedRows)
+          .filter(([, selected]) => selected)
+          .map(([id]) => comments.find((c) => c.commentId === id)!);
+
+        runAiRules(selectedComments, false);
+      },
+      {
+        success: "Running AI rules...",
+        error: "There was en error running the AI rules :(",
+      },
+    );
+  }, [selectedRows, comments]);
+
+  const onTrashBulk = useCallback(async () => {
+    toast.promise(
+      async () => {
+        const commentIds = Object.entries(selectedRows)
+          .filter(([, selected]) => selected)
+          .map(([id]) => id);
+
+        deleteComments(commentIds, () => refetch(commentIds));
+      },
+      {
+        loading: "Deleting comments...",
+        success: "Comments deleted!",
+        error: "There was en error deleting the comments :(",
+      },
+    );
+  }, [selectedRows, refetch]);
+
   return (
     <>
       {!(isEmpty && hideActionBarWhenEmpty) && (
@@ -171,7 +212,15 @@ export function CommentList(props: {
           <div className="ml-2">
             <ActionButtonsBulk
               isCategorizing={false}
+              isPlanning={false}
+              isDeleting={false}
+              isApproving={false}
+              isRejecting={false}
               onAiCategorize={onCategorizeAiBulk}
+              onPlanAiAction={onPlanAiBulk}
+              onDelete={onTrashBulk}
+              onApprove={onAiApproveBulk}
+              onReject={onAiRejectBulk}
             />
           </div>
         </div>
