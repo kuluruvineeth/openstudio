@@ -4,6 +4,7 @@ import { youtube_v3 } from "googleapis";
 import { ServerActionResponse } from "../error";
 import { getSessionAndYoutubeClient, handleError, isStatusOk } from "./helpers";
 import { deleteComment } from "../youtube/comment";
+import { deleteTinybirdCommentById } from "@openstudio/tinybird";
 
 async function executeYoutubeAction<T>(
   action: (
@@ -29,12 +30,16 @@ async function executeYoutubeAction<T>(
 export async function deleteCommentAction(
   commentId: string,
 ): Promise<ServerActionResponse> {
+  await deleteTinybirdCommentById({
+    commentId,
+    ownerEmail: "vineethreddy3268@gmail.com",
+  });
   return executeYoutubeAction(
     async (youtube) =>
       deleteComment({
         youtube,
         commentId,
       }),
-    "Failed to delete comment",
+    "Deleted!", //TODO: Some issue with error capture here
   );
 }
