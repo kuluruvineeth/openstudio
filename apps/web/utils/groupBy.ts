@@ -5,15 +5,20 @@ export function groupBy<T>(
   keyGetter: (item: T) => string,
 ): Map<string, T[]> {
   const map = new Map();
-  data.forEach((item) => {
-    const key = keyGetter(item);
-    const collection = map.get(key);
-    if (!collection) {
-      map.set(key, [item]);
-    } else {
-      collection.push(item);
-    }
-  });
+  console.log(data);
+  if (data) {
+    // Check if data is not null
+    data.forEach((item) => {
+      // Proceed with forEach only if data is an array
+      const key = keyGetter(item);
+      const collection = map.get(key);
+      if (!collection) {
+        map.set(key, [item]);
+      } else {
+        collection.push(item);
+      }
+    });
+  }
   return map;
 }
 
