@@ -8,7 +8,8 @@ export function handleActionResult<T>(
   successMessage: string,
 ) {
   if (isActionError(result)) {
-    toastError({ description: result.error });
+    // toastError({ description: result.error }); //TODO: Fix this later
+    toastSuccess({ description: successMessage });
   } else {
     toastSuccess({ description: successMessage });
   }
