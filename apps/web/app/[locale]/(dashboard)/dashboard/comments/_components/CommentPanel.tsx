@@ -24,10 +24,25 @@ export function CommentPanel(props: {
 
   return (
     <div className="flex h-full flex-col overflow-y-hidden border-l border-l-gray-100">
-      <div className="sticky flex items-center justify-between border-b border-b-gray-100 p-4">
-        <div className="">{row.commentedText}</div>
+      <div className="sticky md:flex md:items-center md:justify-between border-b border-b-gray-100 p-4">
+        <div className="md:w-0 md:flex-1">
+          <h1 id="comment-text" className="text-lg font-medium text-gray-900">
+            {row.commentedText}
+          </h1>
+          <p className="mt-1 truncate text-sm text-gray-500">
+            {row.authorDisplayName}
+          </p>
+        </div>
 
         <div className="mt-3 md:ml-2 flex items-center md:mt-0">
+          <ActionButtons
+            commentId={props.row.commentId!}
+            isPlanning={false}
+            isCategorizing={props.isCategorizing}
+            onPlanAiAction={() => props.onPlanAiAction(props.row)}
+            onAiCategorize={() => props.onAiCategorize(props.row)}
+            refetch={props.refetch}
+          />
           <Tooltip content="Close">
             <button
               onClick={close}
