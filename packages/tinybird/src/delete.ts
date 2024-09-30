@@ -43,6 +43,16 @@ export async function deleteTinybirdComments(options: {
   );
 }
 
+export async function deleteTinybirdCommentById(options: {
+  commentId: string;
+  ownerEmail: string;
+}): Promise<unknown> {
+  return await deleteFromDatasource(
+    "comment",
+    `commentId='${options.commentId}' AND ownerEmail='${options.ownerEmail}'`,
+  );
+}
+
 export async function deleteTinybirdAiCalls(options: {
   userId: string;
 }): Promise<unknown> {
